@@ -44,12 +44,12 @@ class CocoDataset(CustomDataset):
         Returns:
             list[dict]: Annotation info from COCO api.
         """
-        if not getattr(pycocotools, '__version__', '0') >= '12.0.2':
-            raise AssertionError(
-                'Incompatible version of pycocotools is installed. '
-                'Run pip uninstall pycocotools first. Then run pip '
-                'install mmpycocotools to install open-mmlab forked '
-                'pycocotools.')
+        # if not getattr(pycocotools, '__version__', '0') >= '12.0.2':
+        #     raise AssertionError(
+        #         'Incompatible version of pycocotools is installed. '
+        #         'Run pip uninstall pycocotools first. Then run pip '
+        #         'install mmpycocotools to install open-mmlab forked '
+        #         'pycocotools.')
 
         self.coco = COCO(ann_file)
         self.cat_ids = self.coco.get_cat_ids(cat_names=self.CLASSES)
@@ -409,14 +409,15 @@ class CocoDataset(CustomDataset):
                 raise KeyError(f'metric {metric} is not supported')
         if iou_thrs is None:
             iou_thrs = np.linspace(
-                .5, 0.95, int(np.round((0.95 - .5) / .05)) + 1, endpoint=True)
+                .3, 0.95, int(np.round((0.95 - .3) / .05)) + 1, endpoint=True)
         if metric_items is not None:
             if not isinstance(metric_items, list):
                 metric_items = [metric_items]
 
         result_files, tmp_dir = self.format_results(results, jsonfile_prefix)
 
-        eval_results = OrderedDict()
+        #eval_results = OrderedDict()
+        eval_results = {}
         cocoGt = self.coco
         for metric in metrics:
             msg = f'Evaluating {metric}...'
@@ -455,17 +456,18 @@ class CocoDataset(CustomDataset):
             # mapping of cocoEval.stats
             coco_metric_names = {
                 'mAP': 0,
-                'mAP_50': 1,
-                'mAP_75': 2,
-                'mAP_s': 3,
-                'mAP_m': 4,
-                'mAP_l': 5,
-                'AR@100': 6,
-                'AR@300': 7,
-                'AR@1000': 8,
-                'AR_s@1000': 9,
-                'AR_m@1000': 10,
-                'AR_l@1000': 11
+                'mAP_30': 1,
+                'mAP_50': 2,
+                'mAP_75': 3,
+                'mAP_s': 4,
+                'mAP_m': 5,
+                'mAP_l': 6,
+                'AR@100': 7,
+                'AR@300': 8,
+                'AR@1000': 9,
+                'AR_s@1000': 10,
+                'AR_m@1000': 11,
+                'AR_l@1000': 12
             }
             if metric_items is not None:
                 for metric_item in metric_items:
@@ -528,7 +530,8 @@ class CocoDataset(CustomDataset):
 
                 if metric_items is None:
                     metric_items = [
-                        'mAP', 'mAP_50', 'mAP_75', 'mAP_s', 'mAP_m', 'mAP_l'
+                        'mAP', 'mAP_30', 'mAP_50', 'mAP_75', 'mAP_s', 'mAP_m',
+                        'mAP_l'
                     ]
 
                 for metric_item in metric_items:
@@ -537,10 +540,10 @@ class CocoDataset(CustomDataset):
                         f'{cocoEval.stats[coco_metric_names[metric_item]]:.3f}'
                     )
                     eval_results[key] = val
-                ap = cocoEval.stats[:6]
+                ap = cocoEval.stats[:]
                 eval_results[f'{metric}_mAP_copypaste'] = (
                     f'{ap[0]:.3f} {ap[1]:.3f} {ap[2]:.3f} {ap[3]:.3f} '
-                    f'{ap[4]:.3f} {ap[5]:.3f}')
+                    f'{ap[4]:.3f} {ap[5]:.3f} {ap[6]:.3f}')
         if tmp_dir is not None:
             tmp_dir.cleanup()
         return eval_results
