@@ -117,6 +117,8 @@ work_dirs/
 results/
 freeze/
 apex/
+cocoapi/
+cocoapi_original/
 
 # Pytorch
 *.pth
