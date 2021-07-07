@@ -76,8 +76,10 @@ model = dict(
                     target_stds=[0.05, 0.05, 0.1, 0.1]),
                 reg_class_agnostic=True,
                 loss_cls=dict(
-                    type='CrossEntropyLoss',
-                    use_sigmoid=False,
+                    type='FocalLoss',
+                    use_sigmoid=True,
+                    gamma=2.0,
+                    alpha=0.25,
                     loss_weight=1.0),
                 loss_bbox=dict(type='L1Loss', loss_weight=1.0)),
             dict(
