@@ -12,6 +12,6 @@ model = dict(
         norm_cfg=dict(type='BN', requires_grad=True),
         style='pytorch'))
 
-optimizer = dict(type='SGD', lr=0.02, momentum=0.9, weight_decay=0.0001)
+optimizer = dict(type='SGD', lr=0.002, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(_delete_=True,
                         grad_clip=dict(max_norm=35, norm_type=2))
