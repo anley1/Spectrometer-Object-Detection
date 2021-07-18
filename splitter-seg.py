@@ -4,14 +4,14 @@ from sklearn.model_selection import train_test_split
 # Split the instance segmentation annotations into a training and testing
 # set.
 
-with open('../custom/first_fifty.json', "r") as f:
+with open('data/bead_combined/bead_combined.json', "r") as f:
     data = json.load(f)
 
 
 images = data['images']
 annotations = data['annotations']
 
-train_set, test_set = train_test_split(images, test_size=0.15)
+train_set, test_set = train_test_split(images, test_size=0.2)
 
 anno_train = []
 for im in train_set:
@@ -36,8 +36,8 @@ training = {
     'annotations': anno_train
 }
 
-with open("traintype2lower.json", "w") as out_file:
-    json.dump(training, out_file, indent=2)
+with open("traincombine.json", "w") as out_file:
+    json.dump(training, out_file)
 
 testing = {
     'info': data['info'],
@@ -49,5 +49,5 @@ testing = {
 
 
 # Write filtered to file
-with open("testtype2lower.json", "w") as out_file:
-    json.dump(testing, out_file, indent=2)
+with open("testcombine.json", "w") as out_file:
+    json.dump(testing, out_file)

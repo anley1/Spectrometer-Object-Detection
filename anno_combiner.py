@@ -35,8 +35,22 @@ def combiner(anno_one: str, dir_one: str, anno_two: str, dir_two: str,
     with open(anno_two, 'r') as file2:
         data2 = json.load(file2)
 
+    # Index to start the second annotations
+    snd_img = len(data1['images']) + 1
+
+    # Change the second images to offset by first image len. Need to update
+    # the corresponding annotations in this process
+    for ix in range(len(data2['images'])):
+        curr = data2['images'][ix]['id']  # current image index
+        for jx in range(len(data2['annotations'])):
+            if data2['annotations'][jx]['image_id'] == curr:
+                data2['annotations'][jx]['image_id'] = snd_img
+        data2['images'][ix]['id'] = snd_img
+        snd_img += 1
+
     images = data1['images'] + data2['images']
     annotations = data1['annotations'] + data2['annotations']
+    annotations = unique_annos(annotations)
 
     # copy the first file metadata and add on the other
     new_data = copy.deepcopy(data1)
@@ -52,6 +66,16 @@ def combiner(anno_one: str, dir_one: str, anno_two: str, dir_two: str,
     # https://stackoverflow.com/questions/41826868/moving-all-files-from-one-directory-to-another-using-python
     copy_files(dir_one, save_dir)
     copy_files(dir_two, save_dir)
+
+def unique_annos(annotations):
+    """
+    Ensure that annotation keys are unique
+    """
+    uniq = 0
+    for ix in range(len(annotations)):
+        annotations[ix]['id'] = uniq
+        uniq += 1
+    return annotations
 
 
 def copy_files(src_dir, dest_dir):
@@ -76,7 +100,7 @@ if __name__ == "__main__":
 
     combiner(anno_one='data/first_fifty.json',
              anno_two='data/basler_bead_non_cropped.json',
-             dir_one='data/bead_cropped_detection/JPEGImages',
-             dir_two='data/beading_basler_cropped',
+             dir_one='data/bead_cropped_detection/Grayscale',
+             dir_two='data/beading_basler',
              save_dir='data/bead_combined',
              save_name='bead_combined.json')
