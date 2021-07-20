@@ -72,7 +72,6 @@ def main():
         filename = os.path.join(args.output_dir,
                                 Path(item['filename']).name
                                 ) if args.output_dir is not None else None
-        print(filename)
 
         gt_masks = item.get('gt_masks', None)
         if gt_masks is not None:
