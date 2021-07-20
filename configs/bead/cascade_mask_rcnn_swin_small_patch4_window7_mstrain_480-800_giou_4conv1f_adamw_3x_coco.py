@@ -1,6 +1,6 @@
 _base_ = [
-    '../_base_/models/cascade_mask_rcnn_swin_fpn.py',
-    '../_base_/datasets/coco_instance.py',
+    './cascade_mask_rcnn_swin_fpn.py',
+    '../_base_/datasets/bead_cropped_type_2_mask.py',
     '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
 ]
 
@@ -26,14 +26,14 @@ model = dict(
                 conv_out_channels=256,
                 fc_out_channels=1024,
                 roi_feat_size=7,
-                num_classes=80,
+                num_classes=1,
                 bbox_coder=dict(
                     type='DeltaXYWHBBoxCoder',
                     target_means=[0., 0., 0., 0.],
                     target_stds=[0.1, 0.1, 0.2, 0.2]),
                 reg_class_agnostic=False,
                 reg_decoded_bbox=True,
-                norm_cfg=dict(type='SyncBN', requires_grad=True),
+                norm_cfg=dict(type='BN', requires_grad=True),
                 loss_cls=dict(
                     type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
                 loss_bbox=dict(type='GIoULoss', loss_weight=10.0)),
@@ -45,14 +45,14 @@ model = dict(
                 conv_out_channels=256,
                 fc_out_channels=1024,
                 roi_feat_size=7,
-                num_classes=80,
+                num_classes=1,
                 bbox_coder=dict(
                     type='DeltaXYWHBBoxCoder',
                     target_means=[0., 0., 0., 0.],
                     target_stds=[0.05, 0.05, 0.1, 0.1]),
                 reg_class_agnostic=False,
                 reg_decoded_bbox=True,
-                norm_cfg=dict(type='SyncBN', requires_grad=True),
+                norm_cfg=dict(type='BN', requires_grad=True),
                 loss_cls=dict(
                     type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
                 loss_bbox=dict(type='GIoULoss', loss_weight=10.0)),
@@ -64,14 +64,14 @@ model = dict(
                 conv_out_channels=256,
                 fc_out_channels=1024,
                 roi_feat_size=7,
-                num_classes=80,
+                num_classes=1,
                 bbox_coder=dict(
                     type='DeltaXYWHBBoxCoder',
                     target_means=[0., 0., 0., 0.],
                     target_stds=[0.033, 0.033, 0.067, 0.067]),
                 reg_class_agnostic=False,
                 reg_decoded_bbox=True,
-                norm_cfg=dict(type='SyncBN', requires_grad=True),
+                norm_cfg=dict(type='BN', requires_grad=True),
                 loss_cls=dict(
                     type='CrossEntropyLoss', use_sigmoid=False, loss_weight=1.0),
                 loss_bbox=dict(type='GIoULoss', loss_weight=10.0))
@@ -125,16 +125,18 @@ optimizer = dict(_delete_=True, type='AdamW', lr=0.0001, betas=(0.9, 0.999), wei
                  paramwise_cfg=dict(custom_keys={'absolute_pos_embed': dict(decay_mult=0.),
                                                  'relative_position_bias_table': dict(decay_mult=0.),
                                                  'norm': dict(decay_mult=0.)}))
+optimizer_config = dict(_delete_=True,
+                        grad_clip=dict(max_norm=2.0, norm_type=2))
 lr_config = dict(step=[27, 33])
-runner = dict(type='EpochBasedRunnerAmp', max_epochs=36)
+runner = dict(type='EpochBasedRunner', max_epochs=100)
 
 # do not use mmdet version fp16
-fp16 = None
-optimizer_config = dict(
-    type="DistOptimizerHook",
-    update_interval=1,
-    grad_clip=None,
-    coalesce=True,
-    bucket_size_mb=-1,
-    use_fp16=True,
-)
+#fp16 = None
+#optimizer_config = dict(
+#    type="DistOptimizerHook",
+#    update_interval=1,
+#    grad_clip=None,
+#    coalesce=True,
+#    bucket_size_mb=-1,
+#    use_fp16=True,
+#)

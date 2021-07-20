@@ -1,7 +1,7 @@
 # model settings
 model = dict(
     type='CascadeRCNN',
-    pretrained=None,
+    pretrained='pretrained/swin_small_patch4_window7_224.pth',
     backbone=dict(
         type='SwinTransformer',
         embed_dim=96,
