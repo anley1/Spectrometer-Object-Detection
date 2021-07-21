@@ -1,5 +1,6 @@
-_base_ = './cascade_mask_rcnn_r50_fpn_1x_coco.py'
+_base_ = './gfl_r50_fpn_mstrain_2x_coco.py'
 model = dict(
+    type='GFL',
     pretrained='open-mmlab://resnext101_32x4d',
     backbone=dict(
         type='ResNeXt',
@@ -10,8 +11,5 @@ model = dict(
         out_indices=(0, 1, 2, 3),
         frozen_stages=1,
         norm_cfg=dict(type='BN', requires_grad=True),
+        norm_eval=True,
         style='pytorch'))
-
-optimizer = dict(type='SGD', lr=0.002, momentum=0.9, weight_decay=0.0001)
-optimizer_config = dict(_delete_=True,
-                        grad_clip=dict(max_norm=35, norm_type=2))

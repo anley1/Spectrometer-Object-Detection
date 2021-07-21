@@ -116,6 +116,7 @@ data
 work_dirs/
 results/
 freeze/
+featuremaps/
 apex/
 cocoapi/
 cocoapi_original/
