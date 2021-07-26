@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 # Split the instance segmentation annotations into a training and testing
 # set.
 
-with open('data/bead_combined/bead_combined.json', "r") as f:
+with open('data/bead_combined_type_3/bead_combined_type_3.json', "r") as f:
     data = json.load(f)
 
 
@@ -36,7 +36,7 @@ training = {
     'annotations': anno_train
 }
 
-with open("traincombine.json", "w") as out_file:
+with open("traincombinetype3.json", "w") as out_file:
     json.dump(training, out_file)
 
 testing = {
@@ -49,5 +49,5 @@ testing = {
 
 
 # Write filtered to file
-with open("testcombine.json", "w") as out_file:
+with open("testcombinetype3.json", "w") as out_file:
     json.dump(testing, out_file)

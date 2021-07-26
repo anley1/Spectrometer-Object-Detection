@@ -99,8 +99,8 @@ if __name__ == "__main__":
     #         args.save_dir, args.save_name)
 
     combiner(anno_one='data/first_fifty.json',
-             anno_two='data/basler_bead_non_cropped.json',
+             anno_two='data/bead_type_3_cropped_10.json',
              dir_one='data/bead_cropped_detection/Grayscale',
-             dir_two='data/beading_basler',
-             save_dir='data/bead_combined',
-             save_name='bead_combined.json')
+             dir_two='data/beading_basler_cropped',
+             save_dir='data/bead_combined_type_3',
+             save_name='bead_combined_type_3.json')
