@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/default_runtime.py', '../_base_/datasets/bead_combined.py'
+    '../_base_/default_runtime.py', '../_base_/datasets/bead_cropped_type_2.py'
 ]
 # model settings
 model = dict(
