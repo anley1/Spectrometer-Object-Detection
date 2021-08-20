@@ -15,4 +15,7 @@ model = dict(
 data = dict(samples_per_gpu=1, workers_per_gpu=1)
 # learning policy
 lr_config = dict(step=[16, 19])
-runner = dict(type='EpochBasedRunner', max_epochs=20)
+runner = dict(type='EpochBasedRunner', max_epochs=30)
+
+optimizer_config = dict(_delete_=True,
+                        grad_clip=dict(max_norm=35.0, norm_type=2))
