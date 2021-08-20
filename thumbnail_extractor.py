@@ -6,16 +6,28 @@ def run_example():
   """Extract frames from the video and creates thumbnails for one of each"""
   # Extract frames from video
   print("Extract frames from video")
-  video_name = "GH010016.MP4"
-  frames = video_to_frames('/home/anley1/aa20/Dataset/Videos/%s' % video_name)
+  # frames = video_to_frames('/home/anley1/aa20/Dataset/Videos/%s' % video_name)
 
-  # Generate and save thumbs
-  print("Generate and save thumbs")
-  for i in range(len(frames)):
-    thumb = image_to_thumbs(frames[i])
-    os.makedirs('frames/%s/%d' % (video_name, i))
-    for k, v in thumb.items():
-      cv2.imwrite('frames/%s/%d/%s.png' % (video_name, i, k), v)
+  # Walk through all files in directory
+  target_dir = "C:\\Users\\aleye\\Swin-Transformer-Object-Detection\\data" \
+               "\\video"
+
+  for subdir, dirs, files in os.walk(target_dir):
+      for file in files:
+          # print os.path.join(subdir, file)
+          filepath = subdir + os.sep + file
+
+          if filepath.endswith(".MP4") or filepath.endswith(".mp4") or \
+                  filepath.endswith(".avi"):
+              print(filepath)
+              frames = video_to_frames(filepath)
+              # Generate and save thumbs
+              print("Generate and save thumbs")
+              for i in range(len(frames)):
+                thumb = image_to_thumbs(frames[i])
+                os.makedirs('frames/%s/%d' % (file, i))
+                for k, v in thumb.items():
+                  cv2.imwrite('frames/%s/%d/%s.png' % (file, i, k), v)
 
 def video_to_frames(video_filename):
     """Extract frames from video"""
@@ -31,15 +43,15 @@ def video_to_frames(video_filename):
                          round(video_length * 0.5),
                          round(video_length * 0.75),
                          video_length - 1]
-        print(frame_ids)
+        # print(frame_ids)
         count = 0
         success, image = cap.read()
         while success or count < video_length:
             if count in frame_ids and success:
                 frames.append(image)
             success, image = cap.read()
-            print(count)
-            print(success)
+            # print(count)
+            # print(success)
             count += 1
     return frames
 
