@@ -44,15 +44,22 @@ def video_to_frames(video_filename):
                          round(video_length * 0.75),
                          video_length - 1]
         # print(frame_ids)
-        count = 0
-        success, image = cap.read()
-        while success or count < video_length:
-            if count in frame_ids and success:
-                frames.append(image)
+        # count = 0
+        # success, image = cap.read()
+        # while success or count < video_length:
+        #     if count in frame_ids and success:
+        #         frames.append(image)
+        #     success, image = cap.read()
+        #     # print(count)
+        #     # print(success)
+        #     count += 1
+
+        for frame_id in frame_ids:
+            cap.set(cv2.CAP_PROP_POS_FRAMES, frame_id-1)
             success, image = cap.read()
-            # print(count)
-            # print(success)
-            count += 1
+            if success:
+                frames.append(image)
+
     return frames
 
 def image_to_thumbs(img):
