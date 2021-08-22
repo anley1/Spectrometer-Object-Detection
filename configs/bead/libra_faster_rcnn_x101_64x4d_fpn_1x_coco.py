@@ -11,3 +11,8 @@ model = dict(
         frozen_stages=1,
         norm_cfg=dict(type='BN', requires_grad=True),
         style='pytorch'))
+
+optimizer_config = dict(_delete_=True,
+                        grad_clip=dict(max_norm=35.0, norm_type=2))
+runner = dict(type='EpochBasedRunner', max_epochs=28)
+checkpoint_config = dict(max_keep_ckpts=1)

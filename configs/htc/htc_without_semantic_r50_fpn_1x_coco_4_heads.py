@@ -40,7 +40,7 @@ model = dict(
         type='HybridTaskCascadeRoIHead',
         interleaved=True,
         mask_info_flow=True,
-        num_stages=3,
+        num_stages=4,
         stage_loss_weights=[1, 0.5, 0.25, 0.125],
         bbox_roi_extractor=dict(
             type='SingleRoIExtractor',
@@ -98,6 +98,22 @@ model = dict(
                     use_sigmoid=False,
                     loss_weight=1.0),
                 loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0)),
+            dict(
+                    type='Shared2FCBBoxHead',
+                    in_channels=256,
+                    fc_out_channels=1024,
+                    roi_feat_size=7,
+                    num_classes=1,
+                    bbox_coder=dict(
+                        type='DeltaXYWHBBoxCoder',
+                        target_means=[0., 0., 0., 0.],
+                        target_stds=[0.0165, 0.0165, 0.0335, 0.0335]),
+                    reg_class_agnostic=True,
+                    loss_cls=dict(
+                        type='CrossEntropyLoss',
+                        use_sigmoid=False,
+                        loss_weight=1.0),
+                    loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0)),
             ],
         mask_roi_extractor=dict(
             type='SingleRoIExtractor',
@@ -108,6 +124,14 @@ model = dict(
             dict(
                 type='HTCMaskHead',
                 with_conv_res=False,
+                num_convs=4,
+                in_channels=256,
+                conv_out_channels=256,
+                num_classes=1,
+                loss_mask=dict(
+                    type='CrossEntropyLoss', use_mask=True, loss_weight=1.0)),
+            dict(
+                type='HTCMaskHead',
                 num_convs=4,
                 in_channels=256,
                 conv_out_channels=256,
@@ -155,6 +179,22 @@ model = dict(
             nms=dict(type='nms', iou_threshold=0.7),
             min_bbox_size=0),
         rcnn=[
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.4,
+                    neg_iou_thr=0.4,
+                    min_pos_iou=0.4,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
             dict(
                 assigner=dict(
                     type='MaxIoUAssigner',
