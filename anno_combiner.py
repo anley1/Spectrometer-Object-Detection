@@ -98,9 +98,15 @@ if __name__ == "__main__":
     #combiner(args.anno_one, args.dir_one, args.anno_two, args.dir_two,
     #         args.save_dir, args.save_name)
 
-    combiner(anno_one='data/first_fifty.json',
-             anno_two='data/bead_type_3_cropped_10.json',
-             dir_one='data/bead_cropped_detection/Grayscale',
-             dir_two='data/beading_basler_cropped',
-             save_dir='data/bead_combined_type_3',
-             save_name='bead_combined_type_3.json')
+    # combiner(anno_one='data/first_fifty.json',
+    #          anno_two='data/bead_type_3_cropped_10.json',
+    #          dir_one='data/bead_cropped_detection/Grayscale',
+    #          dir_two='data/beading_basler_cropped',
+    #          save_dir='data/bead_combined_type_3',
+    #          save_name='bead_combined_type_3.json')
+    combiner(anno_one='data/bead_combined_type_3.json',
+             anno_two='data/type_4_selected.json',
+             dir_one='data/bead_combined_type_3',
+             dir_two='data/type4',
+             save_dir='data/bead_combined_type_4',
+             save_name='bead_combined_type_4.json')
