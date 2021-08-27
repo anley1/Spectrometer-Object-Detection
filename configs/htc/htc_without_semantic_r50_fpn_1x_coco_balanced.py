@@ -1,5 +1,5 @@
 _base_ = [
-    '../_base_/datasets/bead_cropped_type_4_mask_repeat.py',
+    '../_base_/datasets/bead_cropped_type_3_mask.py',
     '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py',
 ]
 # model settings
@@ -15,11 +15,19 @@ model = dict(
         norm_cfg=dict(type='BN', requires_grad=True),
         norm_eval=True,
         style='pytorch'),
-    neck=dict(
-        type='FPN',
-        in_channels=[256, 512, 1024, 2048],
-        out_channels=256,
-        num_outs=5),
+    neck=[
+        dict(
+            type='FPN',
+            in_channels=[256, 512, 1024, 2048],
+            out_channels=256,
+            num_outs=5),
+        dict(
+            type='BFP',
+            in_channels=256,
+            num_levels=5,
+            refine_level=2,
+            refine_type='non_local'),
+    ],
     rpn_head=dict(
         type='RPNHead',
         in_channels=256,
@@ -41,7 +49,7 @@ model = dict(
         interleaved=True,
         mask_info_flow=True,
         num_stages=3,
-        stage_loss_weights=[1, 0.5, 0.25],
+        stage_loss_weights=[1, 0.5, 0.25, 0.125],
         bbox_roi_extractor=dict(
             type='SingleRoIExtractor',
             roi_layer=dict(type='RoIAlign', output_size=7, sampling_ratio=0),
@@ -63,8 +71,12 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
-                               loss_weight=1.0)),
+            loss_bbox=dict(
+                type='BalancedL1Loss',
+                alpha=0.5,
+                gamma=1.5,
+                beta=1.0,
+                loss_weight=1.0)),
             dict(
                 type='Shared2FCBBoxHead',
                 in_channels=256,
@@ -80,8 +92,12 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
-                               loss_weight=1.0)),
+            loss_bbox=dict(
+                type='BalancedL1Loss',
+                alpha=0.5,
+                gamma=1.5,
+                beta=1.0,
+                loss_weight=1.0)),
             dict(
                 type='Shared2FCBBoxHead',
                 in_channels=256,
@@ -97,8 +113,13 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0))
-        ],
+                loss_bbox=dict(
+                type='BalancedL1Loss',
+                alpha=0.5,
+                gamma=1.5,
+                beta=1.0,
+                loss_weight=1.0)),
+            ],
         mask_roi_extractor=dict(
             type='SingleRoIExtractor',
             roi_layer=dict(type='RoIAlign', output_size=14, sampling_ratio=0),
@@ -129,7 +150,7 @@ model = dict(
                 conv_out_channels=256,
                 num_classes=1,
                 loss_mask=dict(
-                    type='CrossEntropyLoss', use_mask=True, loss_weight=1.0))
+                    type='CrossEntropyLoss', use_mask=True, loss_weight=1.0)),
         ]),
     # model training and testing settings
     train_cfg=dict(
@@ -144,9 +165,9 @@ model = dict(
                 type='RandomSampler',
                 num=256,
                 pos_fraction=0.5,
-                neg_pos_ub=-1,
+                neg_pos_ub=5,
                 add_gt_as_proposals=False),
-            allowed_border=0,
+            allowed_border=-1,
             pos_weight=-1,
             debug=False),
         rpn_proposal=dict(
@@ -162,12 +183,18 @@ model = dict(
                     neg_iou_thr=0.5,
                     min_pos_iou=0.5,
                     ignore_iof_thr=-1),
-                sampler=dict(
-                    type='RandomSampler',
-                    num=512,
-                    pos_fraction=0.25,
-                    neg_pos_ub=-1,
-                    add_gt_as_proposals=True),
+            sampler=dict(
+                _delete_=True,
+                type='CombinedSampler',
+                num=512,
+                pos_fraction=0.25,
+                add_gt_as_proposals=True,
+                pos_sampler=dict(type='InstanceBalancedPosSampler'),
+                neg_sampler=dict(
+                    type='IoUBalancedNegSampler',
+                    floor_thr=-1,
+                    floor_fraction=0,
+                    num_bins=3)),
                 mask_size=28,
                 pos_weight=-1,
                 debug=False),
@@ -178,12 +205,18 @@ model = dict(
                     neg_iou_thr=0.6,
                     min_pos_iou=0.6,
                     ignore_iof_thr=-1),
-                sampler=dict(
-                    type='RandomSampler',
-                    num=512,
-                    pos_fraction=0.25,
-                    neg_pos_ub=-1,
-                    add_gt_as_proposals=True),
+            sampler=dict(
+                _delete_=True,
+                type='CombinedSampler',
+                num=512,
+                pos_fraction=0.25,
+                add_gt_as_proposals=True,
+                pos_sampler=dict(type='InstanceBalancedPosSampler'),
+                neg_sampler=dict(
+                    type='IoUBalancedNegSampler',
+                    floor_thr=-1,
+                    floor_fraction=0,
+                    num_bins=3)),
                 mask_size=28,
                 pos_weight=-1,
                 debug=False),
@@ -194,15 +227,21 @@ model = dict(
                     neg_iou_thr=0.7,
                     min_pos_iou=0.7,
                     ignore_iof_thr=-1),
-                sampler=dict(
-                    type='RandomSampler',
-                    num=512,
-                    pos_fraction=0.25,
-                    neg_pos_ub=-1,
-                    add_gt_as_proposals=True),
+            sampler=dict(
+                _delete_=True,
+                type='CombinedSampler',
+                num=512,
+                pos_fraction=0.25,
+                add_gt_as_proposals=True,
+                pos_sampler=dict(type='InstanceBalancedPosSampler'),
+                neg_sampler=dict(
+                    type='IoUBalancedNegSampler',
+                    floor_thr=-1,
+                    floor_fraction=0,
+                    num_bins=3)),
                 mask_size=28,
                 pos_weight=-1,
-                debug=False)
+                debug=False),
         ]),
     test_cfg=dict(
         rpn=dict(
