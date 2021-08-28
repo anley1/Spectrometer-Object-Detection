@@ -1,5 +1,7 @@
 dataset_type = 'CocoDataset'
-classes = ('beading',)
+classes = ('beading', 'person', 'bicycle', 'car', 'motorcycle', 'airplane',
+           'bus', 'train', 'truck', 'boat', 'traffic light', 'fire hydrant',
+               'stop sign', 'parking meter', 'bench', 'bird', 'cat', 'dog')
 data_root = 'data/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
@@ -35,27 +37,22 @@ data = dict(
     samples_per_gpu=2,
     workers_per_gpu=2,
     train=dict(
-        _delete_=True,
-        type='RepeatDataset',
-        times=5,
-        dataset=dict(
-            type=dataset_type,
-            classes=classes,
-            ann_file=data_root + 'traincombinetype4_iter3.json',
-            img_prefix=data_root + 'bead_combined_type_4/',
-            pipeline=train_pipeline)
-    ),
+        type=dataset_type,
+        classes=classes,
+        ann_file=data_root + 'real_traincombinetype4_iter4.json',
+        img_prefix=data_root + 'real_combined_type_4/',
+        pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         classes = classes,
-        ann_file=data_root + 'testcombinetype4_iter3.json',
-        img_prefix=data_root + 'bead_combined_type_4/',
+        ann_file=data_root + 'real_testcombinetype4_iter4.json',
+        img_prefix=data_root + 'real_combined_type_4/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         classes = classes,
-        ann_file=data_root + 'testcombinetype4_iter3.json',
-        img_prefix=data_root + 'bead_combined_type_4/',
+        ann_file=data_root + 'real_testcombinetype4_iter4.json',
+        img_prefix=data_root + 'real_combined_type_4/',
         pipeline=test_pipeline))
 evaluation = dict(interval=1, metric=['bbox', 'segm'])
 
