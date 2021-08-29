@@ -14,22 +14,15 @@ model = dict(
         style='pytorch',
         dcn=dict(type='DCN', deform_groups=1, fallback_on_stride=False),
         stage_with_dcn=(False, True, True, True)),
-        neck=[
-            dict(
-                type='FPN',
-                in_channels=[256, 512, 1024, 2048],
-                out_channels=256,
-                num_outs=5),
-            dict(
-                type='BFP',
-                in_channels=256,
-                num_levels=5,
-                refine_level=2,
-                refine_type='non_local')
-        ])
+    neck=dict(
+        type='FPN',
+        in_channels=[256, 512, 1024, 2048],
+        out_channels=256,
+        num_outs=5))
 data = dict(samples_per_gpu=1, workers_per_gpu=1)
 lr_config = dict(step=[16, 19])
-runner = dict(type='EpochBasedRunner', max_epochs=28)
+runner = dict(type='EpochBasedRunner', max_epochs=100)
 
+optimizer = dict(type='SGD', lr=0.0025, momentum=0.9, weight_decay=0.0001)
 optimizer_config = dict(_delete_=True,
-                        grad_clip=dict(max_norm=35.0, norm_type=2))
+                        grad_clip=dict(max_norm=2.0, norm_type=2))
