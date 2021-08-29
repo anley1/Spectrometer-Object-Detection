@@ -116,9 +116,49 @@ if __name__ == "__main__":
     #          dir_two='data/beading_basler_cropped',
     #          save_dir='data/real_combined_type_3',
     #          save_name='real_combined_type_3.json')
-    combiner(anno_one='data/real_combined_type_3/real_combined_type_3.json',
-             anno_two='data/type_4_selected.json',
-             dir_one='data/real_combined_type_3',
-             dir_two='data/type4',
-             save_dir='data/real_combined_type_4',
-             save_name='real_combined_type_4.json')
+    # combiner(anno_one='data/real_combined_type_3/real_combined_type_3.json',
+    #          anno_two='data/type_4_selected.json',
+    #          dir_one='data/real_combined_type_3',
+    #          dir_two='data/type4',
+    #          save_dir='data/real_combined_type_4',
+    #          save_name='real_combined_type_4.json')
+    # combiner(anno_one='data/real_combined_type_4/real_combined_type_4.json',
+    #          anno_two='data/no_beading_try/no_beading_try.json',
+    #          dir_one='data/real_combined_type_4',
+    #          dir_two='frames4',
+    #          save_dir='data/real_combined_type_5',
+    #          save_name='real_combined_type_5.json')
+
+    # combiner(anno_one='data/with_nebulizer/type_2_w_nebulizer.json',
+    #          anno_two='data/with_nebulizer/bead_type_3_cropped_w_nebulizer'
+    #                   '.json',
+    #          dir_one='data/with_nebulizer/type_2_w_nebulizer_images',
+    #          dir_two='data/with_nebulizer/bead_type_3_cropped_w_nebulizer_images',
+    #          save_dir='data/w_nebulizer_save_1',
+    #          save_name='w_nebulizer_save_1.json')
+    # combiner(anno_one='data/with_nebulizer/w_nebulizer_save_1'
+    #                   '/w_nebulizer_save_1.json',
+    #          anno_two='data/with_nebulizer/chamber_clean_w_nebulizer_3'
+    #                   '.json',
+    #          dir_one='data/with_nebulizer/w_nebulizer_save_1',
+    #          dir_two='data/with_nebulizer/chamber_clean_w_nebulizer_3_images',
+    #          save_dir='data/w_nebulizer_save_2',
+    #          save_name='w_nebulizer_save_2.json')
+    # combiner(anno_one='data/with_nebulizer/w_nebulizer_save_2'
+    #                   '/w_nebulizer_save_2.json',
+    #          anno_two='data/with_nebulizer/type_3_uncropped_beading_w_nebulizer'
+    #                   '.json',
+    #          dir_one='data/with_nebulizer/w_nebulizer_save_2',
+    #          dir_two='data/with_nebulizer'
+    #                  '/type_3_uncropped_beading_w_nebulizer_images',
+    #          save_dir='data/w_nebulizer_save_3',
+    #          save_name='w_nebulizer_save_3.json')
+    combiner(anno_one='data/with_nebulizer/w_nebulizer_save_3'
+                      '/w_nebulizer_save_3.json',
+             anno_two='data/with_nebulizer/uncropped_no_beading_w_nebulizer'
+                      '.json',
+             dir_one='data/with_nebulizer/w_nebulizer_save_3',
+             dir_two='data/with_nebulizer'
+                     '/uncropped_no_beading_w_nebulizer_images',
+             save_dir='data/w_nebulizer_save_4',
+             save_name='w_nebulizer_save_4.json')
