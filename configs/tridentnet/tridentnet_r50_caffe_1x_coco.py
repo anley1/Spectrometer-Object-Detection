@@ -1,6 +1,6 @@
 _base_ = [
     '../_base_/models/faster_rcnn_r50_caffe_c4.py',
-    '../_base_/datasets/bead_cropped_type_2.py',
+    '../_base_/datasets/bead_cropped_type_3.py',
     '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
 ]
 

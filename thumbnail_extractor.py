@@ -1,4 +1,4 @@
-# From https://jacopodaeli.medium.com/from-video-to-thumbnails-with-python-and-opencv-ce5983cbb76a
+# Edited from https://jacopodaeli.medium.com/from-video-to-thumbnails-with-python-and-opencv-ce5983cbb76a
 import os
 import cv2
 
@@ -9,8 +9,7 @@ def run_example():
   # frames = video_to_frames('/home/anley1/aa20/Dataset/Videos/%s' % video_name)
 
   # Walk through all files in directory
-  target_dir = "C:\\Users\\aleye\\Swin-Transformer-Object-Detection\\data" \
-               "\\video"
+  target_dir = "/home/anley1/aa20/Dataset/Videos"
 
   for subdir, dirs, files in os.walk(target_dir):
       for file in files:
@@ -24,10 +23,10 @@ def run_example():
               # Generate and save thumbs
               print("Generate and save thumbs")
               for i in range(len(frames)):
-                thumb = image_to_thumbs(frames[i])
-                os.makedirs('frames/%s/%d' % (file, i))
+                thumb = image_to_thumbs(frames[i], file)
+                os.makedirs('frames2/%s/%d' % (file, i))
                 for k, v in thumb.items():
-                  cv2.imwrite('frames/%s/%d/%s.png' % (file, i, k), v)
+                  cv2.imwrite('frames2/%s/%d/%s.png' % (file, i, k), v)
 
 def video_to_frames(video_filename):
     """Extract frames from video"""
@@ -36,13 +35,15 @@ def video_to_frames(video_filename):
     print(video_length)
     frames = []
     if cap.isOpened() and video_length > 0:
-        frame_ids = [0]
-        if video_length >= 4:
-            frame_ids = [0,
-                         round(video_length * 0.25),
-                         round(video_length * 0.5),
-                         round(video_length * 0.75),
-                         video_length - 1]
+        # frame_ids = [0]
+        # if video_length >= 4:
+        #     frame_ids = [0,
+        #                  round(video_length * 0.25),
+        #                  round(video_length * 0.5),
+        #                  round(video_length * 0.75),
+        #                  video_length - 1]
+
+        frame_ids = [round(video_length*0.5)]
         # print(frame_ids)
         # count = 0
         # success, image = cap.read()
@@ -62,16 +63,16 @@ def video_to_frames(video_filename):
 
     return frames
 
-def image_to_thumbs(img):
+def image_to_thumbs(img, file_name):
     """Create thumbs from image"""
     height, width, channels = img.shape
-    thumbs = {"original": img}
-    sizes = [640, 320, 160]
-    for size in sizes:
-        if (width >= size):
-            r = (size + 0.0) / width
-            max_size = (size, int(height * r))
-            thumbs[str(size)] = cv2.resize(img, max_size, interpolation=cv2.INTER_AREA)
+    thumbs = {file_name: img}
+    # sizes = [640, 320, 160]
+    # for size in sizes:
+    #     if (width >= size):
+    #         r = (size + 0.0) / width
+    #         max_size = (size, int(height * r))
+    #         thumbs[str(size)] = cv2.resize(img, max_size, interpolation=cv2.INTER_AREA)
     return thumbs
 
 if __name__ == '__main__':

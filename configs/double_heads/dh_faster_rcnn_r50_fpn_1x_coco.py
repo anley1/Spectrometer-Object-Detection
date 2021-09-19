@@ -1,4 +1,4 @@
-_base_ = '../faster_rcnn/faster_rcnn_r50_fpn_1x_coco.py'
+_base_ = '../bead/faster_rcnn_r50_fpn_1x_coco.py'
 model = dict(
     roi_head=dict(
         type='DoubleHeadRoIHead',
@@ -12,7 +12,7 @@ model = dict(
             conv_out_channels=1024,
             fc_out_channels=1024,
             roi_feat_size=7,
-            num_classes=80,
+            num_classes=1,
             bbox_coder=dict(
                 type='DeltaXYWHBBoxCoder',
                 target_means=[0., 0., 0., 0.],
