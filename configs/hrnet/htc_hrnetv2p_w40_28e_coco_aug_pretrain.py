@@ -1,6 +1,7 @@
-_base_ = './htc_hrnetv2p_w40_20e_coco.py'
+_base_ = './htc_hrnetv2p_w40_28e_coco_type_5.py'
 # learning policy
-lr_config = dict(step=[24, 27])
-runner = dict(type='EpochBasedRunner', max_epochs=28)
+# lr_config = dict(step=[24, 27])
+# runner = dict(type='EpochBasedRunner', max_epochs=30)
 #load_from = 'freeze/type_3_hrnet_htc_aug_medium_gray/epoch_8.pth'
-load_from = 'freeze/type_3_hrnet_pretrain_6hr_real/epoch_28.pth'
+# load_from = 'freeze/htc_hrnet_type_5_OHEM_aug_large/epoch_11.pth'
+resume_from = 'freeze/type_5_hrnet_htc_pretrained/epoch_26.pth'

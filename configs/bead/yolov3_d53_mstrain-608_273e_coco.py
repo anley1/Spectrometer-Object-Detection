@@ -51,7 +51,7 @@ test_cfg = dict(
     max_per_img=100)
 # dataset settings
 dataset_type = 'CocoDataset'
-data_root = 'data/bead_cropped_detection/'
+data_root = 'data/'
 classes = ('beading',)
 img_norm_cfg = dict(mean=[123.675, 116.28, 103.53], std=[1, 1, 1], to_rgb=True)
 train_pipeline = [
@@ -95,20 +95,20 @@ data = dict(
     train=dict(
         type=dataset_type,
         classes = classes,
-        ann_file=data_root + 'train.json',
-        img_prefix=data_root + 'images/',
+        ann_file=data_root + 'traincombinetype3.json',
+        img_prefix=data_root + 'bead_combined_type_3/',
         pipeline=train_pipeline),
     val=dict(
         type=dataset_type,
         classes = classes,
-        ann_file=data_root + 'test.json',
-        img_prefix=data_root + 'images/',
+        ann_file=data_root + 'testcombinetype3.json',
+        img_prefix=data_root + 'bead_combined_type_3/',
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
         classes = classes,
-        ann_file=data_root + 'test.json',
-        img_prefix=data_root + 'images/',
+        ann_file=data_root + 'testcombinetype3.json',
+        img_prefix=data_root + 'bead_combined_type_3/',
         pipeline=test_pipeline))
 # optimizer
 optimizer = dict(type='SGD', lr=0.001, momentum=0.9, weight_decay=0.0005)
@@ -123,4 +123,4 @@ lr_config = dict(
 # runtime settings
 total_epochs = 273
 evaluation = dict(interval=1, metric=['bbox'])
-checkpoint_config = dict(max_keep_ckpts=4)
+checkpoint_config = dict(max_keep_ckpts=1)

@@ -1,0 +1,977 @@
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.00s)
+creating index...
+index created!
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.3 task/s, elapsed: 3s, ETA:    34s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 4s, ETA:    20s[>>>>>>>                           ] 3/13, 0.7 task/s, elapsed: 4s, ETA:    14s[>>>>>>>>>>                        ] 4/13, 0.9 task/s, elapsed: 4s, ETA:    10s[>>>>>>>>>>>>>                     ] 5/13, 1.0 task/s, elapsed: 5s, ETA:     8s[>>>>>>>>>>>>>>>                   ] 6/13, 1.1 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.3 task/s, elapsed: 6s, ETA:     5s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.4 task/s, elapsed: 6s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.4 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.5 task/s, elapsed: 7s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.6 task/s, elapsed: 8s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.6 task/s, elapsed: 8s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.16s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.001
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.003
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.002
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.001
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.004
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.020
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.020
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.020
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.003
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.027
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.286
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.20s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.002
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.001
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.003
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.015
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.015
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.015
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.002
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.020
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    33s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.16s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.002
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.002
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.002
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.002
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+Loading and preparing results...
+DONE (t=0.02s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.19s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.071
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    33s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.15s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.006
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.035
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.004
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.018
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.010
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.084
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.084
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.084
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.061
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.096
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.214
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.16s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.011
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.050
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.011
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.021
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.019
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.116
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.116
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.116
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.070
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.139
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.214
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 6s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.16s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.003
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.018
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.003
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.009
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.012
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.058
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.058
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.058
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.019
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.078
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.17s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.005
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.022
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.005
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.010
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.017
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.072
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.072
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.072
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.022
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.098
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.071
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.053
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.125
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.089
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.003
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.076
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.054
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.005
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.186
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.186
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.186
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.175
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.193
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.286
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.071
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.143
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.112
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.031
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.089
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.078
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.006
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.244
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.244
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.244
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.201
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.266
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.464
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 6s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.20s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.053
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.136
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.093
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.002
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.084
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.053
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.172
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.172
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.172
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.140
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.190
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.107
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.15s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.081
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.150
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.126
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.044
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.127
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.082
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.247
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.247
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.247
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.212
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.267
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.056
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.136
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.108
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.001
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.081
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.058
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.203
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.203
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.203
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.151
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.231
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.214
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.074
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.144
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.123
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.015
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.112
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.074
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.254
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.254
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.254
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.207
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.280
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.321
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.073
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.174
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.129
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.003
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.080
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.080
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.210
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.210
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.210
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.188
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.223
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.107
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.091
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.191
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.152
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.019
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.096
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.103
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.265
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.265
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.265
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.223
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.289
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 6s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.068
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.168
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.123
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.002
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.125
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.069
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.220
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.220
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.220
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.180
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.242
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.214
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.100
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.186
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.162
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.031
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.188
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.099
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.297
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.297
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.297
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.254
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.321
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.079
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.180
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.148
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.003
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.063
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.092
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.010
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.227
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.227
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.227
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.218
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.233
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.286
+Loading and preparing results...
+DONE (t=0.07s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.096
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.185
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.160
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.026
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.075
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.113
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.007
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.272
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.272
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.272
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.253
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.283
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.357
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.072
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.168
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.130
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.007
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.073
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.080
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.224
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.224
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.224
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.224
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.227
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.107
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.098
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.181
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.158
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.038
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.095
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.111
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.292
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.292
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.292
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.275
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.302
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.321
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.104
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.221
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.189
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.015
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.144
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.112
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.257
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.257
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.257
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.238
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.269
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.135
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.233
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.210
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.065
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.175
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.148
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.321
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.321
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.321
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.282
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.345
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    33s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.7 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.097
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.220
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.175
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.008
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.120
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.101
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.240
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.240
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.240
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.221
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.252
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.124
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.235
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.194
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.056
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.146
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.131
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.302
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.302
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.302
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.261
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.326
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.7 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.118
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.248
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.202
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.015
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.138
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.124
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.249
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.249
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.249
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.227
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.260
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.286
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.154
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.262
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.242
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.103
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.165
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.167
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.314
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.314
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.314
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.260
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.342
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.429
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 6s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.115
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.239
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.207
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.022
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.128
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.121
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.267
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.267
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.267
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.260
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.275
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.152
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.259
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.230
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.100
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.157
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.166
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.363
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.363
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.363
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.316
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.392
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.6 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.107
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.246
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.186
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.009
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.107
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.119
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.245
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.245
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.245
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.215
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.263
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Loading and preparing results...
+DONE (t=0.07s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.147
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.272
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.233
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.070
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.141
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.167
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.331
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.331
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.331
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.259
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.371
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.214
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.3 task/s, elapsed: 3s, ETA:    34s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    19s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    13s[>>>>>>>>>>                        ] 4/13, 0.9 task/s, elapsed: 4s, ETA:    10s[>>>>>>>>>>>>>                     ] 5/13, 1.0 task/s, elapsed: 5s, ETA:     8s[>>>>>>>>>>>>>>>                   ] 6/13, 1.2 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.4 task/s, elapsed: 6s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.4 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.5 task/s, elapsed: 7s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.6 task/s, elapsed: 8s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.17s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.133
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.264
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.229
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.021
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.121
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.152
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.270
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.270
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.270
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.239
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.288
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.071
+Loading and preparing results...
+DONE (t=0.02s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.14s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.176
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.288
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.263
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.138
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.148
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.209
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.360
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.360
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.360
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.275
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.407
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.214
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    32s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    17s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 4s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.3 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.8 task/s, elapsed: 7s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.134
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.264
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.227
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.024
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.139
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.148
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.279
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.279
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.279
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.256
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.294
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.107
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.10s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.178
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.290
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.264
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.135
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.166
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.204
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.364
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.364
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.364
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.287
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.407
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.3 task/s, elapsed: 3s, ETA:    35s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    19s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    13s[>>>>>>>>>>                        ] 4/13, 0.9 task/s, elapsed: 4s, ETA:    10s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 5s, ETA:     8s[>>>>>>>>>>>>>>>                   ] 6/13, 1.2 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.3 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.4 task/s, elapsed: 6s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.4 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.5 task/s, elapsed: 7s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.5 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.6 task/s, elapsed: 8s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.6 task/s, elapsed: 8s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.15s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.137
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.274
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.233
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.026
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.141
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.151
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.270
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.270
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.270
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.245
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.284
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.143
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.182
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.291
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.267
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.138
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.166
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.208
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.352
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.352
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.352
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.276
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.394
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    33s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 5s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.2 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.4 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.5 task/s, elapsed: 5s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.6 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.7 task/s, elapsed: 8s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.13s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.139
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.276
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.236
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.025
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.138
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.152
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.271
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.271
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.271
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.246
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.286
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.19s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.182
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.291
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.271
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.143
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.164
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.209
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.357
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.357
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.357
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.277
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.402
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.179
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    34s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    19s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    13s[>>>>>>>>>>                        ] 4/13, 0.9 task/s, elapsed: 4s, ETA:    10s[>>>>>>>>>>>>>                     ] 5/13, 1.0 task/s, elapsed: 5s, ETA:     8s[>>>>>>>>>>>>>>>                   ] 6/13, 1.1 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.3 task/s, elapsed: 6s, ETA:     5s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.4 task/s, elapsed: 6s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.4 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.5 task/s, elapsed: 7s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.5 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.6 task/s, elapsed: 8s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.6 task/s, elapsed: 8s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.139
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.277
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.235
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.027
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.143
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.151
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.273
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.273
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.273
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.247
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.288
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.11s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.184
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.297
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.275
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.145
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.169
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.209
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.362
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.362
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.362
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.282
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.407
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.250
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    33s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    12s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 5s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.2 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.3 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.4 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.5 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.7 task/s, elapsed: 8s, ETA:     0sLoading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *bbox*
+DONE (t=1.16s).
+Accumulating evaluation results...
+DONE (t=0.03s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.137
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.272
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.232
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.029
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.141
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.150
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.000
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.276
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.276
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.276
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.246
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.295
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.036
+Loading and preparing results...
+DONE (t=0.01s)
+creating index...
+index created!
+Running per image evaluation...
+Evaluate annotation type *segm*
+DONE (t=1.12s).
+Accumulating evaluation results...
+DONE (t=0.04s).
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.182
+Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.295
+Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.267
+Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.146
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.168
+Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.208
+Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.001
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.364
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.364
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.364
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.280
+Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.411
+Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.179
+[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.4 task/s, elapsed: 3s, ETA:    34s[>>>>>                             ] 2/13, 0.6 task/s, elapsed: 3s, ETA:    18s[>>>>>>>                           ] 3/13, 0.8 task/s, elapsed: 4s, ETA:    13s[>>>>>>>>>>                        ] 4/13, 1.0 task/s, elapsed: 4s, ETA:     9s[>>>>>>>>>>>>>                     ] 5/13, 1.1 task/s, elapsed: 5s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 6/13, 1.2 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>>                ] 7/13, 1.3 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>              ] 8/13, 1.4 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 1.5 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 1.5 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 11/13, 1.6 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 1.7 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 1.7 task/s, elapsed: 8s, ETA:     0s

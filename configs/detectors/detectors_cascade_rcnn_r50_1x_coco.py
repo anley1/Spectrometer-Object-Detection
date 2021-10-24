@@ -1,6 +1,6 @@
 _base_ = [
-    '../_base_/models/cascade_rcnn_r50_fpn.py',
-    '../_base_/datasets/coco_detection.py',
+    '../bead/cascade_rcnn_r50_fpn.py',
+    '../_base_/datasets/bead_cropped_type_3.py',
     '../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py'
 ]
 
@@ -30,3 +30,8 @@ model = dict(
             stage_with_sac=(False, True, True, True),
             pretrained='torchvision://resnet50',
             style='pytorch')))
+
+checkpoint_config = dict(max_keep_ckpts=1)
+optimizer_config = dict(_delete_=True,
+                        grad_clip=dict(max_norm=35.0, norm_type=2))
+

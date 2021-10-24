@@ -39,4 +39,3 @@ train_cfg = dict(
                 floor_thr=-1,
                 floor_fraction=0,
                 num_bins=3))))
-checkpoint_config = dict(max_keep_ckpts=4)
