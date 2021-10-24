@@ -15,7 +15,7 @@ def main():
     # args = parse_args()
     # cropper(args.vid_path, args.dims)
     vid_path = "C:\\Users\\aleye\\Swin-Transformer-Object-Detection\\data" \
-               "\\video\\GH010108.MP4"
+               "\\video\\GH010107.MP4"
     dims = [
             654,
             326,
@@ -41,11 +41,11 @@ def cropper(vid_path, dims):
 
     # output
     fourcc = cv2.VideoWriter_fourcc(*'XVID')
-    out = cv2.VideoWriter('GH010108_cropped.avi', fourcc, fps, (w, h))
+    out = cv2.VideoWriter('GH010107_HSV.mp4', fourcc, fps, (w_frame, h_frame))
 
 
     # Now we start
-    while cap.isOpened() and cnt < frames:
+    while cap.isOpened() and cnt < frames/5:
         ret, frame = cap.read()
 
         cnt += 1 # Counting frames
@@ -53,7 +53,9 @@ def cropper(vid_path, dims):
         # Avoid problems when video finish
         if ret:
             # Croping the frame
-            crop_frame = frame[y:y+h, x:x+w]
+            # crop_frame = frame[y:y+h, x:x+w]
+            crop_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+            # crop_frame = cv2.cvtColor(crop_frame, cv2.COLOR_HSV2BGR)
 
             # Percentage
             xx = cnt *100/frames
