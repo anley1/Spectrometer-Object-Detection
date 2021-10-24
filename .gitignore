@@ -117,6 +117,7 @@ work_dirs/
 results/
 freeze/
 featuremaps/
+frames/
 apex/
 cocoapi/
 cocoapi_original/
