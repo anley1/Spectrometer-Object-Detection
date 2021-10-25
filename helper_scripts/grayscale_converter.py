@@ -2,8 +2,8 @@
 
 import os
 import cv2
-ims_path = 'data/bead_cropped_detection/JPEGImages'
-save_path = 'data/bead_cropped_detection/Grayscale'
+ims_path = '../data/bead_cropped_detection/JPEGImages'
+save_path = '../data/bead_cropped_detection/Grayscale'
 base_save_path = os.path.abspath(save_path)
 base_path = os.path.abspath(ims_path)
 for im in os.listdir(base_path):

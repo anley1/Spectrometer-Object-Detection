@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 # Split the instance segmentation annotations into a training and testing
 # set.
 
-with open('data/w_nebulizer_save_4/w_nebulizer_save_4.json', "r") as f:
+with open('../data/w_nebulizer_save_4/w_nebulizer_save_4.json', "r") as f:
     data = json.load(f)
 
 

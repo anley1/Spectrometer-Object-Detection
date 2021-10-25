@@ -36,8 +36,8 @@ def get_bbox(anno: str):
 
 if __name__ == "__main__":
     anno_file = 'data/bead_basler_cropped_chamber/chamber.json'
-    imgs_path = 'data/beading_basler'
-    save_path = 'data/beading_basler_cropped/'
+    imgs_path = '../data/beading_basler'
+    save_path = '../data/beading_basler_cropped/'
 
     # Create folder if not exists
     Path(save_path).mkdir(parents=True, exist_ok=True)
