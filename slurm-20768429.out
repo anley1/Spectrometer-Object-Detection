@@ -1,38 +1,0 @@
-apex is not installed
-apex is not installed
-apex is not installed
-apex is not installed
-loading annotations into memory...
-Done (t=0.02s)
-creating index...
-index created!
-Use load_from_local loader
-[                                                  ] 0/13, elapsed: 0s, ETA:[>>                                ] 1/13, 0.1 task/s, elapsed: 9s, ETA:   109s[>>>>>                            ] 2/13, 0.2 task/s, elapsed: 10s, ETA:    57s[>>>>>>>                          ] 3/13, 0.3 task/s, elapsed: 11s, ETA:    38s[>>>>>>>>>>                       ] 4/13, 0.3 task/s, elapsed: 13s, ETA:    28s[>>>>>>>>>>>>                     ] 5/13, 0.4 task/s, elapsed: 13s, ETA:    21s[>>>>>>>>>>>>>>>                  ] 6/13, 0.4 task/s, elapsed: 14s, ETA:    17s[>>>>>>>>>>>>>>>>>                ] 7/13, 0.5 task/s, elapsed: 15s, ETA:    13s[>>>>>>>>>>>>>>>>>>>>             ] 8/13, 0.5 task/s, elapsed: 16s, ETA:    10s[>>>>>>>>>>>>>>>>>>>>>>           ] 9/13, 0.5 task/s, elapsed: 17s, ETA:     8s[>>>>>>>>>>>>>>>>>>>>>>>>        ] 10/13, 0.5 task/s, elapsed: 18s, ETA:     6s[>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 11/13, 0.6 task/s, elapsed: 19s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>   ] 12/13, 0.6 task/s, elapsed: 21s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 13/13, 0.6 task/s, elapsed: 21s, ETA:     0s/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/functional.py:3121: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
-  "See the documentation of nn.Upsample for details.".format(mode))
-
-writing results to results/pkl_files/htc_hrnet_type_5_OHEM_aug_pretrained.pkl
-
-Evaluating bbox...
-Loading and preparing results...
-DONE (t=0.02s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.71s).
-Accumulating evaluation results...
-DONE (t=0.10s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.822
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.988
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.986
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.912
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.811
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.837
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.469
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.861
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.861
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.861
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.841
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.874
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = 0.464
-{'bbox_mAP': 0.822, 'bbox_mAP_30': 0.988, 'bbox_mAP_50': 0.986, 'bbox_mAP_75': 0.912, 'bbox_mAP_s': 0.811, 'bbox_mAP_m': 0.837, 'bbox_mAP_l': 0.469, 'bbox_mAP_copypaste': '0.822 0.988 0.986 0.912 0.811 0.837 0.469'}
