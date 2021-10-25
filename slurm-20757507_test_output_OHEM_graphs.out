@@ -1,13 +1,0 @@
-apex is not installed
-apex is not installed
-apex is not installed
-apex is not installed
-loading annotations into memory...
-Done (t=0.02s)
-creating index...
-index created!
-Use load_from_local loader
-[                                                  ] 0/18, elapsed: 0s, ETA:tools/test.py:96: UserWarning: --options is deprecated in favor of --eval-options
-  warnings.warn('--options is deprecated in favor of --eval-options')
-[>                                 ] 1/18, 0.8 task/s, elapsed: 1s, ETA:    22s[>>>                               ] 2/18, 1.0 task/s, elapsed: 2s, ETA:    15s[>>>>>                             ] 3/18, 1.1 task/s, elapsed: 3s, ETA:    13s[>>>>>>>                           ] 4/18, 1.3 task/s, elapsed: 3s, ETA:    11s[>>>>>>>>>                         ] 5/18, 1.3 task/s, elapsed: 4s, ETA:    10s[>>>>>>>>>>>                       ] 6/18, 1.5 task/s, elapsed: 4s, ETA:     8s[>>>>>>>>>>>>>                     ] 7/18, 1.5 task/s, elapsed: 5s, ETA:     7s[>>>>>>>>>>>>>>>                   ] 8/18, 1.7 task/s, elapsed: 5s, ETA:     6s[>>>>>>>>>>>>>>>>>                 ] 9/18, 1.7 task/s, elapsed: 5s, ETA:     5s[>>>>>>>>>>>>>>>>>>               ] 10/18, 1.8 task/s, elapsed: 5s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>             ] 11/18, 1.9 task/s, elapsed: 6s, ETA:     4s[>>>>>>>>>>>>>>>>>>>>>>           ] 12/18, 1.9 task/s, elapsed: 6s, ETA:     3s[>>>>>>>>>>>>>>>>>>>>>>>          ] 13/18, 2.0 task/s, elapsed: 6s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>        ] 14/18, 2.0 task/s, elapsed: 7s, ETA:     2s[>>>>>>>>>>>>>>>>>>>>>>>>>>>      ] 15/18, 2.1 task/s, elapsed: 7s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>    ] 16/18, 2.1 task/s, elapsed: 8s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  ] 17/18, 2.2 task/s, elapsed: 8s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 18/18, 2.2 task/s, elapsed: 8s, ETA:     0s/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/functional.py:3121: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
-  "See the documentation of nn.Upsample for details.".format(mode))

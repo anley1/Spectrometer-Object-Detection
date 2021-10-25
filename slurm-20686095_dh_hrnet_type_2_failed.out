@@ -1,1116 +1,0 @@
-2021-09-12 06:48:56,113 - mmdet - INFO - Environment info:
-------------------------------------------------------------
-sys.platform: linux
-Python: 3.7.10 (default, Feb 26 2021, 18:47:35) [GCC 7.3.0]
-CUDA available: True
-GPU 0: Tesla V100-PCIE-16GB
-CUDA_HOME: /usr/local/cuda/10.1/
-NVCC: Cuda compilation tools, release 10.1, V10.1.105
-GCC: gcc (GCC) 5.4.0
-PyTorch: 1.6.0+cu101
-PyTorch compiling details: PyTorch built with:
-  - GCC 7.3
-  - C++ Version: 201402
-  - Intel(R) Math Kernel Library Version 2019.0.5 Product Build 20190808 for Intel(R) 64 architecture applications
-  - Intel(R) MKL-DNN v1.5.0 (Git Hash e2ac1fac44c5078ca927cb9b90e1b3066a0b2ed0)
-  - OpenMP 201511 (a.k.a. OpenMP 4.5)
-  - NNPACK is enabled
-  - CPU capability usage: AVX2
-  - CUDA Runtime 10.1
-  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75
-  - CuDNN 7.6.3
-  - Magma 2.5.2
-  - Build settings: BLAS=MKL, BUILD_TYPE=Release, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DUSE_VULKAN_WRAPPER -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, USE_CUDA=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_STATIC_DISPATCH=OFF, 
-
-TorchVision: 0.7.0+cu101
-OpenCV: 4.5.2
-MMCV: 1.2.7
-MMCV Compiler: GCC 7.3
-MMCV CUDA Compiler: 10.1
-MMDetection: 2.11.0+d4c0c18
-------------------------------------------------------------
-
-2021-09-12 06:48:56,458 - mmdet - INFO - Distributed training: False
-2021-09-12 06:48:56,778 - mmdet - INFO - Config:
-model = dict(
-    type='FasterRCNN',
-    pretrained='open-mmlab://msra/hrnetv2_w40',
-    backbone=dict(
-        type='HRNet',
-        extra=dict(
-            stage1=dict(
-                num_modules=1,
-                num_branches=1,
-                block='BOTTLENECK',
-                num_blocks=(4, ),
-                num_channels=(64, )),
-            stage2=dict(
-                num_modules=1,
-                num_branches=2,
-                block='BASIC',
-                num_blocks=(4, 4),
-                num_channels=(40, 80)),
-            stage3=dict(
-                num_modules=4,
-                num_branches=3,
-                block='BASIC',
-                num_blocks=(4, 4, 4),
-                num_channels=(40, 80, 160)),
-            stage4=dict(
-                num_modules=3,
-                num_branches=4,
-                block='BASIC',
-                num_blocks=(4, 4, 4, 4),
-                num_channels=(40, 80, 160, 320)))),
-    neck=dict(type='HRFPN', in_channels=[40, 80, 160, 320], out_channels=256),
-    rpn_head=dict(
-        type='RPNHead',
-        in_channels=256,
-        feat_channels=256,
-        anchor_generator=dict(
-            type='AnchorGenerator',
-            scales=[8],
-            ratios=[0.5, 1.0, 2.0],
-            strides=[4, 8, 16, 32, 64]),
-        bbox_coder=dict(
-            type='DeltaXYWHBBoxCoder',
-            target_means=[0.0, 0.0, 0.0, 0.0],
-            target_stds=[1.0, 1.0, 1.0, 1.0]),
-        loss_cls=dict(
-            type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0),
-        loss_bbox=dict(type='L1Loss', loss_weight=1.0)),
-    roi_head=dict(
-        type='DoubleHeadRoIHead',
-        bbox_roi_extractor=dict(
-            type='SingleRoIExtractor',
-            roi_layer=dict(type='RoIAlign', output_size=7, sampling_ratio=0),
-            out_channels=256,
-            featmap_strides=[4, 8, 16, 32]),
-        bbox_head=dict(
-            type='DoubleConvFCBBoxHead',
-            num_convs=4,
-            num_fcs=2,
-            in_channels=256,
-            conv_out_channels=1024,
-            fc_out_channels=1024,
-            roi_feat_size=7,
-            num_classes=1,
-            bbox_coder=dict(
-                type='DeltaXYWHBBoxCoder',
-                target_means=[0.0, 0.0, 0.0, 0.0],
-                target_stds=[0.1, 0.1, 0.2, 0.2]),
-            reg_class_agnostic=False,
-            loss_cls=dict(
-                type='CrossEntropyLoss', use_sigmoid=False, loss_weight=2.0),
-            loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=2.0)),
-        reg_roi_scale_factor=1.3))
-train_cfg = dict(
-    rpn=dict(
-        assigner=dict(
-            type='MaxIoUAssigner',
-            pos_iou_thr=0.7,
-            neg_iou_thr=0.3,
-            min_pos_iou=0.3,
-            match_low_quality=True,
-            ignore_iof_thr=-1),
-        sampler=dict(
-            type='RandomSampler',
-            num=256,
-            pos_fraction=0.5,
-            neg_pos_ub=-1,
-            add_gt_as_proposals=False),
-        allowed_border=-1,
-        pos_weight=-1,
-        debug=False),
-    rpn_proposal=dict(
-        nms_across_levels=False,
-        nms_pre=2000,
-        nms_post=1000,
-        max_num=1000,
-        nms_thr=0.7,
-        min_bbox_size=0),
-    rcnn=dict(
-        assigner=dict(
-            type='MaxIoUAssigner',
-            pos_iou_thr=0.5,
-            neg_iou_thr=0.5,
-            min_pos_iou=0.5,
-            match_low_quality=False,
-            ignore_iof_thr=-1),
-        sampler=dict(
-            type='RandomSampler',
-            num=512,
-            pos_fraction=0.25,
-            neg_pos_ub=-1,
-            add_gt_as_proposals=True),
-        pos_weight=-1,
-        debug=False))
-test_cfg = dict(
-    rpn=dict(
-        nms_across_levels=False,
-        nms_pre=1000,
-        nms_post=1000,
-        max_num=1000,
-        nms_thr=0.7,
-        min_bbox_size=0),
-    rcnn=dict(
-        score_thr=0.05,
-        nms=dict(type='nms', iou_threshold=0.3),
-        max_per_img=100))
-dataset_type = 'CocoDataset'
-classes = ('beading', )
-data_root = 'data/bead_cropped_detection/'
-img_norm_cfg = dict(
-    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-train_pipeline = [
-    dict(type='LoadImageFromFile'),
-    dict(type='LoadAnnotations', with_bbox=True),
-    dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
-    dict(type='RandomFlip', flip_ratio=0.5),
-    dict(
-        type='Normalize',
-        mean=[123.675, 116.28, 103.53],
-        std=[58.395, 57.12, 57.375],
-        to_rgb=True),
-    dict(type='Pad', size_divisor=32),
-    dict(type='DefaultFormatBundle'),
-    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
-]
-test_pipeline = [
-    dict(type='LoadImageFromFile'),
-    dict(
-        type='MultiScaleFlipAug',
-        img_scale=(1333, 800),
-        flip=False,
-        transforms=[
-            dict(type='Resize', keep_ratio=True),
-            dict(type='RandomFlip'),
-            dict(
-                type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
-                to_rgb=True),
-            dict(type='Pad', size_divisor=32),
-            dict(type='ImageToTensor', keys=['img']),
-            dict(type='Collect', keys=['img'])
-        ])
-]
-data = dict(
-    samples_per_gpu=2,
-    workers_per_gpu=2,
-    train=dict(
-        type='CocoDataset',
-        classes=('beading', ),
-        ann_file='data/bead_cropped_detection/traintype2lower.json',
-        img_prefix='data/bead_cropped_detection/images/',
-        pipeline=[
-            dict(type='LoadImageFromFile'),
-            dict(type='LoadAnnotations', with_bbox=True),
-            dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
-            dict(type='RandomFlip', flip_ratio=0.5),
-            dict(
-                type='Normalize',
-                mean=[123.675, 116.28, 103.53],
-                std=[58.395, 57.12, 57.375],
-                to_rgb=True),
-            dict(type='Pad', size_divisor=32),
-            dict(type='DefaultFormatBundle'),
-            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
-        ]),
-    val=dict(
-        type='CocoDataset',
-        classes=('beading', ),
-        ann_file='data/bead_cropped_detection/testtype2lower.json',
-        img_prefix='data/bead_cropped_detection/images/',
-        pipeline=[
-            dict(type='LoadImageFromFile'),
-            dict(
-                type='MultiScaleFlipAug',
-                img_scale=(1333, 800),
-                flip=False,
-                transforms=[
-                    dict(type='Resize', keep_ratio=True),
-                    dict(type='RandomFlip'),
-                    dict(
-                        type='Normalize',
-                        mean=[123.675, 116.28, 103.53],
-                        std=[58.395, 57.12, 57.375],
-                        to_rgb=True),
-                    dict(type='Pad', size_divisor=32),
-                    dict(type='ImageToTensor', keys=['img']),
-                    dict(type='Collect', keys=['img'])
-                ])
-        ]),
-    test=dict(
-        type='CocoDataset',
-        classes=('beading', ),
-        ann_file='data/bead_cropped_detection/testtype2lower.json',
-        img_prefix='data/bead_cropped_detection/images/',
-        pipeline=[
-            dict(type='LoadImageFromFile'),
-            dict(
-                type='MultiScaleFlipAug',
-                img_scale=(1333, 800),
-                flip=False,
-                transforms=[
-                    dict(type='Resize', keep_ratio=True),
-                    dict(type='RandomFlip'),
-                    dict(
-                        type='Normalize',
-                        mean=[123.675, 116.28, 103.53],
-                        std=[58.395, 57.12, 57.375],
-                        to_rgb=True),
-                    dict(type='Pad', size_divisor=32),
-                    dict(type='ImageToTensor', keys=['img']),
-                    dict(type='Collect', keys=['img'])
-                ])
-        ]))
-evaluation = dict(interval=1, metric='bbox')
-optimizer = dict(type='SGD', lr=0.02, momentum=0.9, weight_decay=0.0001)
-optimizer_config = dict(grad_clip=dict(max_norm=35.0, norm_type=2))
-lr_config = dict(
-    policy='step',
-    warmup='linear',
-    warmup_iters=500,
-    warmup_ratio=0.001,
-    step=[16, 19])
-runner = dict(type='EpochBasedRunner', max_epochs=30)
-checkpoint_config = dict(interval=1, max_keep_ckpts=1)
-log_config = dict(
-    interval=2,
-    hooks=[dict(type='TextLoggerHook'),
-           dict(type='TensorboardLoggerHook')])
-dist_params = dict(backend='nccl')
-log_level = 'INFO'
-load_from = None
-resume_from = None
-workflow = [('train', 1)]
-work_dir = 'freeze/type_2_dh_type_2'
-gpu_ids = range(0, 1)
-
-/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/builder.py:72: UserWarning: train_cfg and test_cfg is deprecated, please specify them in model
-  'please specify them in model', UserWarning)
-2021-09-12 06:48:57,463 - mmdet - INFO - load model from: open-mmlab://msra/hrnetv2_w40
-2021-09-12 06:48:57,463 - mmdet - INFO - Use load_from_openmmlab loader
-2021-09-12 06:48:59,107 - mmdet - WARNING - The model and loaded state dict do not match exactly
-
-unexpected key in source state_dict: incre_modules.0.0.conv1.weight, incre_modules.0.0.bn1.weight, incre_modules.0.0.bn1.bias, incre_modules.0.0.bn1.running_mean, incre_modules.0.0.bn1.running_var, incre_modules.0.0.bn1.num_batches_tracked, incre_modules.0.0.conv2.weight, incre_modules.0.0.bn2.weight, incre_modules.0.0.bn2.bias, incre_modules.0.0.bn2.running_mean, incre_modules.0.0.bn2.running_var, incre_modules.0.0.bn2.num_batches_tracked, incre_modules.0.0.conv3.weight, incre_modules.0.0.bn3.weight, incre_modules.0.0.bn3.bias, incre_modules.0.0.bn3.running_mean, incre_modules.0.0.bn3.running_var, incre_modules.0.0.bn3.num_batches_tracked, incre_modules.0.0.downsample.0.weight, incre_modules.0.0.downsample.1.weight, incre_modules.0.0.downsample.1.bias, incre_modules.0.0.downsample.1.running_mean, incre_modules.0.0.downsample.1.running_var, incre_modules.0.0.downsample.1.num_batches_tracked, incre_modules.1.0.conv1.weight, incre_modules.1.0.bn1.weight, incre_modules.1.0.bn1.bias, incre_modules.1.0.bn1.running_mean, incre_modules.1.0.bn1.running_var, incre_modules.1.0.bn1.num_batches_tracked, incre_modules.1.0.conv2.weight, incre_modules.1.0.bn2.weight, incre_modules.1.0.bn2.bias, incre_modules.1.0.bn2.running_mean, incre_modules.1.0.bn2.running_var, incre_modules.1.0.bn2.num_batches_tracked, incre_modules.1.0.conv3.weight, incre_modules.1.0.bn3.weight, incre_modules.1.0.bn3.bias, incre_modules.1.0.bn3.running_mean, incre_modules.1.0.bn3.running_var, incre_modules.1.0.bn3.num_batches_tracked, incre_modules.1.0.downsample.0.weight, incre_modules.1.0.downsample.1.weight, incre_modules.1.0.downsample.1.bias, incre_modules.1.0.downsample.1.running_mean, incre_modules.1.0.downsample.1.running_var, incre_modules.1.0.downsample.1.num_batches_tracked, incre_modules.2.0.conv1.weight, incre_modules.2.0.bn1.weight, incre_modules.2.0.bn1.bias, incre_modules.2.0.bn1.running_mean, incre_modules.2.0.bn1.running_var, incre_modules.2.0.bn1.num_batches_tracked, incre_modules.2.0.conv2.weight, incre_modules.2.0.bn2.weight, incre_modules.2.0.bn2.bias, incre_modules.2.0.bn2.running_mean, incre_modules.2.0.bn2.running_var, incre_modules.2.0.bn2.num_batches_tracked, incre_modules.2.0.conv3.weight, incre_modules.2.0.bn3.weight, incre_modules.2.0.bn3.bias, incre_modules.2.0.bn3.running_mean, incre_modules.2.0.bn3.running_var, incre_modules.2.0.bn3.num_batches_tracked, incre_modules.2.0.downsample.0.weight, incre_modules.2.0.downsample.1.weight, incre_modules.2.0.downsample.1.bias, incre_modules.2.0.downsample.1.running_mean, incre_modules.2.0.downsample.1.running_var, incre_modules.2.0.downsample.1.num_batches_tracked, incre_modules.3.0.conv1.weight, incre_modules.3.0.bn1.weight, incre_modules.3.0.bn1.bias, incre_modules.3.0.bn1.running_mean, incre_modules.3.0.bn1.running_var, incre_modules.3.0.bn1.num_batches_tracked, incre_modules.3.0.conv2.weight, incre_modules.3.0.bn2.weight, incre_modules.3.0.bn2.bias, incre_modules.3.0.bn2.running_mean, incre_modules.3.0.bn2.running_var, incre_modules.3.0.bn2.num_batches_tracked, incre_modules.3.0.conv3.weight, incre_modules.3.0.bn3.weight, incre_modules.3.0.bn3.bias, incre_modules.3.0.bn3.running_mean, incre_modules.3.0.bn3.running_var, incre_modules.3.0.bn3.num_batches_tracked, incre_modules.3.0.downsample.0.weight, incre_modules.3.0.downsample.1.weight, incre_modules.3.0.downsample.1.bias, incre_modules.3.0.downsample.1.running_mean, incre_modules.3.0.downsample.1.running_var, incre_modules.3.0.downsample.1.num_batches_tracked, downsamp_modules.0.0.weight, downsamp_modules.0.0.bias, downsamp_modules.0.1.weight, downsamp_modules.0.1.bias, downsamp_modules.0.1.running_mean, downsamp_modules.0.1.running_var, downsamp_modules.0.1.num_batches_tracked, downsamp_modules.1.0.weight, downsamp_modules.1.0.bias, downsamp_modules.1.1.weight, downsamp_modules.1.1.bias, downsamp_modules.1.1.running_mean, downsamp_modules.1.1.running_var, downsamp_modules.1.1.num_batches_tracked, downsamp_modules.2.0.weight, downsamp_modules.2.0.bias, downsamp_modules.2.1.weight, downsamp_modules.2.1.bias, downsamp_modules.2.1.running_mean, downsamp_modules.2.1.running_var, downsamp_modules.2.1.num_batches_tracked, final_layer.0.weight, final_layer.0.bias, final_layer.1.weight, final_layer.1.bias, final_layer.1.running_mean, final_layer.1.running_var, final_layer.1.num_batches_tracked, classifier.weight, classifier.bias
-
-2021-09-12 06:49:07,266 - mmdet - INFO - Start running, host: anley1@m3g008, work_dir: /projects/bw83/anley1/Swin-Transformer-Object-Detection/freeze/type_2_dh_type_2
-2021-09-12 06:49:07,267 - mmdet - INFO - workflow: [('train', 1)], max: 30 epochs
-apex is not installed
-apex is not installed
-apex is not installed
-apex is not installed
-loading annotations into memory...
-Done (t=0.02s)
-creating index...
-index created!
-loading annotations into memory...
-Done (t=0.02s)
-creating index...
-index created!
-/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/functional.py:3121: UserWarning: Default upsampling behavior when mode=bilinear is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
-  "See the documentation of nn.Upsample for details.".format(mode))
-/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/dense_heads/rpn_head.py:192: UserWarning: In rpn_proposal or test_cfg, nms_thr has been moved to a dict named nms as iou_threshold, max_num has been renamed as max_per_img, name of original arguments and the way to specify iou_threshold of NMS will be deprecated.
-  'In rpn_proposal or test_cfg, '
-2021-09-12 06:49:17,511 - mmdet - INFO - Epoch [1][2/22]	lr: 5.996e-05, eta: 0:41:13, time: 3.759, data_time: 1.440, memory: 11310, loss_rpn_cls: 0.6925, loss_rpn_bbox: 0.3186, loss_cls: 1.4332, acc: 26.7578, loss_bbox: 0.0802, loss: 2.5245, grad_norm: 11.0282
-2021-09-12 06:49:19,035 - mmdet - INFO - Epoch [1][4/22]	lr: 1.399e-04, eta: 0:24:44, time: 0.766, data_time: 0.019, memory: 11310, loss_rpn_cls: 0.6932, loss_rpn_bbox: 0.2921, loss_cls: 1.3940, acc: 47.4609, loss_bbox: 0.1343, loss: 2.5136, grad_norm: 9.9967
-2021-09-12 06:49:20,498 - mmdet - INFO - Epoch [1][6/22]	lr: 2.198e-04, eta: 0:19:05, time: 0.732, data_time: 0.010, memory: 11310, loss_rpn_cls: 0.6917, loss_rpn_bbox: 0.2838, loss_cls: 1.3025, acc: 83.8379, loss_bbox: 0.1434, loss: 2.4213, grad_norm: 9.8633
-2021-09-12 06:49:22,034 - mmdet - INFO - Epoch [1][8/22]	lr: 2.997e-04, eta: 0:16:21, time: 0.768, data_time: 0.009, memory: 11808, loss_rpn_cls: 0.6917, loss_rpn_bbox: 0.2772, loss_cls: 1.1215, acc: 90.8691, loss_bbox: 0.1166, loss: 2.2069, grad_norm: 8.0641
-2021-09-12 06:49:23,504 - mmdet - INFO - Epoch [1][10/22]	lr: 3.796e-04, eta: 0:14:38, time: 0.735, data_time: 0.008, memory: 11808, loss_rpn_cls: 0.6914, loss_rpn_bbox: 0.2458, loss_cls: 0.9286, acc: 90.9668, loss_bbox: 0.1261, loss: 1.9920, grad_norm: 6.0542
-2021-09-12 06:49:24,974 - mmdet - INFO - Epoch [1][12/22]	lr: 4.596e-04, eta: 0:13:29, time: 0.735, data_time: 0.009, memory: 11808, loss_rpn_cls: 0.6916, loss_rpn_bbox: 0.2323, loss_cls: 0.7222, acc: 91.1621, loss_bbox: 0.1335, loss: 1.7795, grad_norm: 4.1669
-2021-09-12 06:49:26,491 - mmdet - INFO - Epoch [1][14/22]	lr: 5.395e-04, eta: 0:12:41, time: 0.758, data_time: 0.008, memory: 11808, loss_rpn_cls: 0.6913, loss_rpn_bbox: 0.2661, loss_cls: 0.6334, acc: 91.6992, loss_bbox: 0.1337, loss: 1.7244, grad_norm: 2.7694
-2021-09-12 06:49:27,923 - mmdet - INFO - Epoch [1][16/22]	lr: 6.194e-04, eta: 0:12:01, time: 0.716, data_time: 0.009, memory: 11808, loss_rpn_cls: 0.6897, loss_rpn_bbox: 0.2569, loss_cls: 0.6205, acc: 91.5527, loss_bbox: 0.1158, loss: 1.6830, grad_norm: 3.5785
-2021-09-12 06:49:29,414 - mmdet - INFO - Epoch [1][18/22]	lr: 6.993e-04, eta: 0:11:32, time: 0.746, data_time: 0.008, memory: 11808, loss_rpn_cls: 0.6894, loss_rpn_bbox: 0.3021, loss_cls: 0.7575, acc: 89.9414, loss_bbox: 0.1707, loss: 1.9196, grad_norm: 5.9396
-2021-09-12 06:49:30,834 - mmdet - INFO - Epoch [1][20/22]	lr: 7.792e-04, eta: 0:11:07, time: 0.709, data_time: 0.009, memory: 11808, loss_rpn_cls: 0.6881, loss_rpn_bbox: 0.2258, loss_cls: 0.6416, acc: 91.6504, loss_bbox: 0.1356, loss: 1.6910, grad_norm: 5.0444
-2021-09-12 06:49:32,255 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:49:32,255 - mmdet - INFO - Epoch [1][22/22]	lr: 8.592e-04, eta: 0:10:45, time: 0.711, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6878, loss_rpn_bbox: 0.2313, loss_cls: 0.6330, acc: 90.9668, loss_bbox: 0.1391, loss: 1.6913, grad_norm: 3.8320
-2021-09-12 06:49:32,338 - mmdet - INFO - Saving checkpoint at 1 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.8 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.7 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.3 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.7 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.1 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.4 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.7 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 4.9 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:49:36,032 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:49:36,748 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:49:36,748 - mmdet - INFO - Epoch(val) [1][22]	bbox_mAP: 0.0070, bbox_mAP_30: 0.0380, bbox_mAP_50: 0.0030, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0580, bbox_mAP_m: 0.0070, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.007 0.038 0.003 0.000 0.058 0.007 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.66s).
-Accumulating evaluation results...
-DONE (t=0.05s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.007
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.038
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.003
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.058
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.007
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.060
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.060
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.060
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.078
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.053
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:49:40,843 - mmdet - INFO - Epoch [2][2/22]	lr: 9.391e-04, eta: 0:11:38, time: 2.041, data_time: 1.194, memory: 11933, loss_rpn_cls: 0.6869, loss_rpn_bbox: 0.2850, loss_cls: 0.6078, acc: 89.9902, loss_bbox: 0.1574, loss: 1.7372, grad_norm: 3.2289
-2021-09-12 06:49:42,363 - mmdet - INFO - Epoch [2][4/22]	lr: 1.019e-03, eta: 0:11:19, time: 0.761, data_time: 0.010, memory: 11933, loss_rpn_cls: 0.6870, loss_rpn_bbox: 0.2967, loss_cls: 0.5330, acc: 91.4062, loss_bbox: 0.0961, loss: 1.6127, grad_norm: 3.1068
-2021-09-12 06:49:43,907 - mmdet - INFO - Epoch [2][6/22]	lr: 1.099e-03, eta: 0:11:03, time: 0.772, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6860, loss_rpn_bbox: 0.2369, loss_cls: 0.4666, acc: 92.3828, loss_bbox: 0.0641, loss: 1.4536, grad_norm: 3.8778
-2021-09-12 06:49:45,406 - mmdet - INFO - Epoch [2][8/22]	lr: 1.179e-03, eta: 0:10:49, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6850, loss_rpn_bbox: 0.2779, loss_cls: 0.4627, acc: 91.5039, loss_bbox: 0.1146, loss: 1.5402, grad_norm: 2.9975
-2021-09-12 06:49:46,942 - mmdet - INFO - Epoch [2][10/22]	lr: 1.259e-03, eta: 0:10:36, time: 0.768, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6861, loss_rpn_bbox: 0.2413, loss_cls: 0.3861, acc: 92.7734, loss_bbox: 0.0598, loss: 1.3733, grad_norm: 3.1812
-2021-09-12 06:49:48,442 - mmdet - INFO - Epoch [2][12/22]	lr: 1.339e-03, eta: 0:10:25, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6820, loss_rpn_bbox: 0.2559, loss_cls: 0.4421, acc: 91.4551, loss_bbox: 0.1089, loss: 1.4890, grad_norm: 2.5014
-2021-09-12 06:49:49,962 - mmdet - INFO - Epoch [2][14/22]	lr: 1.419e-03, eta: 0:10:14, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6818, loss_rpn_bbox: 0.2572, loss_cls: 0.3129, acc: 92.2852, loss_bbox: 0.0445, loss: 1.2965, grad_norm: 2.1617
-2021-09-12 06:49:51,477 - mmdet - INFO - Epoch [2][16/22]	lr: 1.499e-03, eta: 0:10:05, time: 0.757, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6828, loss_rpn_bbox: 0.2526, loss_cls: 0.2307, acc: 93.9941, loss_bbox: 0.0306, loss: 1.1968, grad_norm: 1.8314
-2021-09-12 06:49:52,981 - mmdet - INFO - Epoch [2][18/22]	lr: 1.578e-03, eta: 0:09:56, time: 0.752, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6789, loss_rpn_bbox: 0.3030, loss_cls: 0.2825, acc: 92.1875, loss_bbox: 0.0494, loss: 1.3138, grad_norm: 1.8525
-2021-09-12 06:49:54,374 - mmdet - INFO - Epoch [2][20/22]	lr: 1.658e-03, eta: 0:09:46, time: 0.697, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6798, loss_rpn_bbox: 0.2355, loss_cls: 0.2408, acc: 92.5293, loss_bbox: 0.0267, loss: 1.1829, grad_norm: 1.7682
-2021-09-12 06:49:55,786 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:49:55,786 - mmdet - INFO - Epoch [2][22/22]	lr: 1.738e-03, eta: 0:09:38, time: 0.706, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6779, loss_rpn_bbox: 0.2269, loss_cls: 0.2197, acc: 93.2129, loss_bbox: 0.0420, loss: 1.1666, grad_norm: 1.6902
-2021-09-12 06:49:55,857 - mmdet - INFO - Saving checkpoint at 2 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:49:59,472 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:49:59,785 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:49:59,785 - mmdet - INFO - Epoch(val) [2][22]	bbox_mAP: 0.0160, bbox_mAP_30: 0.0810, bbox_mAP_50: 0.0080, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0260, bbox_mAP_m: 0.0170, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.016 0.081 0.008 0.000 0.026 0.017 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.30s).
-Accumulating evaluation results...
-DONE (t=0.01s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.016
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.081
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.008
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.026
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.017
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.051
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.051
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.051
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.025
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.061
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:50:03,882 - mmdet - INFO - Epoch [3][2/22]	lr: 1.818e-03, eta: 0:10:05, time: 2.042, data_time: 1.192, memory: 11933, loss_rpn_cls: 0.6740, loss_rpn_bbox: 0.2677, loss_cls: 0.2181, acc: 92.6270, loss_bbox: 0.0596, loss: 1.2194, grad_norm: 1.9183
-2021-09-12 06:50:05,395 - mmdet - INFO - Epoch [3][4/22]	lr: 1.898e-03, eta: 0:09:57, time: 0.757, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6728, loss_rpn_bbox: 0.2772, loss_cls: 0.3500, acc: 90.6738, loss_bbox: 0.1476, loss: 1.4475, grad_norm: 3.2532
-2021-09-12 06:50:06,922 - mmdet - INFO - Epoch [3][6/22]	lr: 1.978e-03, eta: 0:09:50, time: 0.764, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6683, loss_rpn_bbox: 0.2713, loss_cls: 0.4951, acc: 88.5742, loss_bbox: 0.2628, loss: 1.6975, grad_norm: 4.9544
-2021-09-12 06:50:08,470 - mmdet - INFO - Epoch [3][8/22]	lr: 2.058e-03, eta: 0:09:44, time: 0.774, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6637, loss_rpn_bbox: 0.2506, loss_cls: 0.7889, acc: 80.6641, loss_bbox: 0.5527, loss: 2.2561, grad_norm: 9.9042
-2021-09-12 06:50:10,012 - mmdet - INFO - Epoch [3][10/22]	lr: 2.138e-03, eta: 0:09:38, time: 0.771, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6581, loss_rpn_bbox: 0.2748, loss_cls: 0.8955, acc: 78.9062, loss_bbox: 0.6071, loss: 2.4356, grad_norm: 4.1938
-2021-09-12 06:50:11,559 - mmdet - INFO - Epoch [3][12/22]	lr: 2.218e-03, eta: 0:09:32, time: 0.774, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6517, loss_rpn_bbox: 0.2349, loss_cls: 0.9508, acc: 77.1973, loss_bbox: 0.7473, loss: 2.5847, grad_norm: 7.4133
-2021-09-12 06:50:13,076 - mmdet - INFO - Epoch [3][14/22]	lr: 2.298e-03, eta: 0:09:26, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6521, loss_rpn_bbox: 0.2544, loss_cls: 0.8372, acc: 82.4219, loss_bbox: 0.5228, loss: 2.2665, grad_norm: 7.2428
-2021-09-12 06:50:14,617 - mmdet - INFO - Epoch [3][16/22]	lr: 2.378e-03, eta: 0:09:21, time: 0.770, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6498, loss_rpn_bbox: 0.1975, loss_cls: 0.7669, acc: 82.2266, loss_bbox: 0.4845, loss: 2.0987, grad_norm: 4.8004
-2021-09-12 06:50:16,146 - mmdet - INFO - Epoch [3][18/22]	lr: 2.458e-03, eta: 0:09:15, time: 0.765, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6395, loss_rpn_bbox: 0.2507, loss_cls: 0.8224, acc: 80.8594, loss_bbox: 0.5865, loss: 2.2992, grad_norm: 9.0449
-2021-09-12 06:50:17,547 - mmdet - INFO - Epoch [3][20/22]	lr: 2.537e-03, eta: 0:09:09, time: 0.700, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6368, loss_rpn_bbox: 0.2020, loss_cls: 0.9163, acc: 77.2461, loss_bbox: 0.7420, loss: 2.4972, grad_norm: 8.5758
-2021-09-12 06:50:18,941 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:50:18,942 - mmdet - INFO - Epoch [3][22/22]	lr: 2.617e-03, eta: 0:09:03, time: 0.697, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6290, loss_rpn_bbox: 0.2377, loss_cls: 0.8559, acc: 79.1992, loss_bbox: 0.6786, loss: 2.4012, grad_norm: 7.9275
-2021-09-12 06:50:19,013 - mmdet - INFO - Saving checkpoint at 3 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 3.0 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:50:22,328 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:50:22,911 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:50:22,911 - mmdet - INFO - Epoch(val) [3][22]	bbox_mAP: 0.1930, bbox_mAP_30: 0.5030, bbox_mAP_50: 0.3470, bbox_mAP_75: 0.0150, bbox_mAP_s: 0.2620, bbox_mAP_m: 0.2060, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.193 0.503 0.347 0.015 0.262 0.206 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.56s).
-Accumulating evaluation results...
-DONE (t=0.02s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.193
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.503
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.347
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.015
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.262
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.206
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.332
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.332
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.332
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.260
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.362
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:50:27,007 - mmdet - INFO - Epoch [4][2/22]	lr: 2.697e-03, eta: 0:09:21, time: 2.042, data_time: 1.215, memory: 11933, loss_rpn_cls: 0.6252, loss_rpn_bbox: 0.2393, loss_cls: 0.8787, acc: 78.3203, loss_bbox: 0.7537, loss: 2.4969, grad_norm: 8.0049
-2021-09-12 06:50:28,514 - mmdet - INFO - Epoch [4][4/22]	lr: 2.777e-03, eta: 0:09:16, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6055, loss_rpn_bbox: 0.2416, loss_cls: 0.8890, acc: 77.7344, loss_bbox: 0.7565, loss: 2.4926, grad_norm: 11.4017
-2021-09-12 06:50:30,022 - mmdet - INFO - Epoch [4][6/22]	lr: 2.857e-03, eta: 0:09:11, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6040, loss_rpn_bbox: 0.2342, loss_cls: 0.7543, acc: 84.8145, loss_bbox: 0.7555, loss: 2.3479, grad_norm: 9.7250
-2021-09-12 06:50:31,497 - mmdet - INFO - Epoch [4][8/22]	lr: 2.937e-03, eta: 0:09:06, time: 0.738, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.5795, loss_rpn_bbox: 0.2236, loss_cls: 0.9154, acc: 77.0996, loss_bbox: 0.8636, loss: 2.5820, grad_norm: 16.4445
-2021-09-12 06:50:33,034 - mmdet - INFO - Epoch [4][10/22]	lr: 3.017e-03, eta: 0:09:02, time: 0.768, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.5444, loss_rpn_bbox: 0.2048, loss_cls: 0.7853, acc: 80.0781, loss_bbox: 0.9117, loss: 2.4463, grad_norm: 11.8012
-2021-09-12 06:50:34,569 - mmdet - INFO - Epoch [4][12/22]	lr: 3.097e-03, eta: 0:08:57, time: 0.768, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.5456, loss_rpn_bbox: 0.2487, loss_cls: 0.7746, acc: 83.8379, loss_bbox: 0.8982, loss: 2.4672, grad_norm: 12.4235
-2021-09-12 06:50:36,092 - mmdet - INFO - Epoch [4][14/22]	lr: 3.177e-03, eta: 0:08:53, time: 0.762, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.4852, loss_rpn_bbox: 0.2587, loss_cls: 0.8795, acc: 80.3223, loss_bbox: 0.9654, loss: 2.5887, grad_norm: 23.3947
-2021-09-12 06:50:37,645 - mmdet - INFO - Epoch [4][16/22]	lr: 3.257e-03, eta: 0:08:49, time: 0.776, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.4797, loss_rpn_bbox: 0.2375, loss_cls: 1.1624, acc: 65.0391, loss_bbox: 0.9701, loss: 2.8496, grad_norm: 27.8431
-2021-09-12 06:50:39,155 - mmdet - INFO - Epoch [4][18/22]	lr: 3.337e-03, eta: 0:08:45, time: 0.755, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.5016, loss_rpn_bbox: 0.2309, loss_cls: 0.7892, acc: 79.0039, loss_bbox: 0.9987, loss: 2.5204, grad_norm: 14.9755
-2021-09-12 06:50:40,567 - mmdet - INFO - Epoch [4][20/22]	lr: 3.417e-03, eta: 0:08:41, time: 0.706, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.4404, loss_rpn_bbox: 0.1864, loss_cls: 0.8913, acc: 77.4902, loss_bbox: 0.9929, loss: 2.5110, grad_norm: 11.4743
-2021-09-12 06:50:41,972 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:50:41,972 - mmdet - INFO - Epoch [4][22/22]	lr: 3.497e-03, eta: 0:08:36, time: 0.702, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.4126, loss_rpn_bbox: 0.2070, loss_cls: 0.8368, acc: 80.7129, loss_bbox: 0.9147, loss: 2.3711, grad_norm: 13.1299
-2021-09-12 06:50:42,042 - mmdet - INFO - Saving checkpoint at 4 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:50:45,350 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:50:45,641 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:50:45,642 - mmdet - INFO - Epoch(val) [4][22]	bbox_mAP: 0.2440, bbox_mAP_30: 0.7960, bbox_mAP_50: 0.3720, bbox_mAP_75: 0.0010, bbox_mAP_s: 0.2420, bbox_mAP_m: 0.2540, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.244 0.796 0.372 0.001 0.242 0.254 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.28s).
-Accumulating evaluation results...
-DONE (t=0.01s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.244
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.796
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.372
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.001
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.242
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.254
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.346
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.346
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.346
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.242
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.388
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:50:49,718 - mmdet - INFO - Epoch [5][2/22]	lr: 3.576e-03, eta: 0:08:49, time: 2.032, data_time: 1.186, memory: 11933, loss_rpn_cls: 0.3561, loss_rpn_bbox: 0.1858, loss_cls: 0.8234, acc: 81.5918, loss_bbox: 1.0392, loss: 2.4045, grad_norm: 17.0494
-2021-09-12 06:50:51,243 - mmdet - INFO - Epoch [5][4/22]	lr: 3.656e-03, eta: 0:08:45, time: 0.762, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.2998, loss_rpn_bbox: 0.1933, loss_cls: 0.7045, acc: 81.1523, loss_bbox: 1.0275, loss: 2.2251, grad_norm: 17.6219
-2021-09-12 06:50:52,767 - mmdet - INFO - Epoch [5][6/22]	lr: 3.736e-03, eta: 0:08:41, time: 0.762, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.2492, loss_rpn_bbox: 0.2370, loss_cls: 0.6376, acc: 84.7656, loss_bbox: 1.1664, loss: 2.2902, grad_norm: 22.0694
-2021-09-12 06:50:54,266 - mmdet - INFO - Epoch [5][8/22]	lr: 3.816e-03, eta: 0:08:37, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.2368, loss_rpn_bbox: 0.1986, loss_cls: 0.8223, acc: 81.2500, loss_bbox: 0.8946, loss: 2.1523, grad_norm: 24.6687
-2021-09-12 06:50:55,783 - mmdet - INFO - Epoch [5][10/22]	lr: 3.896e-03, eta: 0:08:33, time: 0.759, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.2316, loss_rpn_bbox: 0.2693, loss_cls: 0.7548, acc: 81.7383, loss_bbox: 1.0193, loss: 2.2750, grad_norm: 21.1026
-2021-09-12 06:50:57,288 - mmdet - INFO - Epoch [5][12/22]	lr: 3.976e-03, eta: 0:08:30, time: 0.752, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1667, loss_rpn_bbox: 0.2012, loss_cls: 0.6348, acc: 84.4727, loss_bbox: 1.2354, loss: 2.2381, grad_norm: 19.5367
-2021-09-12 06:50:58,842 - mmdet - INFO - Epoch [5][14/22]	lr: 4.056e-03, eta: 0:08:27, time: 0.777, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.2254, loss_rpn_bbox: 0.2380, loss_cls: 0.6736, acc: 82.0312, loss_bbox: 1.1449, loss: 2.2820, grad_norm: 19.3531
-2021-09-12 06:51:00,382 - mmdet - INFO - Epoch [5][16/22]	lr: 4.136e-03, eta: 0:08:23, time: 0.770, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1682, loss_rpn_bbox: 0.2390, loss_cls: 0.7229, acc: 83.7891, loss_bbox: 1.1134, loss: 2.2435, grad_norm: 15.2295
-2021-09-12 06:51:01,936 - mmdet - INFO - Epoch [5][18/22]	lr: 4.216e-03, eta: 0:08:20, time: 0.777, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1539, loss_rpn_bbox: 0.2165, loss_cls: 0.6809, acc: 83.2031, loss_bbox: 1.0675, loss: 2.1187, grad_norm: 12.6125
-2021-09-12 06:51:03,335 - mmdet - INFO - Epoch [5][20/22]	lr: 4.296e-03, eta: 0:08:16, time: 0.700, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1432, loss_rpn_bbox: 0.2163, loss_cls: 0.8158, acc: 81.6895, loss_bbox: 1.0555, loss: 2.2307, grad_norm: 13.9689
-2021-09-12 06:51:04,740 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:51:04,740 - mmdet - INFO - Epoch [5][22/22]	lr: 4.376e-03, eta: 0:08:12, time: 0.702, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1322, loss_rpn_bbox: 0.2410, loss_cls: 0.7051, acc: 84.5215, loss_bbox: 0.9752, loss: 2.0534, grad_norm: 15.0510
-2021-09-12 06:51:04,810 - mmdet - INFO - Saving checkpoint at 5 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:51:08,078 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:51:08,385 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:51:08,385 - mmdet - INFO - Epoch(val) [5][22]	bbox_mAP: 0.3370, bbox_mAP_30: 0.8380, bbox_mAP_50: 0.5610, bbox_mAP_75: 0.0310, bbox_mAP_s: 0.3000, bbox_mAP_m: 0.3540, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.337 0.838 0.561 0.031 0.300 0.354 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.29s).
-Accumulating evaluation results...
-DONE (t=0.01s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.337
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.838
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.561
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.031
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.300
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.354
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.434
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.434
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.434
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.403
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.447
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:51:12,473 - mmdet - INFO - Epoch [6][2/22]	lr: 4.456e-03, eta: 0:08:22, time: 2.038, data_time: 1.192, memory: 11933, loss_rpn_cls: 0.1478, loss_rpn_bbox: 0.2152, loss_cls: 0.7169, acc: 82.6172, loss_bbox: 1.0225, loss: 2.1024, grad_norm: 9.7944
-2021-09-12 06:51:13,986 - mmdet - INFO - Epoch [6][4/22]	lr: 4.535e-03, eta: 0:08:18, time: 0.757, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.1459, loss_rpn_bbox: 0.2282, loss_cls: 0.8054, acc: 81.6406, loss_bbox: 0.9750, loss: 2.1545, grad_norm: 9.0708
-2021-09-12 06:51:15,507 - mmdet - INFO - Epoch [6][6/22]	lr: 4.615e-03, eta: 0:08:15, time: 0.761, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1384, loss_rpn_bbox: 0.1834, loss_cls: 0.7494, acc: 84.2285, loss_bbox: 0.8917, loss: 1.9629, grad_norm: 15.0068
-2021-09-12 06:51:17,018 - mmdet - INFO - Epoch [6][8/22]	lr: 4.695e-03, eta: 0:08:12, time: 0.755, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.0815, loss_rpn_bbox: 0.2255, loss_cls: 0.6950, acc: 85.4980, loss_bbox: 1.2603, loss: 2.2623, grad_norm: 14.2829
-2021-09-12 06:51:18,570 - mmdet - INFO - Epoch [6][10/22]	lr: 4.775e-03, eta: 0:08:09, time: 0.776, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.2052, loss_rpn_bbox: 0.2238, loss_cls: 0.8594, acc: 80.8594, loss_bbox: 1.3191, loss: 2.6076, grad_norm: 24.1855
-2021-09-12 06:51:20,111 - mmdet - INFO - Epoch [6][12/22]	lr: 4.855e-03, eta: 0:08:06, time: 0.771, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1735, loss_rpn_bbox: 0.2509, loss_cls: 0.8567, acc: 80.5664, loss_bbox: 1.4811, loss: 2.7622, grad_norm: 27.7880
-2021-09-12 06:51:21,631 - mmdet - INFO - Epoch [6][14/22]	lr: 4.935e-03, eta: 0:08:03, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1973, loss_rpn_bbox: 0.2036, loss_cls: 0.8018, acc: 83.2520, loss_bbox: 1.2715, loss: 2.4742, grad_norm: 25.9033
-2021-09-12 06:51:23,159 - mmdet - INFO - Epoch [6][16/22]	lr: 5.015e-03, eta: 0:08:00, time: 0.764, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.1786, loss_rpn_bbox: 0.2102, loss_cls: 0.7729, acc: 82.1289, loss_bbox: 1.0900, loss: 2.2516, grad_norm: 16.7930
-2021-09-12 06:51:24,704 - mmdet - INFO - Epoch [6][18/22]	lr: 5.095e-03, eta: 0:07:57, time: 0.773, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.5238, loss_rpn_bbox: 0.3005, loss_cls: 2.4374, acc: 79.8828, loss_bbox: 2.0542, loss: 5.3159, grad_norm: 124.8625
-2021-09-12 06:51:26,129 - mmdet - INFO - Epoch [6][20/22]	lr: 5.175e-03, eta: 0:07:54, time: 0.713, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.3407, loss_rpn_bbox: 0.2603, loss_cls: 1.0049, acc: 79.1992, loss_bbox: 2.2947, loss: 3.9006, grad_norm: 42.2126
-2021-09-12 06:51:27,562 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:51:27,562 - mmdet - INFO - Epoch [6][22/22]	lr: 5.255e-03, eta: 0:07:50, time: 0.716, data_time: 0.008, memory: 11933, loss_rpn_cls: 16.3434, loss_rpn_bbox: 1.1729, loss_cls: 1.6458, acc: 73.9258, loss_bbox: 1.2130, loss: 20.3751, grad_norm: 1215.2379
-2021-09-12 06:51:27,634 - mmdet - INFO - Saving checkpoint at 6 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:51:31,074 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:51:31,313 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:51:31,313 - mmdet - INFO - Epoch(val) [6][22]	bbox_mAP: 0.0160, bbox_mAP_30: 0.1230, bbox_mAP_50: 0.0010, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0050, bbox_mAP_m: 0.0320, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.016 0.123 0.001 0.000 0.005 0.032 -1.000
-Loading and preparing results...
-DONE (t=0.02s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.21s).
-Accumulating evaluation results...
-DONE (t=0.01s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.016
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.123
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.001
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.005
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.032
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.068
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.068
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.068
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.041
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.078
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:51:35,406 - mmdet - INFO - Epoch [7][2/22]	lr: 5.335e-03, eta: 0:07:58, time: 2.040, data_time: 1.200, memory: 11933, loss_rpn_cls: 3.0057, loss_rpn_bbox: 0.5467, loss_cls: 1.3496, acc: 85.9375, loss_bbox: 1.1121, loss: 6.0140, grad_norm: 392.2358
-2021-09-12 06:51:36,973 - mmdet - INFO - Epoch [7][4/22]	lr: 5.415e-03, eta: 0:07:55, time: 0.784, data_time: 0.009, memory: 11933, loss_rpn_cls: 1.3986, loss_rpn_bbox: 0.2756, loss_cls: 1.0347, acc: 81.3965, loss_bbox: 1.1518, loss: 3.8606, grad_norm: 172.8854
-2021-09-12 06:51:38,525 - mmdet - INFO - Epoch [7][6/22]	lr: 5.495e-03, eta: 0:07:52, time: 0.776, data_time: 0.008, memory: 11933, loss_rpn_cls: 1.6052, loss_rpn_bbox: 0.4015, loss_cls: 1.1357, acc: 78.1250, loss_bbox: 4.7526, loss: 7.8950, grad_norm: 349.1357
-2021-09-12 06:51:40,031 - mmdet - INFO - Epoch [7][8/22]	lr: 5.574e-03, eta: 0:07:49, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.9170, loss_rpn_bbox: 0.2295, loss_cls: 0.7464, acc: 86.2305, loss_bbox: 5.2636, loss: 7.1565, grad_norm: 218.5161
-2021-09-12 06:51:41,593 - mmdet - INFO - Epoch [7][10/22]	lr: 5.654e-03, eta: 0:07:46, time: 0.781, data_time: 0.008, memory: 11933, loss_rpn_cls: 1.1118, loss_rpn_bbox: 0.3956, loss_cls: 0.8696, acc: 89.7949, loss_bbox: 2.8022, loss: 5.1793, grad_norm: 270.6392
-2021-09-12 06:51:43,100 - mmdet - INFO - Epoch [7][12/22]	lr: 5.734e-03, eta: 0:07:44, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 6.1148, loss_rpn_bbox: 1.6131, loss_cls: 5.9117, acc: 49.5117, loss_bbox: 1.0160, loss: 14.6556, grad_norm: 1182.1116
-2021-09-12 06:51:44,654 - mmdet - INFO - Epoch [7][14/22]	lr: 5.814e-03, eta: 0:07:41, time: 0.777, data_time: 0.008, memory: 11933, loss_rpn_cls: 2.0654, loss_rpn_bbox: 1.0307, loss_cls: 3.4743, acc: 93.2129, loss_bbox: 0.9048, loss: 7.4752, grad_norm: 310.2987
-2021-09-12 06:51:46,171 - mmdet - INFO - Epoch [7][16/22]	lr: 5.894e-03, eta: 0:07:38, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8366, loss_rpn_bbox: 0.3685, loss_cls: 1.6492, acc: 91.8457, loss_bbox: 0.8649, loss: 3.7193, grad_norm: 237.3873
-2021-09-12 06:51:47,731 - mmdet - INFO - Epoch [7][18/22]	lr: 5.974e-03, eta: 0:07:36, time: 0.780, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8907, loss_rpn_bbox: 0.2929, loss_cls: 0.9574, acc: 93.1152, loss_bbox: 0.5472, loss: 2.6881, grad_norm: 168.8284
-2021-09-12 06:51:49,195 - mmdet - INFO - Epoch [7][20/22]	lr: 6.054e-03, eta: 0:07:33, time: 0.732, data_time: 0.008, memory: 11933, loss_rpn_cls: 30.8202, loss_rpn_bbox: 14.7520, loss_cls: 30.4454, acc: 93.7988, loss_bbox: 1.8341, loss: 77.8516, grad_norm: 4498.5479
-2021-09-12 06:51:50,612 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:51:50,612 - mmdet - INFO - Epoch [7][22/22]	lr: 6.134e-03, eta: 0:07:30, time: 0.709, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6277, loss_rpn_bbox: 0.4768, loss_cls: 2.0818, acc: 51.3184, loss_bbox: 0.9497, loss: 4.1359, grad_norm: 389.4795
-2021-09-12 06:51:50,683 - mmdet - INFO - Saving checkpoint at 7 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:51:54,103 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:51:54,263 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:51:54,263 - mmdet - INFO - Epoch(val) [7][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.15s).
-Accumulating evaluation results...
-DONE (t=0.01s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:51:58,342 - mmdet - INFO - Epoch [8][2/22]	lr: 6.214e-03, eta: 0:07:35, time: 2.034, data_time: 1.207, memory: 11933, loss_rpn_cls: 0.6113, loss_rpn_bbox: 0.6031, loss_cls: 2.1520, acc: 93.2129, loss_bbox: 0.4992, loss: 3.8656, grad_norm: 100.9483
-2021-09-12 06:51:59,918 - mmdet - INFO - Epoch [8][4/22]	lr: 6.294e-03, eta: 0:07:33, time: 0.788, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6107, loss_rpn_bbox: 0.2733, loss_cls: 1.4798, acc: 52.2461, loss_bbox: 0.4141, loss: 2.7778, grad_norm: 149.2422
-2021-09-12 06:52:01,488 - mmdet - INFO - Epoch [8][6/22]	lr: 6.374e-03, eta: 0:07:30, time: 0.785, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.5987, loss_rpn_bbox: 0.3110, loss_cls: 1.0969, acc: 73.4863, loss_bbox: 0.5695, loss: 2.5762, grad_norm: 125.9145
-2021-09-12 06:52:03,008 - mmdet - INFO - Epoch [8][8/22]	lr: 6.454e-03, eta: 0:07:28, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6544, loss_rpn_bbox: 0.6665, loss_cls: 3.1732, acc: 49.1211, loss_bbox: 6.9844, loss: 11.4785, grad_norm: 447.4434
-2021-09-12 06:52:04,540 - mmdet - INFO - Epoch [8][10/22]	lr: 6.533e-03, eta: 0:07:25, time: 0.766, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8273, loss_rpn_bbox: 0.5626, loss_cls: 5.3686, acc: 89.3555, loss_bbox: 0.7727, loss: 7.5311, grad_norm: 344.5445
-2021-09-12 06:52:06,078 - mmdet - INFO - Epoch [8][12/22]	lr: 6.613e-03, eta: 0:07:22, time: 0.769, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8365, loss_rpn_bbox: 1.3064, loss_cls: 1.8352, acc: 93.6523, loss_bbox: 1.8215, loss: 5.7996, grad_norm: 349.6779
-2021-09-12 06:52:07,613 - mmdet - INFO - Epoch [8][14/22]	lr: 6.693e-03, eta: 0:07:20, time: 0.767, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8931, loss_rpn_bbox: 1.6288, loss_cls: 7.4383, acc: 92.9199, loss_bbox: 1.7006, loss: 11.6609, grad_norm: 648.1367
-2021-09-12 06:52:09,183 - mmdet - INFO - Epoch [8][16/22]	lr: 6.773e-03, eta: 0:07:17, time: 0.785, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8452, loss_rpn_bbox: 0.8670, loss_cls: 1.9281, acc: 64.4043, loss_bbox: 0.3616, loss: 4.0019, grad_norm: 177.0392
-2021-09-12 06:52:10,730 - mmdet - INFO - Epoch [8][18/22]	lr: 6.853e-03, eta: 0:07:15, time: 0.773, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.8461, loss_rpn_bbox: 0.9668, loss_cls: 3.8652, acc: 71.8750, loss_bbox: 0.4440, loss: 6.1221, grad_norm: 437.4156
-2021-09-12 06:52:12,175 - mmdet - INFO - Epoch [8][20/22]	lr: 6.933e-03, eta: 0:07:12, time: 0.723, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6636, loss_rpn_bbox: 0.3195, loss_cls: 1.2840, acc: 92.3340, loss_bbox: 0.9567, loss: 3.2238, grad_norm: 167.6821
-2021-09-12 06:52:13,600 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:52:13,601 - mmdet - INFO - Epoch [8][22/22]	lr: 7.013e-03, eta: 0:07:09, time: 0.712, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6203, loss_rpn_bbox: 0.7331, loss_cls: 2.4394, acc: 93.4082, loss_bbox: 0.3684, loss: 4.1612, grad_norm: 291.8739
-2021-09-12 06:52:13,671 - mmdet - INFO - Saving checkpoint at 8 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.8 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.8 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.3 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.7 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.1 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.4 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.7 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 4.9 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:52:17,295 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:52:17,474 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:52:17,474 - mmdet - INFO - Epoch(val) [8][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.17s).
-Accumulating evaluation results...
-DONE (t=0.01s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:52:21,638 - mmdet - INFO - Epoch [9][2/22]	lr: 7.093e-03, eta: 0:07:14, time: 2.077, data_time: 1.194, memory: 11933, loss_rpn_cls: 0.5904, loss_rpn_bbox: 0.4469, loss_cls: 6.8513, acc: 72.2656, loss_bbox: 0.0483, loss: 7.9369, grad_norm: 558.9645
-2021-09-12 06:52:23,136 - mmdet - INFO - Epoch [9][4/22]	lr: 7.173e-03, eta: 0:07:12, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 1.2260, loss_rpn_bbox: 2.7753, loss_cls: 5.3994, acc: 94.0430, loss_bbox: 1.7256, loss: 11.1264, grad_norm: 785.0415
-2021-09-12 06:52:24,693 - mmdet - INFO - Epoch [9][6/22]	lr: 7.253e-03, eta: 0:07:09, time: 0.778, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6362, loss_rpn_bbox: 0.8093, loss_cls: 20.4544, acc: 57.3242, loss_bbox: 1.0105, loss: 22.9104, grad_norm: 1274.4488
-2021-09-12 06:52:26,254 - mmdet - INFO - Epoch [9][8/22]	lr: 7.333e-03, eta: 0:07:07, time: 0.780, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6011, loss_rpn_bbox: 0.7022, loss_cls: 5.1495, acc: 92.7734, loss_bbox: 0.8350, loss: 7.2877, grad_norm: 278.3316
-2021-09-12 06:52:27,806 - mmdet - INFO - Epoch [9][10/22]	lr: 7.413e-03, eta: 0:07:04, time: 0.776, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6203, loss_rpn_bbox: 0.3582, loss_cls: 0.5373, acc: 93.2617, loss_bbox: 0.2085, loss: 1.7243, grad_norm: 40.3974
-2021-09-12 06:52:29,355 - mmdet - INFO - Epoch [9][12/22]	lr: 7.493e-03, eta: 0:07:02, time: 0.774, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.5810, loss_rpn_bbox: 0.4199, loss_cls: 2.2099, acc: 92.9688, loss_bbox: 0.3570, loss: 3.5678, grad_norm: 149.0860
-2021-09-12 06:52:30,908 - mmdet - INFO - Epoch [9][14/22]	lr: 7.572e-03, eta: 0:06:59, time: 0.777, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6242, loss_rpn_bbox: 0.2712, loss_cls: 12.0426, acc: 17.4805, loss_bbox: 0.0871, loss: 13.0252, grad_norm: 958.6782
-2021-09-12 06:52:32,462 - mmdet - INFO - Epoch [9][16/22]	lr: 7.652e-03, eta: 0:06:57, time: 0.777, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6139, loss_rpn_bbox: 0.3473, loss_cls: 1.5985, acc: 89.9902, loss_bbox: 0.0824, loss: 2.6421, grad_norm: 114.0802
-2021-09-12 06:52:34,013 - mmdet - INFO - Epoch [9][18/22]	lr: 7.732e-03, eta: 0:06:55, time: 0.775, data_time: 0.008, memory: 11933, loss_rpn_cls: 2.0356, loss_rpn_bbox: 6.2413, loss_cls: 100.1246, acc: 71.8750, loss_bbox: 0.0603, loss: 108.4618, grad_norm: 6901.5383
-2021-09-12 06:52:35,397 - mmdet - INFO - Epoch [9][20/22]	lr: 7.812e-03, eta: 0:06:52, time: 0.692, data_time: 0.008, memory: 11933, loss_rpn_cls: 1.3848, loss_rpn_bbox: 5.3252, loss_cls: 24.7352, acc: 73.6328, loss_bbox: 1.6040, loss: 33.0493, grad_norm: 2255.9396
-2021-09-12 06:52:36,820 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:52:36,820 - mmdet - INFO - Epoch [9][22/22]	lr: 7.892e-03, eta: 0:06:49, time: 0.711, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6338, loss_rpn_bbox: 0.3511, loss_cls: 1.0799, acc: 89.4043, loss_bbox: 0.1168, loss: 2.1816, grad_norm: 60.0237
-2021-09-12 06:52:36,890 - mmdet - INFO - Saving checkpoint at 9 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:52:40,142 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:52:40,761 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:52:40,761 - mmdet - INFO - Epoch(val) [9][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.60s).
-Accumulating evaluation results...
-DONE (t=0.02s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:52:44,886 - mmdet - INFO - Epoch [10][2/22]	lr: 7.972e-03, eta: 0:06:53, time: 2.057, data_time: 1.209, memory: 11933, loss_rpn_cls: 5.0898, loss_rpn_bbox: 19.9345, loss_cls: 1.5577, acc: 67.5781, loss_bbox: 1.3633, loss: 27.9452, grad_norm: 2205.9745
-2021-09-12 06:52:46,443 - mmdet - INFO - Epoch [10][4/22]	lr: 8.052e-03, eta: 0:06:51, time: 0.779, data_time: 0.008, memory: 11933, loss_rpn_cls: 9.8476, loss_rpn_bbox: 44.5969, loss_cls: 108.5296, acc: 89.6973, loss_bbox: 0.4840, loss: 163.4581, grad_norm: 12732.8857
-2021-09-12 06:52:47,969 - mmdet - INFO - Epoch [10][6/22]	lr: 8.132e-03, eta: 0:06:48, time: 0.763, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6501, loss_rpn_bbox: 0.3963, loss_cls: 0.3907, acc: 93.5059, loss_bbox: 0.5420, loss: 1.9791, grad_norm: 69.2519
-2021-09-12 06:52:49,482 - mmdet - INFO - Epoch [10][8/22]	lr: 8.212e-03, eta: 0:06:46, time: 0.757, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.9832, loss_rpn_bbox: 3.0348, loss_cls: 5.0628, acc: 96.3379, loss_bbox: 1.6285, loss: 10.7093, grad_norm: 526.3239
-2021-09-12 06:52:50,989 - mmdet - INFO - Epoch [10][10/22]	lr: 8.292e-03, eta: 0:06:43, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6971, loss_rpn_bbox: 2.5656, loss_cls: 16.4169, acc: 73.2910, loss_bbox: 0.0822, loss: 19.7618, grad_norm: 2243.2241
-2021-09-12 06:52:52,557 - mmdet - INFO - Epoch [10][12/22]	lr: 8.372e-03, eta: 0:06:41, time: 0.784, data_time: 0.008, memory: 11933, loss_rpn_cls: 53.4338, loss_rpn_bbox: 63.0180, loss_cls: 162.1627, acc: 64.1602, loss_bbox: 1.5399, loss: 280.1544, grad_norm: 35844.0508
-2021-09-12 06:52:54,134 - mmdet - INFO - Epoch [10][14/22]	lr: 8.452e-03, eta: 0:06:39, time: 0.788, data_time: 0.008, memory: 11933, loss_rpn_cls: 1.7003, loss_rpn_bbox: 4.6944, loss_cls: 15.1972, acc: 93.1641, loss_bbox: 1.9780, loss: 23.5699, grad_norm: 3800.2684
-2021-09-12 06:52:55,747 - mmdet - INFO - Epoch [10][16/22]	lr: 8.531e-03, eta: 0:06:37, time: 0.807, data_time: 0.008, memory: 11933, loss_rpn_cls: 1.3473, loss_rpn_bbox: 4.5740, loss_cls: 7.5926, acc: 93.5059, loss_bbox: 0.4806, loss: 13.9944, grad_norm: 1241.9415
-2021-09-12 06:52:57,291 - mmdet - INFO - Epoch [10][18/22]	lr: 8.611e-03, eta: 0:06:35, time: 0.772, data_time: 0.008, memory: 11933, loss_rpn_cls: 695.7948, loss_rpn_bbox: 4539.1367, loss_cls: 2.9498, acc: 76.3184, loss_bbox: 9.8418, loss: 5247.7234, grad_norm: 392540.2882
-2021-09-12 06:52:58,697 - mmdet - INFO - Epoch [10][20/22]	lr: 8.691e-03, eta: 0:06:32, time: 0.703, data_time: 0.008, memory: 11933, loss_rpn_cls: 1505.9634, loss_rpn_bbox: 18343.8368, loss_cls: 8696.5550, acc: 93.5059, loss_bbox: 18.6433, loss: 28564.9983, grad_norm: 2960666.6250
-2021-09-12 06:53:00,106 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:53:00,106 - mmdet - INFO - Epoch [10][22/22]	lr: 8.771e-03, eta: 0:06:30, time: 0.704, data_time: 0.008, memory: 11933, loss_rpn_cls: 63.8923, loss_rpn_bbox: 676.9431, loss_cls: 388.7018, acc: 94.1895, loss_bbox: 10.1551, loss: 1139.6923, grad_norm: 439851.7148
-2021-09-12 06:53:00,177 - mmdet - INFO - Saving checkpoint at 10 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:53:03,426 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:53:04,051 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:53:04,051 - mmdet - INFO - Epoch(val) [10][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.60s).
-Accumulating evaluation results...
-DONE (t=0.02s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:53:08,106 - mmdet - INFO - Epoch [11][2/22]	lr: 8.851e-03, eta: 0:06:32, time: 2.021, data_time: 1.189, memory: 11933, loss_rpn_cls: 369.3181, loss_rpn_bbox: 4191.0198, loss_cls: 3375.6199, acc: 94.1406, loss_bbox: 13.4307, loss: 7949.3885, grad_norm: 982530.2559
-2021-09-12 06:53:09,603 - mmdet - INFO - Epoch [11][4/22]	lr: 8.931e-03, eta: 0:06:30, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 106.1160, loss_rpn_bbox: 807.8888, loss_cls: 224.2665, acc: 94.0430, loss_bbox: 9.3213, loss: 1147.5926, grad_norm: 112117.6323
-2021-09-12 06:53:11,150 - mmdet - INFO - Epoch [11][6/22]	lr: 9.011e-03, eta: 0:06:28, time: 0.773, data_time: 0.008, memory: 11933, loss_rpn_cls: 117685.6683, loss_rpn_bbox: 290107.5812, loss_cls: 244654.0142, acc: 96.7773, loss_bbox: 10.8905, loss: 652458.1445, grad_norm: 127218967.4558
-2021-09-12 06:53:12,677 - mmdet - INFO - Epoch [11][8/22]	lr: 9.091e-03, eta: 0:06:25, time: 0.763, data_time: 0.008, memory: 11933, loss_rpn_cls: 115.8092, loss_rpn_bbox: 728.7826, loss_cls: 2.5511, acc: 99.8535, loss_bbox: 13.5093, loss: 860.6522, grad_norm: 363763.9297
-2021-09-12 06:53:14,232 - mmdet - INFO - Epoch [11][10/22]	lr: 9.171e-03, eta: 0:06:23, time: 0.778, data_time: 0.008, memory: 11933, loss_rpn_cls: 49532879.6944, loss_rpn_bbox: 440728108.1958, loss_cls: 0.8574, acc: 100.0000, loss_bbox: 17.3628, loss: 490260980.4495, grad_norm: 47715799051.0000
-2021-09-12 06:53:15,767 - mmdet - INFO - Epoch [11][12/22]	lr: 9.251e-03, eta: 0:06:21, time: 0.768, data_time: 0.008, memory: 11933, loss_rpn_cls: 165601157.0000, loss_rpn_bbox: 1258459792.0000, loss_cls: 0.8641, acc: 100.0000, loss_bbox: 18.5720, loss: 1424060912.0000, grad_norm: 303195389440.0000
-2021-09-12 06:53:17,290 - mmdet - INFO - Epoch [11][14/22]	lr: 9.331e-03, eta: 0:06:19, time: 0.762, data_time: 0.008, memory: 11933, loss_rpn_cls: 13857437.5117, loss_rpn_bbox: 58482729.0156, loss_cls: 0.8629, acc: 100.0000, loss_bbox: 18.2853, loss: 72340186.1250, grad_norm: 364383317468.0000
-2021-09-12 06:53:18,812 - mmdet - INFO - Epoch [11][16/22]	lr: 9.411e-03, eta: 0:06:16, time: 0.761, data_time: 0.008, memory: 11933, loss_rpn_cls: 7248296.8398, loss_rpn_bbox: 32402422.9609, loss_cls: 0.8638, acc: 100.0000, loss_bbox: 11.9292, loss: 39650730.2891, grad_norm: 16601968552.0000
-2021-09-12 06:53:20,323 - mmdet - INFO - Epoch [11][18/22]	lr: 9.491e-03, eta: 0:06:14, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 456176040.5000, loss_rpn_bbox: 912990680.0000, loss_cls: 0.8540, acc: 100.0000, loss_bbox: 18.3000, loss: 1369166794.0000, grad_norm: 376640955392.0000
-2021-09-12 06:53:21,714 - mmdet - INFO - Epoch [11][20/22]	lr: 9.570e-03, eta: 0:06:12, time: 0.696, data_time: 0.008, memory: 11933, loss_rpn_cls: 1143444517888.0000, loss_rpn_bbox: 6518192926720.0000, loss_cls: 0.8628, acc: 100.0000, loss_bbox: 16.3206, loss: 7661637443584.0000, grad_norm: 2949024843825152.0000
-2021-09-12 06:53:23,094 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:53:23,094 - mmdet - INFO - Epoch [11][22/22]	lr: 9.650e-03, eta: 0:06:09, time: 0.690, data_time: 0.008, memory: 11933, loss_rpn_cls: 165311368134656.0000, loss_rpn_bbox: 866159998009344.0000, loss_cls: 0.8583, acc: 100.0000, loss_bbox: 17.5062, loss: 1031471343075328.0000, grad_norm: 316175222233366528.0000
-2021-09-12 06:53:23,164 - mmdet - INFO - Saving checkpoint at 11 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:53:26,412 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:53:27,037 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:53:27,037 - mmdet - INFO - Epoch(val) [11][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.61s).
-Accumulating evaluation results...
-DONE (t=0.02s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:53:31,068 - mmdet - INFO - Epoch [12][2/22]	lr: 9.730e-03, eta: 0:06:11, time: 2.010, data_time: 1.195, memory: 11933, loss_rpn_cls: 435875388096512.0000, loss_rpn_bbox: 918181487181824.0000, loss_cls: 0.8673, acc: 100.0000, loss_bbox: 16.3982, loss: 1354056908800000.0000, grad_norm: 301984553650618368.0000
-2021-09-12 06:53:32,618 - mmdet - INFO - Epoch [12][4/22]	lr: 9.810e-03, eta: 0:06:09, time: 0.775, data_time: 0.008, memory: 11933, loss_rpn_cls: 2948522001301504.0000, loss_rpn_bbox: 33588697148424192.0000, loss_cls: 0.8548, acc: 100.0000, loss_bbox: 17.9318, loss: 36537218336030720.0000, grad_norm: 5163007038657134592.0000
-2021-09-12 06:53:34,133 - mmdet - INFO - Epoch [12][6/22]	lr: 9.890e-03, eta: 0:06:07, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 7956081893376.0000, loss_rpn_bbox: 60887508598784.0000, loss_cls: 829954326528.4312, acc: 96.9727, loss_bbox: 16.8827, loss: 69673543794688.0000, grad_norm: 11141433901711360.0000
-2021-09-12 06:53:35,677 - mmdet - INFO - Epoch [12][8/22]	lr: 9.970e-03, eta: 0:06:05, time: 0.772, data_time: 0.008, memory: 11933, loss_rpn_cls: 1867996480.0000, loss_rpn_bbox: 3626788096.0000, loss_cls: 0.8573, acc: 100.0000, loss_bbox: 16.1626, loss: 5494784512.0000, grad_norm: 1798078136320.0000
-2021-09-12 06:53:37,215 - mmdet - INFO - Epoch [12][10/22]	lr: 1.005e-02, eta: 0:06:03, time: 0.769, data_time: 0.008, memory: 11933, loss_rpn_cls: 4980311.9375, loss_rpn_bbox: 9826112.1875, loss_cls: 0.8591, acc: 100.0000, loss_bbox: 16.5532, loss: 14806441.1250, grad_norm: 4104418272.0000
-2021-09-12 06:53:38,743 - mmdet - INFO - Epoch [12][12/22]	lr: 1.013e-02, eta: 0:06:00, time: 0.764, data_time: 0.008, memory: 11933, loss_rpn_cls: 1202487564288.0000, loss_rpn_bbox: 2043652653056.0000, loss_cls: 0.8488, acc: 100.0000, loss_bbox: 17.3107, loss: 3246140088320.0000, grad_norm: 726152487370752.0000
-2021-09-12 06:53:40,252 - mmdet - INFO - Epoch [12][14/22]	lr: 1.021e-02, eta: 0:05:58, time: 0.755, data_time: 0.008, memory: 11933, loss_rpn_cls: 25376613586944.0000, loss_rpn_bbox: 42344071831552.0000, loss_cls: 0.8610, acc: 100.0000, loss_bbox: 15.7246, loss: 67720683323392.0000, grad_norm: 58885758802460672.0000
-2021-09-12 06:53:41,773 - mmdet - INFO - Epoch [12][16/22]	lr: 1.029e-02, eta: 0:05:56, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 3179731353600.0000, loss_rpn_bbox: 7293872111616.0000, loss_cls: 0.8669, acc: 100.0000, loss_bbox: 14.9355, loss: 10473603596288.0000, grad_norm: 1843480292753408.0000
-2021-09-12 06:53:43,276 - mmdet - INFO - Epoch [12][18/22]	lr: 1.037e-02, eta: 0:05:54, time: 0.752, data_time: 0.008, memory: 11933, loss_rpn_cls: 12735677231104.0000, loss_rpn_bbox: 92320001155072.0000, loss_cls: 0.8579, acc: 100.0000, loss_bbox: 11.7909, loss: 105055679430656.0000, grad_norm: 144291580285550592.0000
-2021-09-12 06:53:44,661 - mmdet - INFO - Epoch [12][20/22]	lr: 1.045e-02, eta: 0:05:51, time: 0.692, data_time: 0.008, memory: 11933, loss_rpn_cls: 17231820729616.0000, loss_rpn_bbox: 67165393725376.0000, loss_cls: 0.8620, acc: 100.0000, loss_bbox: 15.1383, loss: 84397214454976.0000, grad_norm: 9289003456028672.0000
-2021-09-12 06:53:46,062 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:53:46,062 - mmdet - INFO - Epoch [12][22/22]	lr: 1.053e-02, eta: 0:05:49, time: 0.701, data_time: 0.008, memory: 11933, loss_rpn_cls: 25161788848.0000, loss_rpn_bbox: 173082524544.0000, loss_cls: 0.8602, acc: 100.0000, loss_bbox: 15.7305, loss: 198244313408.0000, grad_norm: 62746859724800.0000
-2021-09-12 06:53:46,131 - mmdet - INFO - Saving checkpoint at 12 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:53:49,436 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:53:50,054 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:53:50,054 - mmdet - INFO - Epoch(val) [12][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.60s).
-Accumulating evaluation results...
-DONE (t=0.02s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:53:54,132 - mmdet - INFO - Epoch [13][2/22]	lr: 1.061e-02, eta: 0:05:51, time: 2.033, data_time: 1.207, memory: 11933, loss_rpn_cls: 37497152.3302, loss_rpn_bbox: 0.2528, loss_cls: 326521290752.4321, acc: 96.9727, loss_bbox: 13.2894, loss: 326558787908.0000, grad_norm: 36340368703488.0000
-2021-09-12 06:53:55,629 - mmdet - INFO - Epoch [13][4/22]	lr: 1.069e-02, eta: 0:05:49, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 20667592704.3263, loss_rpn_bbox: 0.2763, loss_cls: 460160289996800.0000, acc: 65.0391, loss_bbox: 11.9701, loss: 460180957429760.0000, grad_norm: 51112190660313088.0000
-2021-09-12 06:53:57,181 - mmdet - INFO - Epoch [13][6/22]	lr: 1.077e-02, eta: 0:05:46, time: 0.776, data_time: 0.008, memory: 11933, loss_rpn_cls: 79202976563200.0000, loss_rpn_bbox: 477982078533632.1250, loss_cls: 4658510728331264.0000, acc: 90.2832, loss_bbox: 15.4801, loss: 5215695850569728.0000, grad_norm: 750555472523689984.0000
-2021-09-12 06:53:58,689 - mmdet - INFO - Epoch [13][8/22]	lr: 1.085e-02, eta: 0:05:44, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 262544150528.0000, loss_rpn_bbox: 306242584576.1195, loss_cls: 324939652530176.0000, acc: 93.9941, loss_bbox: 14.2591, loss: 325508436852736.0000, grad_norm: 55151290648363008.0000
-2021-09-12 06:54:00,221 - mmdet - INFO - Epoch [13][10/22]	lr: 1.093e-02, eta: 0:05:42, time: 0.766, data_time: 0.008, memory: 11933, loss_rpn_cls: 1688088624724.0000, loss_rpn_bbox: 9921666520544.0000, loss_cls: 1060774102022912.0000, acc: 93.4570, loss_bbox: 11.3598, loss: 1072383853891328.0000, grad_norm: 106200562162728960.0000
-2021-09-12 06:54:01,773 - mmdet - INFO - Epoch [13][12/22]	lr: 1.101e-02, eta: 0:05:40, time: 0.776, data_time: 0.008, memory: 11933, loss_rpn_cls: 1237035859577.6250, loss_rpn_bbox: 4710414351268.0000, loss_cls: 563617794780160.0000, acc: 93.5547, loss_bbox: 15.9988, loss: 569565277628416.0000, grad_norm: 66157875965198336.0000
-2021-09-12 06:54:03,287 - mmdet - INFO - Epoch [13][14/22]	lr: 1.109e-02, eta: 0:05:38, time: 0.757, data_time: 0.008, memory: 11933, loss_rpn_cls: 83899751424.0000, loss_rpn_bbox: 278182615040.0000, loss_cls: 1236479092736.0000, acc: 93.7988, loss_bbox: 13.5497, loss: 1598561501184.0000, grad_norm: 668675828875264.0000
-2021-09-12 06:54:04,916 - mmdet - INFO - Epoch [13][16/22]	lr: 1.117e-02, eta: 0:05:36, time: 0.815, data_time: 0.008, memory: 11933, loss_rpn_cls: 162903312826368.0000, loss_rpn_bbox: 1015997469294592.0000, loss_cls: 190829042634752.0000, acc: 96.6309, loss_bbox: 17.3923, loss: 1369729758396416.0000, grad_norm: 429848416286146560.0000
-2021-09-12 06:54:06,430 - mmdet - INFO - Epoch [13][18/22]	lr: 1.125e-02, eta: 0:05:34, time: 0.757, data_time: 0.008, memory: 11933, loss_rpn_cls: 62967611278737014784.0000, loss_rpn_bbox: 399910603547620671488.0000, loss_cls: 10582266841399296.0000, acc: 96.5332, loss_bbox: 9.5515, loss: 462888783897448939520.0000, grad_norm: inf
-2021-09-12 06:54:07,822 - mmdet - INFO - Epoch [13][20/22]	lr: 1.133e-02, eta: 0:05:32, time: 0.696, data_time: 0.008, memory: 11933, loss_rpn_cls: 474923504831853014024192.0000, loss_rpn_bbox: 3537163194148205031849984.0000, loss_cls: 0.8382, acc: 100.0000, loss_bbox: 1.3334, loss: 4012086771037652083802112.0000, grad_norm: inf
-2021-09-12 06:54:09,215 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:54:09,215 - mmdet - INFO - Epoch [13][22/22]	lr: 1.141e-02, eta: 0:05:29, time: 0.696, data_time: 0.008, memory: 11933, loss_rpn_cls: 58072765962287799336960.0000, loss_rpn_bbox: 1276133289055458219261952.0000, loss_cls: 0.8487, acc: 100.0000, loss_bbox: 1.1063, loss: 1334206089357693177298944.0000, grad_norm: inf
-2021-09-12 06:54:09,290 - mmdet - INFO - Saving checkpoint at 13 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 3.0 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:54:12,506 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:54:13,139 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:54:13,139 - mmdet - INFO - Epoch(val) [13][22]	bbox_mAP: 0.0000, bbox_mAP_30: 0.0000, bbox_mAP_50: 0.0000, bbox_mAP_75: 0.0000, bbox_mAP_s: 0.0000, bbox_mAP_m: 0.0000, bbox_mAP_l: -1.0000, bbox_mAP_copypaste: 0.000 0.000 0.000 0.000 0.000 0.000 -1.000
-Loading and preparing results...
-DONE (t=0.00s)
-creating index...
-index created!
-Running per image evaluation...
-Evaluate annotation type *bbox*
-DONE (t=0.61s).
-Accumulating evaluation results...
-DONE (t=0.02s).
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Precision  (AP) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=100 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=300 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=   all | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= small | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area=medium | maxDets=1000 ] = 0.000
-Average Recall     (AR) @[ IoU=0.30:0.95 | area= large | maxDets=1000 ] = -1.000
-2021-09-12 06:54:17,211 - mmdet - INFO - Epoch [14][2/22]	lr: 1.149e-02, eta: 0:05:31, time: 2.030, data_time: 1.206, memory: 11933, loss_rpn_cls: 27732947630405624161894400.0000, loss_rpn_bbox: 615918202408811427602104320.0000, loss_cls: 0.8402, acc: 100.0000, loss_bbox: 1.2857, loss: 643651161388288112737648640.0000, grad_norm: inf
-2021-09-12 06:54:18,712 - mmdet - INFO - Epoch [14][4/22]	lr: 1.157e-02, eta: 0:05:28, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 1045083185364258318050131968.0000, loss_rpn_bbox: 27012503556288125338472415232.0000, loss_cls: 0.8445, acc: 100.0000, loss_bbox: 1.1910, loss: 28057586280483781813783756800.0000, grad_norm: inf
-2021-09-12 06:54:20,246 - mmdet - INFO - Epoch [14][6/22]	lr: 1.165e-02, eta: 0:05:26, time: 0.767, data_time: 0.008, memory: 11933, loss_rpn_cls: 24608383968495241558635839488.0000, loss_rpn_bbox: 551439310022221362878989991936.0000, loss_cls: 0.8453, acc: 100.0000, loss_bbox: 1.1720, loss: 576047693990716604437625831424.0000, grad_norm: inf
-2021-09-12 06:54:21,741 - mmdet - INFO - Epoch [14][8/22]	lr: 1.173e-02, eta: 0:05:24, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 108017210306379247363412721664.0000, loss_rpn_bbox: 1413870026994891348348768354304.0000, loss_cls: nan, acc: 53.3691, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:23,250 - mmdet - INFO - Epoch [14][10/22]	lr: 1.181e-02, eta: 0:05:22, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6769, loss_rpn_bbox: 0.2999, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:24,752 - mmdet - INFO - Epoch [14][12/22]	lr: 1.189e-02, eta: 0:05:20, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6746, loss_rpn_bbox: 0.2300, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:26,232 - mmdet - INFO - Epoch [14][14/22]	lr: 1.197e-02, eta: 0:05:18, time: 0.740, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6757, loss_rpn_bbox: 0.2722, loss_cls: nan, acc: 5.9082, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:27,721 - mmdet - INFO - Epoch [14][16/22]	lr: 1.205e-02, eta: 0:05:16, time: 0.744, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6714, loss_rpn_bbox: 0.3129, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:29,219 - mmdet - INFO - Epoch [14][18/22]	lr: 1.213e-02, eta: 0:05:14, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6764, loss_rpn_bbox: 0.2712, loss_cls: nan, acc: 6.6406, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:30,629 - mmdet - INFO - Epoch [14][20/22]	lr: 1.221e-02, eta: 0:05:11, time: 0.705, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6705, loss_rpn_bbox: 0.2840, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:32,046 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:54:32,047 - mmdet - INFO - Epoch [14][22/22]	lr: 1.229e-02, eta: 0:05:09, time: 0.709, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6715, loss_rpn_bbox: 0.2584, loss_cls: nan, acc: 6.7871, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:32,116 - mmdet - INFO - Saving checkpoint at 14 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:54:35,382 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:54:35,383 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:54:35,383 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:54:35,383 - mmdet - INFO - Epoch(val) [14][22]	
-Loading and preparing results...
-2021-09-12 06:54:39,453 - mmdet - INFO - Epoch [15][2/22]	lr: 1.237e-02, eta: 0:05:10, time: 2.029, data_time: 1.201, memory: 11933, loss_rpn_cls: 0.6733, loss_rpn_bbox: 0.2619, loss_cls: nan, acc: 7.3242, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:40,961 - mmdet - INFO - Epoch [15][4/22]	lr: 1.245e-02, eta: 0:05:08, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6632, loss_rpn_bbox: 0.2819, loss_cls: nan, acc: 7.6172, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:42,478 - mmdet - INFO - Epoch [15][6/22]	lr: 1.253e-02, eta: 0:05:06, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6656, loss_rpn_bbox: 0.2504, loss_cls: nan, acc: 6.4453, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:43,978 - mmdet - INFO - Epoch [15][8/22]	lr: 1.261e-02, eta: 0:05:04, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6668, loss_rpn_bbox: 0.2422, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:45,498 - mmdet - INFO - Epoch [15][10/22]	lr: 1.269e-02, eta: 0:05:02, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6649, loss_rpn_bbox: 0.2442, loss_cls: nan, acc: 6.7871, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:46,982 - mmdet - INFO - Epoch [15][12/22]	lr: 1.277e-02, eta: 0:05:00, time: 0.742, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6623, loss_rpn_bbox: 0.2512, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:48,475 - mmdet - INFO - Epoch [15][14/22]	lr: 1.285e-02, eta: 0:04:58, time: 0.746, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6589, loss_rpn_bbox: 0.2521, loss_cls: nan, acc: 5.6152, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:49,965 - mmdet - INFO - Epoch [15][16/22]	lr: 1.293e-02, eta: 0:04:56, time: 0.745, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6602, loss_rpn_bbox: 0.2703, loss_cls: nan, acc: 6.0547, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:51,512 - mmdet - INFO - Epoch [15][18/22]	lr: 1.301e-02, eta: 0:04:54, time: 0.774, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6598, loss_rpn_bbox: 0.2745, loss_cls: nan, acc: 6.9336, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:52,867 - mmdet - INFO - Epoch [15][20/22]	lr: 1.309e-02, eta: 0:04:52, time: 0.677, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6537, loss_rpn_bbox: 0.3170, loss_cls: nan, acc: 6.0547, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:54,241 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:54:54,242 - mmdet - INFO - Epoch [15][22/22]	lr: 1.317e-02, eta: 0:04:49, time: 0.687, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6578, loss_rpn_bbox: 0.2528, loss_cls: nan, acc: 6.0059, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:54:54,311 - mmdet - INFO - Saving checkpoint at 15 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:54:57,486 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:54:57,487 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:54:57,487 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:54:57,487 - mmdet - INFO - Epoch(val) [15][22]	
-Loading and preparing results...
-2021-09-12 06:55:01,514 - mmdet - INFO - Epoch [16][2/22]	lr: 1.325e-02, eta: 0:04:50, time: 2.007, data_time: 1.204, memory: 11933, loss_rpn_cls: 0.6490, loss_rpn_bbox: 0.2800, loss_cls: nan, acc: 6.4453, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:03,020 - mmdet - INFO - Epoch [16][4/22]	lr: 1.333e-02, eta: 0:04:48, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6536, loss_rpn_bbox: 0.2547, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:04,522 - mmdet - INFO - Epoch [16][6/22]	lr: 1.341e-02, eta: 0:04:46, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6505, loss_rpn_bbox: 0.2459, loss_cls: nan, acc: 5.9570, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:06,055 - mmdet - INFO - Epoch [16][8/22]	lr: 1.349e-02, eta: 0:04:44, time: 0.767, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6491, loss_rpn_bbox: 0.3027, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:07,551 - mmdet - INFO - Epoch [16][10/22]	lr: 1.357e-02, eta: 0:04:42, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6538, loss_rpn_bbox: 0.2453, loss_cls: nan, acc: 6.5918, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:09,114 - mmdet - INFO - Epoch [16][12/22]	lr: 1.365e-02, eta: 0:04:40, time: 0.781, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6404, loss_rpn_bbox: 0.2529, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:10,649 - mmdet - INFO - Epoch [16][14/22]	lr: 1.373e-02, eta: 0:04:38, time: 0.767, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6389, loss_rpn_bbox: 0.2655, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:12,164 - mmdet - INFO - Epoch [16][16/22]	lr: 1.381e-02, eta: 0:04:36, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6427, loss_rpn_bbox: 0.2356, loss_cls: nan, acc: 6.4453, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:13,666 - mmdet - INFO - Epoch [16][18/22]	lr: 1.389e-02, eta: 0:04:34, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6496, loss_rpn_bbox: 0.2493, loss_cls: nan, acc: 5.9570, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:15,052 - mmdet - INFO - Epoch [16][20/22]	lr: 1.397e-02, eta: 0:04:32, time: 0.693, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6405, loss_rpn_bbox: 0.2639, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:16,461 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:55:16,462 - mmdet - INFO - Epoch [16][22/22]	lr: 1.405e-02, eta: 0:04:30, time: 0.705, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6363, loss_rpn_bbox: 0.2905, loss_cls: nan, acc: 6.7383, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:16,533 - mmdet - INFO - Saving checkpoint at 16 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 3.0 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:55:20,437 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:55:20,437 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:55:20,438 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:55:20,438 - mmdet - INFO - Epoch(val) [16][22]	
-Loading and preparing results...
-2021-09-12 06:55:24,486 - mmdet - INFO - Epoch [17][2/22]	lr: 1.413e-03, eta: 0:04:30, time: 2.018, data_time: 1.183, memory: 11933, loss_rpn_cls: 0.6471, loss_rpn_bbox: 0.2339, loss_cls: nan, acc: 7.2266, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:25,998 - mmdet - INFO - Epoch [17][4/22]	lr: 1.421e-03, eta: 0:04:28, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6306, loss_rpn_bbox: 0.2563, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:27,524 - mmdet - INFO - Epoch [17][6/22]	lr: 1.429e-03, eta: 0:04:26, time: 0.763, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6357, loss_rpn_bbox: 0.2285, loss_cls: nan, acc: 5.6641, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:29,009 - mmdet - INFO - Epoch [17][8/22]	lr: 1.437e-03, eta: 0:04:24, time: 0.742, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6361, loss_rpn_bbox: 0.2408, loss_cls: nan, acc: 6.9336, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:30,488 - mmdet - INFO - Epoch [17][10/22]	lr: 1.445e-03, eta: 0:04:22, time: 0.740, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6409, loss_rpn_bbox: 0.2654, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:31,951 - mmdet - INFO - Epoch [17][12/22]	lr: 1.453e-03, eta: 0:04:20, time: 0.732, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6351, loss_rpn_bbox: 0.2874, loss_cls: nan, acc: 6.2988, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:33,471 - mmdet - INFO - Epoch [17][14/22]	lr: 1.461e-03, eta: 0:04:18, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6352, loss_rpn_bbox: 0.2690, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:34,968 - mmdet - INFO - Epoch [17][16/22]	lr: 1.469e-03, eta: 0:04:16, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6474, loss_rpn_bbox: 0.2573, loss_cls: nan, acc: 5.7617, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:36,464 - mmdet - INFO - Epoch [17][18/22]	lr: 1.477e-03, eta: 0:04:14, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6296, loss_rpn_bbox: 0.2792, loss_cls: nan, acc: 5.8105, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:37,848 - mmdet - INFO - Epoch [17][20/22]	lr: 1.485e-03, eta: 0:04:12, time: 0.692, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6341, loss_rpn_bbox: 0.2658, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:39,254 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:55:39,255 - mmdet - INFO - Epoch [17][22/22]	lr: 1.493e-03, eta: 0:04:10, time: 0.703, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6386, loss_rpn_bbox: 0.2981, loss_cls: nan, acc: 7.1777, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:39,325 - mmdet - INFO - Saving checkpoint at 17 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:55:42,647 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:55:42,647 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:55:42,648 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:55:42,648 - mmdet - INFO - Epoch(val) [17][22]	
-Loading and preparing results...
-2021-09-12 06:55:46,726 - mmdet - INFO - Epoch [18][2/22]	lr: 1.500e-03, eta: 0:04:10, time: 2.034, data_time: 1.201, memory: 11933, loss_rpn_cls: 0.6403, loss_rpn_bbox: 0.2163, loss_cls: nan, acc: 5.4688, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:48,254 - mmdet - INFO - Epoch [18][4/22]	lr: 1.508e-03, eta: 0:04:08, time: 0.764, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6414, loss_rpn_bbox: 0.2581, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:49,783 - mmdet - INFO - Epoch [18][6/22]	lr: 1.516e-03, eta: 0:04:06, time: 0.765, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6250, loss_rpn_bbox: 0.2720, loss_cls: nan, acc: 6.6406, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:51,299 - mmdet - INFO - Epoch [18][8/22]	lr: 1.524e-03, eta: 0:04:04, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6415, loss_rpn_bbox: 0.2267, loss_cls: nan, acc: 6.8848, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:52,813 - mmdet - INFO - Epoch [18][10/22]	lr: 1.532e-03, eta: 0:04:02, time: 0.757, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6427, loss_rpn_bbox: 0.2548, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:54,337 - mmdet - INFO - Epoch [18][12/22]	lr: 1.540e-03, eta: 0:04:00, time: 0.762, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6368, loss_rpn_bbox: 0.2681, loss_cls: nan, acc: 7.2754, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:55,837 - mmdet - INFO - Epoch [18][14/22]	lr: 1.548e-03, eta: 0:03:58, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6373, loss_rpn_bbox: 0.2704, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:57,313 - mmdet - INFO - Epoch [18][16/22]	lr: 1.556e-03, eta: 0:03:57, time: 0.738, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6375, loss_rpn_bbox: 0.2651, loss_cls: nan, acc: 6.2500, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:55:58,814 - mmdet - INFO - Epoch [18][18/22]	lr: 1.564e-03, eta: 0:03:55, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6369, loss_rpn_bbox: 0.2821, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:00,185 - mmdet - INFO - Epoch [18][20/22]	lr: 1.572e-03, eta: 0:03:53, time: 0.685, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6395, loss_rpn_bbox: 0.2653, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:01,591 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:56:01,591 - mmdet - INFO - Epoch [18][22/22]	lr: 1.580e-03, eta: 0:03:51, time: 0.703, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6408, loss_rpn_bbox: 0.2715, loss_cls: nan, acc: 6.5918, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:01,661 - mmdet - INFO - Saving checkpoint at 18 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 3.0 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:56:04,877 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:56:04,877 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:56:04,878 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:56:04,878 - mmdet - INFO - Epoch(val) [18][22]	
-Loading and preparing results...
-2021-09-12 06:56:08,966 - mmdet - INFO - Epoch [19][2/22]	lr: 1.588e-03, eta: 0:03:50, time: 2.038, data_time: 1.210, memory: 11933, loss_rpn_cls: 0.6248, loss_rpn_bbox: 0.2349, loss_cls: nan, acc: 5.5664, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:10,492 - mmdet - INFO - Epoch [19][4/22]	lr: 1.596e-03, eta: 0:03:48, time: 0.763, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6439, loss_rpn_bbox: 0.2402, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:11,994 - mmdet - INFO - Epoch [19][6/22]	lr: 1.604e-03, eta: 0:03:47, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6336, loss_rpn_bbox: 0.2470, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:13,499 - mmdet - INFO - Epoch [19][8/22]	lr: 1.612e-03, eta: 0:03:45, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6285, loss_rpn_bbox: 0.2466, loss_cls: nan, acc: 7.6660, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:14,989 - mmdet - INFO - Epoch [19][10/22]	lr: 1.620e-03, eta: 0:03:43, time: 0.745, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6374, loss_rpn_bbox: 0.2601, loss_cls: nan, acc: 5.8105, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:16,484 - mmdet - INFO - Epoch [19][12/22]	lr: 1.628e-03, eta: 0:03:41, time: 0.747, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6440, loss_rpn_bbox: 0.3010, loss_cls: nan, acc: 7.1289, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:17,965 - mmdet - INFO - Epoch [19][14/22]	lr: 1.636e-03, eta: 0:03:39, time: 0.740, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6426, loss_rpn_bbox: 0.2674, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:19,476 - mmdet - INFO - Epoch [19][16/22]	lr: 1.644e-03, eta: 0:03:37, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6367, loss_rpn_bbox: 0.2806, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:20,979 - mmdet - INFO - Epoch [19][18/22]	lr: 1.652e-03, eta: 0:03:35, time: 0.752, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6370, loss_rpn_bbox: 0.2988, loss_cls: nan, acc: 6.5918, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:22,388 - mmdet - INFO - Epoch [19][20/22]	lr: 1.660e-03, eta: 0:03:33, time: 0.704, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6321, loss_rpn_bbox: 0.2629, loss_cls: nan, acc: 6.7871, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:23,797 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:56:23,798 - mmdet - INFO - Epoch [19][22/22]	lr: 1.668e-03, eta: 0:03:31, time: 0.705, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6362, loss_rpn_bbox: 0.2369, loss_cls: nan, acc: 6.2988, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:23,868 - mmdet - INFO - Saving checkpoint at 19 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 0s, ETA:     3s[>>>>>>>>                           ] 2/8, 3.1 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.6 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 4.0 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.7 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 5.0 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.2 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:56:27,246 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:56:27,246 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:56:27,247 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:56:27,247 - mmdet - INFO - Epoch(val) [19][22]	
-Loading and preparing results...
-2021-09-12 06:56:31,341 - mmdet - INFO - Epoch [20][2/22]	lr: 1.676e-04, eta: 0:03:31, time: 2.041, data_time: 1.202, memory: 11933, loss_rpn_cls: 0.6357, loss_rpn_bbox: 0.2816, loss_cls: nan, acc: 7.6660, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:32,856 - mmdet - INFO - Epoch [20][4/22]	lr: 1.684e-04, eta: 0:03:29, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6306, loss_rpn_bbox: 0.2805, loss_cls: nan, acc: 6.8359, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:34,357 - mmdet - INFO - Epoch [20][6/22]	lr: 1.692e-04, eta: 0:03:27, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6344, loss_rpn_bbox: 0.2629, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:35,882 - mmdet - INFO - Epoch [20][8/22]	lr: 1.700e-04, eta: 0:03:25, time: 0.762, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6477, loss_rpn_bbox: 0.2754, loss_cls: nan, acc: 7.7148, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:37,402 - mmdet - INFO - Epoch [20][10/22]	lr: 1.708e-04, eta: 0:03:23, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6384, loss_rpn_bbox: 0.2692, loss_cls: nan, acc: 6.4453, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:38,915 - mmdet - INFO - Epoch [20][12/22]	lr: 1.716e-04, eta: 0:03:21, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6389, loss_rpn_bbox: 0.2373, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:40,396 - mmdet - INFO - Epoch [20][14/22]	lr: 1.724e-04, eta: 0:03:19, time: 0.740, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6394, loss_rpn_bbox: 0.2624, loss_cls: nan, acc: 7.3730, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:41,896 - mmdet - INFO - Epoch [20][16/22]	lr: 1.732e-04, eta: 0:03:17, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6316, loss_rpn_bbox: 0.2306, loss_cls: nan, acc: 5.3711, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:43,399 - mmdet - INFO - Epoch [20][18/22]	lr: 1.740e-04, eta: 0:03:16, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6429, loss_rpn_bbox: 0.2581, loss_cls: nan, acc: 5.6152, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:44,761 - mmdet - INFO - Epoch [20][20/22]	lr: 1.748e-04, eta: 0:03:14, time: 0.681, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6348, loss_rpn_bbox: 0.2779, loss_cls: nan, acc: 6.5918, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:46,169 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:56:46,169 - mmdet - INFO - Epoch [20][22/22]	lr: 1.756e-04, eta: 0:03:12, time: 0.704, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6409, loss_rpn_bbox: 0.2399, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:46,239 - mmdet - INFO - Saving checkpoint at 20 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:56:49,392 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:56:49,392 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:56:49,393 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:56:49,393 - mmdet - INFO - Epoch(val) [20][22]	
-Loading and preparing results...
-2021-09-12 06:56:53,455 - mmdet - INFO - Epoch [21][2/22]	lr: 1.764e-04, eta: 0:03:11, time: 2.025, data_time: 1.203, memory: 11933, loss_rpn_cls: 0.6356, loss_rpn_bbox: 0.2569, loss_cls: nan, acc: 6.9336, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:54,959 - mmdet - INFO - Epoch [21][4/22]	lr: 1.772e-04, eta: 0:03:09, time: 0.752, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6328, loss_rpn_bbox: 0.2510, loss_cls: nan, acc: 6.2500, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:56,445 - mmdet - INFO - Epoch [21][6/22]	lr: 1.780e-04, eta: 0:03:07, time: 0.743, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6348, loss_rpn_bbox: 0.2674, loss_cls: nan, acc: 7.4707, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:57,952 - mmdet - INFO - Epoch [21][8/22]	lr: 1.788e-04, eta: 0:03:05, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6352, loss_rpn_bbox: 0.3072, loss_cls: nan, acc: 6.1035, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:56:59,439 - mmdet - INFO - Epoch [21][10/22]	lr: 1.796e-04, eta: 0:03:04, time: 0.744, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6338, loss_rpn_bbox: 0.2961, loss_cls: nan, acc: 6.8359, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:00,951 - mmdet - INFO - Epoch [21][12/22]	lr: 1.804e-04, eta: 0:03:02, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6364, loss_rpn_bbox: 0.2296, loss_cls: nan, acc: 6.4941, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:02,446 - mmdet - INFO - Epoch [21][14/22]	lr: 1.812e-04, eta: 0:03:00, time: 0.747, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6352, loss_rpn_bbox: 0.2296, loss_cls: nan, acc: 5.5664, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:03,957 - mmdet - INFO - Epoch [21][16/22]	lr: 1.820e-04, eta: 0:02:58, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6397, loss_rpn_bbox: 0.2756, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:05,474 - mmdet - INFO - Epoch [21][18/22]	lr: 1.828e-04, eta: 0:02:56, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6361, loss_rpn_bbox: 0.2809, loss_cls: nan, acc: 6.8359, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:06,910 - mmdet - INFO - Epoch [21][20/22]	lr: 1.836e-04, eta: 0:02:54, time: 0.718, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6287, loss_rpn_bbox: 0.2169, loss_cls: nan, acc: 5.7617, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:08,332 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:57:08,333 - mmdet - INFO - Epoch [21][22/22]	lr: 1.844e-04, eta: 0:02:52, time: 0.711, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6360, loss_rpn_bbox: 0.2731, loss_cls: nan, acc: 6.2500, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:08,403 - mmdet - INFO - Saving checkpoint at 21 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:57:11,591 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:57:11,591 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:57:11,592 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:57:11,592 - mmdet - INFO - Epoch(val) [21][22]	
-Loading and preparing results...
-2021-09-12 06:57:15,655 - mmdet - INFO - Epoch [22][2/22]	lr: 1.852e-04, eta: 0:02:52, time: 2.026, data_time: 1.191, memory: 11933, loss_rpn_cls: 0.6379, loss_rpn_bbox: 0.2297, loss_cls: nan, acc: 6.2988, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:17,152 - mmdet - INFO - Epoch [22][4/22]	lr: 1.860e-04, eta: 0:02:50, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6322, loss_rpn_bbox: 0.2840, loss_cls: nan, acc: 6.6406, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:18,690 - mmdet - INFO - Epoch [22][6/22]	lr: 1.868e-04, eta: 0:02:48, time: 0.769, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6378, loss_rpn_bbox: 0.2733, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:20,175 - mmdet - INFO - Epoch [22][8/22]	lr: 1.876e-04, eta: 0:02:46, time: 0.742, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6339, loss_rpn_bbox: 0.2598, loss_cls: nan, acc: 6.7383, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:21,695 - mmdet - INFO - Epoch [22][10/22]	lr: 1.884e-04, eta: 0:02:44, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6280, loss_rpn_bbox: 0.2116, loss_cls: nan, acc: 5.8594, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:23,190 - mmdet - INFO - Epoch [22][12/22]	lr: 1.892e-04, eta: 0:02:42, time: 0.748, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6299, loss_rpn_bbox: 0.2274, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:24,687 - mmdet - INFO - Epoch [22][14/22]	lr: 1.900e-04, eta: 0:02:40, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6346, loss_rpn_bbox: 0.2736, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:26,205 - mmdet - INFO - Epoch [22][16/22]	lr: 1.908e-04, eta: 0:02:39, time: 0.759, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6316, loss_rpn_bbox: 0.2985, loss_cls: nan, acc: 7.0312, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:27,725 - mmdet - INFO - Epoch [22][18/22]	lr: 1.916e-04, eta: 0:02:37, time: 0.760, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6326, loss_rpn_bbox: 0.2613, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:29,106 - mmdet - INFO - Epoch [22][20/22]	lr: 1.924e-04, eta: 0:02:35, time: 0.690, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6335, loss_rpn_bbox: 0.2701, loss_cls: nan, acc: 6.4941, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:30,488 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:57:30,488 - mmdet - INFO - Epoch [22][22/22]	lr: 1.932e-04, eta: 0:02:33, time: 0.691, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6376, loss_rpn_bbox: 0.2680, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:30,558 - mmdet - INFO - Saving checkpoint at 22 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:57:34,289 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:57:34,290 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:57:34,290 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:57:34,290 - mmdet - INFO - Epoch(val) [22][22]	
-Loading and preparing results...
-2021-09-12 06:57:38,381 - mmdet - INFO - Epoch [23][2/22]	lr: 1.940e-04, eta: 0:02:32, time: 2.040, data_time: 1.196, memory: 11933, loss_rpn_cls: 0.6443, loss_rpn_bbox: 0.2563, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:39,889 - mmdet - INFO - Epoch [23][4/22]	lr: 1.948e-04, eta: 0:02:30, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6376, loss_rpn_bbox: 0.2714, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:41,401 - mmdet - INFO - Epoch [23][6/22]	lr: 1.956e-04, eta: 0:02:28, time: 0.756, data_time: 0.007, memory: 11933, loss_rpn_cls: 0.6345, loss_rpn_bbox: 0.2959, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:42,914 - mmdet - INFO - Epoch [23][8/22]	lr: 1.964e-04, eta: 0:02:27, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6370, loss_rpn_bbox: 0.2436, loss_cls: nan, acc: 7.2754, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:44,419 - mmdet - INFO - Epoch [23][10/22]	lr: 1.972e-04, eta: 0:02:25, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6329, loss_rpn_bbox: 0.2115, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:45,950 - mmdet - INFO - Epoch [23][12/22]	lr: 1.980e-04, eta: 0:02:23, time: 0.766, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6336, loss_rpn_bbox: 0.2635, loss_cls: nan, acc: 7.2266, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:47,428 - mmdet - INFO - Epoch [23][14/22]	lr: 1.988e-04, eta: 0:02:21, time: 0.739, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6351, loss_rpn_bbox: 0.2897, loss_cls: nan, acc: 6.1035, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:48,919 - mmdet - INFO - Epoch [23][16/22]	lr: 1.996e-04, eta: 0:02:19, time: 0.746, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6299, loss_rpn_bbox: 0.2281, loss_cls: nan, acc: 5.6152, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:50,416 - mmdet - INFO - Epoch [23][18/22]	lr: 2.000e-04, eta: 0:02:17, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6290, loss_rpn_bbox: 0.2936, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:51,919 - mmdet - INFO - Epoch [23][20/22]	lr: 2.000e-04, eta: 0:02:16, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6450, loss_rpn_bbox: 0.2573, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:53,288 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:57:53,289 - mmdet - INFO - Epoch [23][22/22]	lr: 2.000e-04, eta: 0:02:14, time: 0.685, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6273, loss_rpn_bbox: 0.2722, loss_cls: nan, acc: 6.0059, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:57:53,363 - mmdet - INFO - Saving checkpoint at 23 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.3 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.1 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:57:56,568 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:57:56,568 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:57:56,568 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:57:56,568 - mmdet - INFO - Epoch(val) [23][22]	
-Loading and preparing results...
-2021-09-12 06:58:00,592 - mmdet - INFO - Epoch [24][2/22]	lr: 2.000e-04, eta: 0:02:13, time: 2.006, data_time: 1.198, memory: 11933, loss_rpn_cls: 0.6327, loss_rpn_bbox: 0.2716, loss_cls: nan, acc: 6.8359, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:02,097 - mmdet - INFO - Epoch [24][4/22]	lr: 2.000e-04, eta: 0:02:11, time: 0.752, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6333, loss_rpn_bbox: 0.2503, loss_cls: nan, acc: 5.9570, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:03,628 - mmdet - INFO - Epoch [24][6/22]	lr: 2.000e-04, eta: 0:02:09, time: 0.765, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6398, loss_rpn_bbox: 0.2564, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:05,124 - mmdet - INFO - Epoch [24][8/22]	lr: 2.000e-04, eta: 0:02:07, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6459, loss_rpn_bbox: 0.2360, loss_cls: nan, acc: 5.8105, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:06,638 - mmdet - INFO - Epoch [24][10/22]	lr: 2.000e-04, eta: 0:02:05, time: 0.757, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6465, loss_rpn_bbox: 0.2321, loss_cls: nan, acc: 7.4219, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:08,177 - mmdet - INFO - Epoch [24][12/22]	lr: 2.000e-04, eta: 0:02:04, time: 0.769, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6353, loss_rpn_bbox: 0.2690, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:09,679 - mmdet - INFO - Epoch [24][14/22]	lr: 2.000e-04, eta: 0:02:02, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6341, loss_rpn_bbox: 0.2902, loss_cls: nan, acc: 6.0059, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:11,224 - mmdet - INFO - Epoch [24][16/22]	lr: 2.000e-04, eta: 0:02:00, time: 0.773, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6325, loss_rpn_bbox: 0.2398, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:12,732 - mmdet - INFO - Epoch [24][18/22]	lr: 2.000e-04, eta: 0:01:58, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6229, loss_rpn_bbox: 0.2604, loss_cls: nan, acc: 5.6152, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:14,122 - mmdet - INFO - Epoch [24][20/22]	lr: 2.000e-04, eta: 0:01:56, time: 0.695, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6261, loss_rpn_bbox: 0.2286, loss_cls: nan, acc: 7.1777, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:15,512 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:58:15,513 - mmdet - INFO - Epoch [24][22/22]	lr: 2.000e-04, eta: 0:01:55, time: 0.695, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6402, loss_rpn_bbox: 0.3022, loss_cls: nan, acc: 5.9570, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:15,583 - mmdet - INFO - Saving checkpoint at 24 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.8 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:58:18,773 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:58:18,773 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:58:18,773 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:58:18,774 - mmdet - INFO - Epoch(val) [24][22]	
-Loading and preparing results...
-2021-09-12 06:58:22,839 - mmdet - INFO - Epoch [25][2/22]	lr: 2.000e-04, eta: 0:01:53, time: 2.027, data_time: 1.189, memory: 11933, loss_rpn_cls: 0.6356, loss_rpn_bbox: 0.2267, loss_cls: nan, acc: 6.7383, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:24,352 - mmdet - INFO - Epoch [25][4/22]	lr: 2.000e-04, eta: 0:01:52, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6460, loss_rpn_bbox: 0.2310, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:25,851 - mmdet - INFO - Epoch [25][6/22]	lr: 2.000e-04, eta: 0:01:50, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6425, loss_rpn_bbox: 0.3108, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:27,367 - mmdet - INFO - Epoch [25][8/22]	lr: 2.000e-04, eta: 0:01:48, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6377, loss_rpn_bbox: 0.2545, loss_cls: nan, acc: 6.2500, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:28,873 - mmdet - INFO - Epoch [25][10/22]	lr: 2.000e-04, eta: 0:01:46, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6370, loss_rpn_bbox: 0.2309, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:30,353 - mmdet - INFO - Epoch [25][12/22]	lr: 2.000e-04, eta: 0:01:44, time: 0.740, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6315, loss_rpn_bbox: 0.2798, loss_cls: nan, acc: 6.2988, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:31,914 - mmdet - INFO - Epoch [25][14/22]	lr: 2.000e-04, eta: 0:01:43, time: 0.781, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6296, loss_rpn_bbox: 0.2487, loss_cls: nan, acc: 6.5430, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:33,447 - mmdet - INFO - Epoch [25][16/22]	lr: 2.000e-04, eta: 0:01:41, time: 0.766, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6351, loss_rpn_bbox: 0.3023, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:34,954 - mmdet - INFO - Epoch [25][18/22]	lr: 2.000e-04, eta: 0:01:39, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6437, loss_rpn_bbox: 0.2383, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:36,332 - mmdet - INFO - Epoch [25][20/22]	lr: 2.000e-04, eta: 0:01:37, time: 0.689, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6293, loss_rpn_bbox: 0.2741, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:37,700 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:58:37,700 - mmdet - INFO - Epoch [25][22/22]	lr: 2.000e-04, eta: 0:01:35, time: 0.684, data_time: 0.007, memory: 11933, loss_rpn_cls: 0.6389, loss_rpn_bbox: 0.2483, loss_cls: nan, acc: 5.9082, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:37,770 - mmdet - INFO - Saving checkpoint at 25 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:58:40,902 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:58:40,902 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:58:40,903 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:58:40,903 - mmdet - INFO - Epoch(val) [25][22]	
-Loading and preparing results...
-2021-09-12 06:58:44,993 - mmdet - INFO - Epoch [26][2/22]	lr: 2.000e-04, eta: 0:01:34, time: 2.039, data_time: 1.213, memory: 11933, loss_rpn_cls: 0.6354, loss_rpn_bbox: 0.2724, loss_cls: nan, acc: 6.6406, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:46,522 - mmdet - INFO - Epoch [26][4/22]	lr: 2.000e-04, eta: 0:01:32, time: 0.765, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6359, loss_rpn_bbox: 0.2721, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:48,022 - mmdet - INFO - Epoch [26][6/22]	lr: 2.000e-04, eta: 0:01:30, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6450, loss_rpn_bbox: 0.2706, loss_cls: nan, acc: 6.7383, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:49,552 - mmdet - INFO - Epoch [26][8/22]	lr: 2.000e-04, eta: 0:01:29, time: 0.765, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6352, loss_rpn_bbox: 0.2484, loss_cls: nan, acc: 6.4941, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:51,044 - mmdet - INFO - Epoch [26][10/22]	lr: 2.000e-04, eta: 0:01:27, time: 0.746, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6376, loss_rpn_bbox: 0.2470, loss_cls: nan, acc: 6.7871, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:52,544 - mmdet - INFO - Epoch [26][12/22]	lr: 2.000e-04, eta: 0:01:25, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6370, loss_rpn_bbox: 0.2864, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:54,036 - mmdet - INFO - Epoch [26][14/22]	lr: 2.000e-04, eta: 0:01:23, time: 0.746, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6294, loss_rpn_bbox: 0.2558, loss_cls: nan, acc: 5.7129, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:55,537 - mmdet - INFO - Epoch [26][16/22]	lr: 2.000e-04, eta: 0:01:22, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6328, loss_rpn_bbox: 0.2384, loss_cls: nan, acc: 7.1289, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:57,056 - mmdet - INFO - Epoch [26][18/22]	lr: 2.000e-04, eta: 0:01:20, time: 0.759, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6424, loss_rpn_bbox: 0.2434, loss_cls: nan, acc: 5.8594, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:58,434 - mmdet - INFO - Epoch [26][20/22]	lr: 2.000e-04, eta: 0:01:18, time: 0.689, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6374, loss_rpn_bbox: 0.2658, loss_cls: nan, acc: 5.9082, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:59,816 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:58:59,816 - mmdet - INFO - Epoch [26][22/22]	lr: 2.000e-04, eta: 0:01:16, time: 0.691, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6307, loss_rpn_bbox: 0.2619, loss_cls: nan, acc: 6.7383, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:58:59,886 - mmdet - INFO - Saving checkpoint at 26 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:59:03,716 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:59:03,716 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:59:03,717 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:59:03,717 - mmdet - INFO - Epoch(val) [26][22]	
-Loading and preparing results...
-2021-09-12 06:59:07,739 - mmdet - INFO - Epoch [27][2/22]	lr: 2.000e-04, eta: 0:01:15, time: 2.005, data_time: 1.190, memory: 11933, loss_rpn_cls: 0.6322, loss_rpn_bbox: 0.2772, loss_cls: nan, acc: 6.7383, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:09,244 - mmdet - INFO - Epoch [27][4/22]	lr: 2.000e-04, eta: 0:01:13, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6351, loss_rpn_bbox: 0.2671, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:10,747 - mmdet - INFO - Epoch [27][6/22]	lr: 2.000e-04, eta: 0:01:11, time: 0.752, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6346, loss_rpn_bbox: 0.2299, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:12,262 - mmdet - INFO - Epoch [27][8/22]	lr: 2.000e-04, eta: 0:01:09, time: 0.757, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6434, loss_rpn_bbox: 0.2527, loss_cls: nan, acc: 5.7617, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:13,767 - mmdet - INFO - Epoch [27][10/22]	lr: 2.000e-04, eta: 0:01:08, time: 0.753, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6425, loss_rpn_bbox: 0.2784, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:15,267 - mmdet - INFO - Epoch [27][12/22]	lr: 2.000e-04, eta: 0:01:06, time: 0.750, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6383, loss_rpn_bbox: 0.2709, loss_cls: nan, acc: 5.8105, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:16,785 - mmdet - INFO - Epoch [27][14/22]	lr: 2.000e-04, eta: 0:01:04, time: 0.759, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6332, loss_rpn_bbox: 0.2977, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:18,292 - mmdet - INFO - Epoch [27][16/22]	lr: 2.000e-04, eta: 0:01:02, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6406, loss_rpn_bbox: 0.2395, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:19,784 - mmdet - INFO - Epoch [27][18/22]	lr: 2.000e-04, eta: 0:01:00, time: 0.746, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6329, loss_rpn_bbox: 0.2696, loss_cls: nan, acc: 6.8848, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:21,186 - mmdet - INFO - Epoch [27][20/22]	lr: 2.000e-04, eta: 0:00:59, time: 0.701, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6312, loss_rpn_bbox: 0.2682, loss_cls: nan, acc: 7.1289, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:22,563 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:59:22,564 - mmdet - INFO - Epoch [27][22/22]	lr: 2.000e-04, eta: 0:00:57, time: 0.689, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6306, loss_rpn_bbox: 0.2553, loss_cls: nan, acc: 6.1035, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:22,634 - mmdet - INFO - Saving checkpoint at 27 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:59:25,882 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:59:25,882 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:59:25,883 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:59:25,883 - mmdet - INFO - Epoch(val) [27][22]	
-Loading and preparing results...
-2021-09-12 06:59:29,957 - mmdet - INFO - Epoch [28][2/22]	lr: 2.000e-04, eta: 0:00:55, time: 2.032, data_time: 1.215, memory: 11933, loss_rpn_cls: 0.6466, loss_rpn_bbox: 0.2732, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:31,484 - mmdet - INFO - Epoch [28][4/22]	lr: 2.000e-04, eta: 0:00:54, time: 0.763, data_time: 0.009, memory: 11933, loss_rpn_cls: 0.6375, loss_rpn_bbox: 0.2436, loss_cls: nan, acc: 6.2012, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:33,002 - mmdet - INFO - Epoch [28][6/22]	lr: 2.000e-04, eta: 0:00:52, time: 0.759, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6376, loss_rpn_bbox: 0.2675, loss_cls: nan, acc: 6.4453, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:34,496 - mmdet - INFO - Epoch [28][8/22]	lr: 2.000e-04, eta: 0:00:50, time: 0.747, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6317, loss_rpn_bbox: 0.2774, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:36,020 - mmdet - INFO - Epoch [28][10/22]	lr: 2.000e-04, eta: 0:00:48, time: 0.762, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6334, loss_rpn_bbox: 0.2493, loss_cls: nan, acc: 6.8848, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:37,522 - mmdet - INFO - Epoch [28][12/22]	lr: 2.000e-04, eta: 0:00:47, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6358, loss_rpn_bbox: 0.2748, loss_cls: nan, acc: 6.3477, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:39,057 - mmdet - INFO - Epoch [28][14/22]	lr: 2.000e-04, eta: 0:00:45, time: 0.767, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6315, loss_rpn_bbox: 0.2374, loss_cls: nan, acc: 6.5918, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:40,553 - mmdet - INFO - Epoch [28][16/22]	lr: 2.000e-04, eta: 0:00:43, time: 0.748, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6375, loss_rpn_bbox: 0.2259, loss_cls: nan, acc: 5.7129, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:42,065 - mmdet - INFO - Epoch [28][18/22]	lr: 2.000e-04, eta: 0:00:41, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6320, loss_rpn_bbox: 0.2841, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:43,452 - mmdet - INFO - Epoch [28][20/22]	lr: 2.000e-04, eta: 0:00:40, time: 0.693, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6255, loss_rpn_bbox: 0.2640, loss_cls: nan, acc: 6.1523, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:44,811 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:59:44,811 - mmdet - INFO - Epoch [28][22/22]	lr: 2.000e-04, eta: 0:00:38, time: 0.679, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6437, loss_rpn_bbox: 0.2635, loss_cls: nan, acc: 6.6406, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:44,881 - mmdet - INFO - Saving checkpoint at 28 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.8 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 06:59:48,064 - mmdet - INFO - Evaluating bbox...
-2021-09-12 06:59:48,065 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 06:59:48,065 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 06:59:48,065 - mmdet - INFO - Epoch(val) [28][22]	
-Loading and preparing results...
-2021-09-12 06:59:52,148 - mmdet - INFO - Epoch [29][2/22]	lr: 2.000e-04, eta: 0:00:36, time: 2.036, data_time: 1.200, memory: 11933, loss_rpn_cls: 0.6316, loss_rpn_bbox: 0.2478, loss_cls: nan, acc: 6.9824, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:53,661 - mmdet - INFO - Epoch [29][4/22]	lr: 2.000e-04, eta: 0:00:34, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6350, loss_rpn_bbox: 0.2403, loss_cls: nan, acc: 5.7617, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:55,176 - mmdet - INFO - Epoch [29][6/22]	lr: 2.000e-04, eta: 0:00:33, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6409, loss_rpn_bbox: 0.2503, loss_cls: nan, acc: 6.0059, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:56,689 - mmdet - INFO - Epoch [29][8/22]	lr: 2.000e-04, eta: 0:00:31, time: 0.756, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6319, loss_rpn_bbox: 0.2817, loss_cls: nan, acc: 5.8594, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:58,204 - mmdet - INFO - Epoch [29][10/22]	lr: 2.000e-04, eta: 0:00:29, time: 0.758, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6391, loss_rpn_bbox: 0.2514, loss_cls: nan, acc: 7.2754, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 06:59:59,737 - mmdet - INFO - Epoch [29][12/22]	lr: 2.000e-04, eta: 0:00:27, time: 0.766, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6328, loss_rpn_bbox: 0.2662, loss_cls: nan, acc: 7.1777, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:01,260 - mmdet - INFO - Epoch [29][14/22]	lr: 2.000e-04, eta: 0:00:26, time: 0.761, data_time: 0.011, memory: 11933, loss_rpn_cls: 0.6267, loss_rpn_bbox: 0.2355, loss_cls: nan, acc: 5.6152, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:02,740 - mmdet - INFO - Epoch [29][16/22]	lr: 2.000e-04, eta: 0:00:24, time: 0.740, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6388, loss_rpn_bbox: 0.2600, loss_cls: nan, acc: 7.0801, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:04,237 - mmdet - INFO - Epoch [29][18/22]	lr: 2.000e-04, eta: 0:00:22, time: 0.749, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6316, loss_rpn_bbox: 0.2660, loss_cls: nan, acc: 6.7871, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:05,586 - mmdet - INFO - Epoch [29][20/22]	lr: 2.000e-04, eta: 0:00:20, time: 0.674, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6393, loss_rpn_bbox: 0.2879, loss_cls: nan, acc: 6.1035, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:06,975 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 07:00:06,976 - mmdet - INFO - Epoch [29][22/22]	lr: 2.000e-04, eta: 0:00:19, time: 0.695, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6268, loss_rpn_bbox: 0.3079, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:07,046 - mmdet - INFO - Saving checkpoint at 29 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 1.9 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.4 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.8 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.5 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.8 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 07:00:10,180 - mmdet - INFO - Evaluating bbox...
-2021-09-12 07:00:10,181 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 07:00:10,181 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 07:00:10,181 - mmdet - INFO - Epoch(val) [29][22]	
-Loading and preparing results...
-2021-09-12 07:00:14,270 - mmdet - INFO - Epoch [30][2/22]	lr: 2.000e-04, eta: 0:00:17, time: 2.038, data_time: 1.206, memory: 11933, loss_rpn_cls: 0.6323, loss_rpn_bbox: 0.2667, loss_cls: nan, acc: 7.3242, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:15,779 - mmdet - INFO - Epoch [30][4/22]	lr: 2.000e-04, eta: 0:00:15, time: 0.754, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6251, loss_rpn_bbox: 0.2823, loss_cls: nan, acc: 5.9570, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:17,274 - mmdet - INFO - Epoch [30][6/22]	lr: 2.000e-04, eta: 0:00:13, time: 0.747, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6319, loss_rpn_bbox: 0.3043, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:18,795 - mmdet - INFO - Epoch [30][8/22]	lr: 2.000e-04, eta: 0:00:12, time: 0.761, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6347, loss_rpn_bbox: 0.2640, loss_cls: nan, acc: 7.2266, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:20,329 - mmdet - INFO - Epoch [30][10/22]	lr: 2.000e-04, eta: 0:00:10, time: 0.767, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6296, loss_rpn_bbox: 0.2787, loss_cls: nan, acc: 6.5918, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:21,831 - mmdet - INFO - Epoch [30][12/22]	lr: 2.000e-04, eta: 0:00:08, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6408, loss_rpn_bbox: 0.2903, loss_cls: nan, acc: 6.3965, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:23,353 - mmdet - INFO - Epoch [30][14/22]	lr: 2.000e-04, eta: 0:00:06, time: 0.761, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6423, loss_rpn_bbox: 0.2489, loss_cls: nan, acc: 6.6895, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:24,854 - mmdet - INFO - Epoch [30][16/22]	lr: 2.000e-04, eta: 0:00:05, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6310, loss_rpn_bbox: 0.2591, loss_cls: nan, acc: 6.4941, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:26,357 - mmdet - INFO - Epoch [30][18/22]	lr: 2.000e-04, eta: 0:00:03, time: 0.751, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6218, loss_rpn_bbox: 0.1946, loss_cls: nan, acc: 6.2988, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:27,753 - mmdet - INFO - Epoch [30][20/22]	lr: 2.000e-04, eta: 0:00:01, time: 0.698, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6292, loss_rpn_bbox: 0.2689, loss_cls: nan, acc: 5.8594, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:29,146 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 07:00:29,146 - mmdet - INFO - Epoch [30][22/22]	lr: 2.000e-04, eta: 0:00:00, time: 0.696, data_time: 0.008, memory: 11933, loss_rpn_cls: 0.6341, loss_rpn_bbox: 0.2420, loss_cls: nan, acc: 5.7129, loss_bbox: nan, loss: nan, grad_norm: nan
-2021-09-12 07:00:29,216 - mmdet - INFO - Saving checkpoint at 30 epochs
-[                                                  ] 0/8, elapsed: 0s, ETA:[>>>>                               ] 1/8, 2.0 task/s, elapsed: 1s, ETA:     4s[>>>>>>>>                           ] 2/8, 2.9 task/s, elapsed: 1s, ETA:     2s[>>>>>>>>>>>>>                      ] 3/8, 3.5 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>                  ] 4/8, 3.9 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>              ] 5/8, 4.2 task/s, elapsed: 1s, ETA:     1s[>>>>>>>>>>>>>>>>>>>>>>>>>>         ] 6/8, 4.6 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>     ] 7/8, 4.9 task/s, elapsed: 1s, ETA:     0s[>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>] 8/8, 5.0 task/s, elapsed: 2s, ETA:     0s2021-09-12 07:00:32,368 - mmdet - INFO - Evaluating bbox...
-2021-09-12 07:00:32,368 - mmdet - ERROR - The testing results of the whole dataset is empty.
-2021-09-12 07:00:32,369 - mmdet - INFO - Exp name: dh_faster_rcnn_hrnet_fpn_20e_coco_w40.py
-2021-09-12 07:00:32,369 - mmdet - INFO - Epoch(val) [30][22]	
-Loading and preparing results...
