@@ -13,9 +13,20 @@ For the sibling link to the data augmentation repository also used for the data 
 
 ***12/10/2021*** M3 repository to update training batch files.
 
+## Data and Annotation Files
+Both dataset images and annotations files stored in the data/ directory. Available on request and at the discretion of Agilent Technologies, Inc.
+
+## Working Directories
+In the current scheme, this is to be stored under freeze/ directory. 
+
 
 ## Results and Models
-Available in results/ and slurm_scripts/
+Available in results/ and slurm-output/.
+Models (.pth) files available on request from a cloud link.
+
+
+## Training on M3 Cluster
+Scripts for training individual custom detectors or backbones are in slurm_scripts/. You will need to have an Anaconda environment set up and use CUDA 10.1.
 
 **Notes**: 
 
@@ -27,6 +38,10 @@ Available in results/ and slurm_scripts/
 ### Installation
 
 Please refer to [get_started.md](https://github.com/open-mmlab/mmdetection/blob/master/docs/get_started.md) for installation and dataset preparation.
+Requirements:
+Anaconda environment with all packages from original mmdetection install
+CUDA 10.1
+
 
 ### Inference
 ```
