@@ -1,0 +1,560 @@
+2021-07-24 16:23:26,053 - mmdet - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.7.10 (default, Feb 26 2021, 18:47:35) [GCC 7.3.0]
+CUDA available: True
+GPU 0: Tesla V100-PCIE-32GB
+CUDA_HOME: /usr/local/cuda/10.1/
+NVCC: Cuda compilation tools, release 10.1, V10.1.105
+GCC: gcc (GCC) 5.4.0
+PyTorch: 1.6.0+cu101
+PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) Math Kernel Library Version 2019.0.5 Product Build 20190808 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v1.5.0 (Git Hash e2ac1fac44c5078ca927cb9b90e1b3066a0b2ed0)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 10.1
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75
+  - CuDNN 7.6.3
+  - Magma 2.5.2
+  - Build settings: BLAS=MKL, BUILD_TYPE=Release, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DUSE_VULKAN_WRAPPER -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, USE_CUDA=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_STATIC_DISPATCH=OFF, 
+
+TorchVision: 0.7.0+cu101
+OpenCV: 4.5.2
+MMCV: 1.2.7
+MMCV Compiler: GCC 7.3
+MMCV CUDA Compiler: 10.1
+MMDetection: 2.11.0+c03dc9a
+------------------------------------------------------------
+
+2021-07-24 16:23:29,209 - mmdet - INFO - Distributed training: False
+2021-07-24 16:23:32,375 - mmdet - INFO - Config:
+model = dict(
+    type='CascadeRCNN',
+    pretrained='pretrained/swin_small_patch4_window7_224.pth',
+    backbone=dict(
+        type='SwinTransformer',
+        embed_dim=96,
+        depths=[2, 2, 18, 2],
+        num_heads=[3, 6, 12, 24],
+        window_size=6,
+        mlp_ratio=4.0,
+        qkv_bias=True,
+        qk_scale=None,
+        drop_rate=0.0,
+        attn_drop_rate=0.0,
+        drop_path_rate=0.2,
+        ape=False,
+        patch_norm=True,
+        out_indices=(0, 1, 2, 3),
+        use_checkpoint=False),
+    neck=dict(
+        type='FPN',
+        in_channels=[96, 192, 384, 768],
+        out_channels=256,
+        num_outs=5),
+    rpn_head=dict(
+        type='RPNHead',
+        in_channels=256,
+        feat_channels=256,
+        anchor_generator=dict(
+            type='AnchorGenerator',
+            scales=[8],
+            ratios=[0.5, 1.0, 2.0],
+            strides=[4, 8, 16, 32, 64]),
+        bbox_coder=dict(
+            type='DeltaXYWHBBoxCoder',
+            target_means=[0.0, 0.0, 0.0, 0.0],
+            target_stds=[1.0, 1.0, 1.0, 1.0]),
+        loss_cls=dict(
+            type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0),
+        loss_bbox=dict(
+            type='SmoothL1Loss', beta=0.1111111111111111, loss_weight=1.0)),
+    roi_head=dict(
+        type='CascadeRoIHead',
+        num_stages=3,
+        stage_loss_weights=[1, 0.5, 0.25],
+        bbox_roi_extractor=dict(
+            type='SingleRoIExtractor',
+            roi_layer=dict(type='RoIAlign', output_size=7, sampling_ratio=0),
+            out_channels=256,
+            featmap_strides=[4, 8, 16, 32]),
+        bbox_head=[
+            dict(
+                type='ConvFCBBoxHead',
+                num_shared_convs=4,
+                num_shared_fcs=1,
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=6,
+                num_classes=1,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.1, 0.1, 0.2, 0.2]),
+                reg_class_agnostic=False,
+                reg_decoded_bbox=True,
+                norm_cfg=dict(type='BN', requires_grad=True),
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='GIoULoss', loss_weight=10.0)),
+            dict(
+                type='ConvFCBBoxHead',
+                num_shared_convs=4,
+                num_shared_fcs=1,
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=6,
+                num_classes=1,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.05, 0.05, 0.1, 0.1]),
+                reg_class_agnostic=False,
+                reg_decoded_bbox=True,
+                norm_cfg=dict(type='BN', requires_grad=True),
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='GIoULoss', loss_weight=10.0)),
+            dict(
+                type='ConvFCBBoxHead',
+                num_shared_convs=4,
+                num_shared_fcs=1,
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                roi_feat_size=6,
+                num_classes=1,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.033, 0.033, 0.067, 0.067]),
+                reg_class_agnostic=False,
+                reg_decoded_bbox=True,
+                norm_cfg=dict(type='BN', requires_grad=True),
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='GIoULoss', loss_weight=10.0))
+        ],
+        mask_roi_extractor=dict(
+            type='SingleRoIExtractor',
+            roi_layer=dict(type='RoIAlign', output_size=14, sampling_ratio=0),
+            out_channels=256,
+            featmap_strides=[4, 8, 16, 32]),
+        mask_head=dict(
+            type='FCNMaskHead',
+            num_convs=4,
+            in_channels=256,
+            conv_out_channels=256,
+            num_classes=1,
+            loss_mask=dict(
+                type='CrossEntropyLoss', use_mask=True, loss_weight=1.0))),
+    train_cfg=dict(
+        rpn=dict(
+            assigner=dict(
+                type='MaxIoUAssigner',
+                pos_iou_thr=0.7,
+                neg_iou_thr=0.3,
+                min_pos_iou=0.3,
+                match_low_quality=True,
+                ignore_iof_thr=-1),
+            sampler=dict(
+                type='RandomSampler',
+                num=256,
+                pos_fraction=0.5,
+                neg_pos_ub=-1,
+                add_gt_as_proposals=False),
+            allowed_border=0,
+            pos_weight=-1,
+            debug=False),
+        rpn_proposal=dict(
+            nms_across_levels=False,
+            nms_pre=2000,
+            nms_post=2000,
+            max_per_img=2000,
+            nms=dict(type='nms', iou_threshold=0.7),
+            min_bbox_size=0),
+        rcnn=[
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.5,
+                    neg_iou_thr=0.5,
+                    min_pos_iou=0.5,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.6,
+                    neg_iou_thr=0.6,
+                    min_pos_iou=0.6,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.7,
+                    neg_iou_thr=0.7,
+                    min_pos_iou=0.7,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False)
+        ]),
+    test_cfg=dict(
+        rpn=dict(
+            nms_across_levels=False,
+            nms_pre=1000,
+            nms_post=1000,
+            max_per_img=1000,
+            nms=dict(type='nms', iou_threshold=0.7),
+            min_bbox_size=0),
+        rcnn=dict(
+            score_thr=0.05,
+            nms=dict(type='nms', iou_threshold=0.3),
+            max_per_img=100,
+            mask_thr_binary=0.5)))
+dataset_type = 'CocoDataset'
+classes = ('beading', )
+data_root = 'data/bead_cropped_detection/'
+img_norm_cfg = dict(
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+    dict(type='RandomFlip', flip_ratio=0.5),
+    dict(
+        type='AutoAugment',
+        policies=[[{
+            'type':
+            'Resize',
+            'img_scale': [(480, 1333), (512, 1333), (544, 1333), (576, 1333),
+                          (608, 1333), (640, 1333), (672, 1333), (704, 1333),
+                          (736, 1333), (768, 1333), (800, 1333)],
+            'multiscale_mode':
+            'value',
+            'keep_ratio':
+            True
+        }],
+                  [{
+                      'type': 'Resize',
+                      'img_scale': [(400, 1333), (500, 1333), (600, 1333)],
+                      'multiscale_mode': 'value',
+                      'keep_ratio': True
+                  }, {
+                      'type': 'RandomCrop',
+                      'crop_type': 'absolute_range',
+                      'crop_size': (384, 600),
+                      'allow_negative_crop': True
+                  }, {
+                      'type':
+                      'Resize',
+                      'img_scale': [(480, 1333), (512, 1333), (544, 1333),
+                                    (576, 1333), (608, 1333), (640, 1333),
+                                    (672, 1333), (704, 1333), (736, 1333),
+                                    (768, 1333), (800, 1333)],
+                      'multiscale_mode':
+                      'value',
+                      'override':
+                      True,
+                      'keep_ratio':
+                      True
+                  }]]),
+    dict(
+        type='Normalize',
+        mean=[123.675, 116.28, 103.53],
+        std=[58.395, 57.12, 57.375],
+        to_rgb=True),
+    dict(type='Pad', size_divisor=32),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks'])
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=(1333, 800),
+        flip=False,
+        transforms=[
+            dict(type='Resize', keep_ratio=True),
+            dict(type='RandomFlip'),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='Pad', size_divisor=32),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ])
+]
+data = dict(
+    samples_per_gpu=1,
+    workers_per_gpu=1,
+    train=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/bead_cropped_detection/traintype2lower.json',
+        img_prefix='data/bead_cropped_detection/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True, with_mask=True),
+            dict(type='RandomFlip', flip_ratio=0.5),
+            dict(
+                type='AutoAugment',
+                policies=[[{
+                    'type':
+                    'Resize',
+                    'img_scale': [(480, 1333), (512, 1333), (544, 1333),
+                                  (576, 1333), (608, 1333), (640, 1333),
+                                  (672, 1333), (704, 1333), (736, 1333),
+                                  (768, 1333), (800, 1333)],
+                    'multiscale_mode':
+                    'value',
+                    'keep_ratio':
+                    True
+                }],
+                          [{
+                              'type': 'Resize',
+                              'img_scale': [(400, 1333), (500, 1333),
+                                            (600, 1333)],
+                              'multiscale_mode': 'value',
+                              'keep_ratio': True
+                          }, {
+                              'type': 'RandomCrop',
+                              'crop_type': 'absolute_range',
+                              'crop_size': (384, 600),
+                              'allow_negative_crop': True
+                          }, {
+                              'type':
+                              'Resize',
+                              'img_scale': [(480, 1333), (512, 1333),
+                                            (544, 1333), (576, 1333),
+                                            (608, 1333), (640, 1333),
+                                            (672, 1333), (704, 1333),
+                                            (736, 1333), (768, 1333),
+                                            (800, 1333)],
+                              'multiscale_mode':
+                              'value',
+                              'override':
+                              True,
+                              'keep_ratio':
+                              True
+                          }]]),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='Pad', size_divisor=32),
+            dict(type='DefaultFormatBundle'),
+            dict(
+                type='Collect',
+                keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks'])
+        ]),
+    val=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/bead_cropped_detection/testtype2lower.json',
+        img_prefix='data/bead_cropped_detection/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[123.675, 116.28, 103.53],
+                        std=[58.395, 57.12, 57.375],
+                        to_rgb=True),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]),
+    test=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/bead_cropped_detection/testtype2lower.json',
+        img_prefix='data/bead_cropped_detection/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[123.675, 116.28, 103.53],
+                        std=[58.395, 57.12, 57.375],
+                        to_rgb=True),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]))
+evaluation = dict(interval=1, metric=['bbox', 'segm'])
+optimizer = dict(
+    type='AdamW',
+    lr=0.0001,
+    betas=(0.9, 0.999),
+    weight_decay=0.05,
+    paramwise_cfg=dict(
+        custom_keys=dict(
+            absolute_pos_embed=dict(decay_mult=0.0),
+            relative_position_bias_table=dict(decay_mult=0.0),
+            norm=dict(decay_mult=0.0))))
+optimizer_config = dict(grad_clip=dict(max_norm=2.0, norm_type=2))
+lr_config = dict(
+    policy='step',
+    warmup='linear',
+    warmup_iters=500,
+    warmup_ratio=0.001,
+    step=[27, 33])
+runner = dict(type='EpochBasedRunner', max_epochs=100)
+checkpoint_config = dict(interval=1, max_keep_ckpts=4)
+log_config = dict(
+    interval=2,
+    hooks=[dict(type='TextLoggerHook'),
+           dict(type='TensorboardLoggerHook')])
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+work_dir = 'freeze/cascade_mask_rcnn_swin_small_pretrain_22k_window_6'
+gpu_ids = range(0, 1)
+
+2021-07-24 16:23:33,313 - mmdet - INFO - load model from: pretrained/swin_small_patch4_window7_224.pth
+/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/functional.py:3121: UserWarning: Default upsampling behavior when mode=bicubic is changed to align_corners=False since 0.4.0. Please specify align_corners=True if the old behavior is desired. See the documentation of nn.Upsample for details.
+  "See the documentation of nn.Upsample for details.".format(mode))
+2021-07-24 16:23:34,926 - mmdet - WARNING - The model and loaded state dict do not match exactly
+
+size mismatch for layers.0.blocks.0.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.0.blocks.1.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.1.blocks.0.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.1.blocks.1.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.0.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.1.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.2.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.3.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.4.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.5.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.6.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.7.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.8.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.9.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.10.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.11.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.12.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.13.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.14.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.15.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.16.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.2.blocks.17.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.3.blocks.0.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+size mismatch for layers.3.blocks.1.attn.relative_position_index: copying a param with shape torch.Size([49, 49]) from checkpoint, the shape in current model is torch.Size([36, 36]).
+unexpected key in source state_dict: norm.weight, norm.bias, head.weight, head.bias, layers.0.blocks.1.attn_mask, layers.1.blocks.1.attn_mask, layers.2.blocks.1.attn_mask, layers.2.blocks.3.attn_mask, layers.2.blocks.5.attn_mask, layers.2.blocks.7.attn_mask, layers.2.blocks.9.attn_mask, layers.2.blocks.11.attn_mask, layers.2.blocks.13.attn_mask, layers.2.blocks.15.attn_mask, layers.2.blocks.17.attn_mask
+
+missing keys in source state_dict: norm0.weight, norm0.bias, norm1.weight, norm1.bias, norm2.weight, norm2.bias, norm3.weight, norm3.bias
+
+2021-07-24 16:23:43,415 - mmdet - INFO - Start running, host: anley1@m3g021, work_dir: /projects/bw83/anley1/Swin-Transformer-Object-Detection/freeze/cascade_mask_rcnn_swin_small_pretrain_22k_window_6
+2021-07-24 16:23:43,416 - mmdet - INFO - workflow: [('train', 1)], max: 100 epochs
+apex is not installed
+apex is not installed
+apex is not installed
+apex is not installed
+loading annotations into memory...
+Done (t=0.04s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created!
+Traceback (most recent call last):
+  File "tools/train.py", line 188, in <module>
+    main()
+  File "tools/train.py", line 183, in main
+    meta=meta)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/apis/train.py", line 185, in train_detector
+    runner.run(data_loaders, cfg.workflow)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 125, in run
+    epoch_runner(data_loaders[i], **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 50, in train
+    self.run_iter(data_batch, train_mode=True)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 30, in run_iter
+    **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/parallel/data_parallel.py", line 67, in train_step
+    return self.module.train_step(*inputs[0], **kwargs[0])
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/base.py", line 247, in train_step
+    losses = self(**data)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/fp16_utils.py", line 84, in new_func
+    return old_func(*args, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/base.py", line 181, in forward
+    return self.forward_train(img, img_metas, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/two_stage.py", line 164, in forward_train
+    **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/roi_heads/cascade_roi_head.py", line 259, in forward_train
+    rcnn_train_cfg)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/roi_heads/cascade_roi_head.py", line 157, in _bbox_forward_train
+    bbox_results = self._bbox_forward(stage, x, rois)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/roi_heads/cascade_roi_head.py", line 147, in _bbox_forward
+    cls_score, bbox_pred = bbox_head(bbox_feats)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/roi_heads/bbox_heads/convfc_bbox_head.py", line 148, in forward
+    x = self.relu(fc(x))
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/linear.py", line 91, in forward
+    return F.linear(input, self.weight, self.bias)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/functional.py", line 1674, in linear
+    ret = torch.addmm(bias, input, weight.t())
+RuntimeError: mat1 dim 1 must match mat2 dim 0

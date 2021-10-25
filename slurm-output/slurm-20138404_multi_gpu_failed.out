@@ -1,0 +1,14 @@
++ PARTITION=m3g
++ JOB_NAME=alexAgilent
++ CONFIG=configs/bead/cascade_mask_rcnn_hrnetv2p_w40_20e_coco.py
++ WORK_DIR=freeze/train_8GPU_combined_lr002
++ GPUS=8
++ GPUS_PER_NODE=8
++ CPUS_PER_TASK=5
++ SRUN_ARGS=
++ PY_ARGS=8
+++ dirname ./tools/slurm_train.sh
++ PYTHONPATH=./tools/..:
++ srun -p m3g --job-name=alexAgilent --gres=gpu:8 --ntasks=8 --ntasks-per-node=8 --cpus-per-task=5 --kill-on-bad-exit=1 python -u tools/train.py configs/bead/cascade_mask_rcnn_hrnetv2p_w40_20e_coco.py --work-dir=freeze/train_8GPU_combined_lr002 --launcher=slurm 8
+srun: Job step's --cpus-per-task value exceeds that of job (5 > 1). Job step may never run.
+srun: fatal: SLURM_MEM_PER_CPU, SLURM_MEM_PER_GPU, and SLURM_MEM_PER_NODE are mutually exclusive.

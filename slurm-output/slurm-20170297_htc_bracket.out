@@ -1,0 +1,37 @@
+apex is not installed
+apex is not installed
+apex is not installed
+apex is not installed
+Traceback (most recent call last):
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/utils/config.py", line 95, in _validate_py_syntax
+    ast.parse(content)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/ast.py", line 35, in parse
+    return compile(source, filename, mode, PyCF_ONLY_AST)
+  File "<unknown>", line 9
+    
+    ^
+SyntaxError: unexpected EOF while parsing
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "tools/train.py", line 188, in <module>
+    main()
+  File "tools/train.py", line 89, in main
+    cfg = Config.fromfile(args.config)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/utils/config.py", line 251, in fromfile
+    use_predefined_variables)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/utils/config.py", line 173, in _file2dict
+    _cfg_dict, _cfg_text = Config._file2dict(osp.join(cfg_dir, f))
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/utils/config.py", line 144, in _file2dict
+    Config._validate_py_syntax(filename)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/utils/config.py", line 97, in _validate_py_syntax
+    raise SyntaxError('There are syntax errors in config '
+SyntaxError: There are syntax errors in config file /projects/bw83/anley1/Swin-Transformer-Object-Detection/configs/htc/htc_r50_fpn_1x_coco.py: unexpected EOF while parsing (<unknown>, line 9)
+Exception ignored in: <function _TemporaryFileCloser.__del__ at 0x7f592b2bdcb0>
+Traceback (most recent call last):
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/tempfile.py", line 448, in __del__
+    self.close()
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/tempfile.py", line 444, in close
+    unlink(self.name)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpj84ghmfc/tmp_s1nqf6r.py'

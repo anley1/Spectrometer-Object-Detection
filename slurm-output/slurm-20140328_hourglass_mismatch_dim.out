@@ -1,0 +1,256 @@
+2021-07-21 15:45:42,167 - mmdet - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.7.10 (default, Feb 26 2021, 18:47:35) [GCC 7.3.0]
+CUDA available: True
+GPU 0: Tesla V100-PCIE-16GB
+CUDA_HOME: /usr/local/cuda/10.1/
+NVCC: Cuda compilation tools, release 10.1, V10.1.105
+GCC: gcc (GCC) 5.4.0
+PyTorch: 1.6.0+cu101
+PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) Math Kernel Library Version 2019.0.5 Product Build 20190808 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v1.5.0 (Git Hash e2ac1fac44c5078ca927cb9b90e1b3066a0b2ed0)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 10.1
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75
+  - CuDNN 7.6.3
+  - Magma 2.5.2
+  - Build settings: BLAS=MKL, BUILD_TYPE=Release, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DUSE_VULKAN_WRAPPER -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, USE_CUDA=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_STATIC_DISPATCH=OFF, 
+
+TorchVision: 0.7.0+cu101
+OpenCV: 4.5.2
+MMCV: 1.2.7
+MMCV Compiler: GCC 7.3
+MMCV CUDA Compiler: 10.1
+MMDetection: 2.11.0+c03dc9a
+------------------------------------------------------------
+
+2021-07-21 15:45:42,433 - mmdet - INFO - Distributed training: False
+2021-07-21 15:45:42,670 - mmdet - INFO - Config:
+checkpoint_config = dict(interval=1, max_keep_ckpts=4)
+log_config = dict(
+    interval=2,
+    hooks=[dict(type='TextLoggerHook'),
+           dict(type='TensorboardLoggerHook')])
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+dataset_type = 'CocoDataset'
+classes = ('beading', )
+data_root = 'data/bead_cropped_detection/'
+img_norm_cfg = dict(
+    mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True),
+    dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
+    dict(type='RandomFlip', flip_ratio=0.5),
+    dict(
+        type='Normalize',
+        mean=[123.675, 116.28, 103.53],
+        std=[58.395, 57.12, 57.375],
+        to_rgb=True),
+    dict(type='Pad', size_divisor=32),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=(1333, 800),
+        flip=False,
+        transforms=[
+            dict(type='Resize', keep_ratio=True),
+            dict(type='RandomFlip'),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='Pad', size_divisor=32),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ])
+]
+data = dict(
+    samples_per_gpu=1,
+    workers_per_gpu=1,
+    train=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/bead_cropped_detection/traintype2lower.json',
+        img_prefix='data/bead_cropped_detection/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True),
+            dict(type='Resize', img_scale=(1333, 800), keep_ratio=True),
+            dict(type='RandomFlip', flip_ratio=0.5),
+            dict(
+                type='Normalize',
+                mean=[123.675, 116.28, 103.53],
+                std=[58.395, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='Pad', size_divisor=32),
+            dict(type='DefaultFormatBundle'),
+            dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+        ]),
+    val=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/bead_cropped_detection/testtype2lower.json',
+        img_prefix='data/bead_cropped_detection/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[123.675, 116.28, 103.53],
+                        std=[58.395, 57.12, 57.375],
+                        to_rgb=True),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]),
+    test=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/bead_cropped_detection/testtype2lower.json',
+        img_prefix='data/bead_cropped_detection/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[123.675, 116.28, 103.53],
+                        std=[58.395, 57.12, 57.375],
+                        to_rgb=True),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]))
+evaluation = dict(interval=1, metric='bbox')
+model = dict(
+    type='CornerNet',
+    backbone=dict(
+        type='HourglassNet',
+        downsample_times=5,
+        num_stacks=2,
+        stage_channels=[256, 256, 384, 384, 384, 512],
+        stage_blocks=[2, 2, 2, 2, 2, 4],
+        norm_cfg=dict(type='BN', requires_grad=True)),
+    neck=None,
+    bbox_head=dict(
+        type='CornerHead',
+        num_classes=1,
+        in_channels=256,
+        num_feat_levels=2,
+        corner_emb_channels=1,
+        loss_heatmap=dict(
+            type='GaussianFocalLoss', alpha=2.0, gamma=4.0, loss_weight=1),
+        loss_embedding=dict(
+            type='AssociativeEmbeddingLoss',
+            pull_weight=0.25,
+            push_weight=0.25),
+        loss_offset=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1)))
+optimizer = dict(type='Adam', lr=0.0005)
+optimizer_config = dict(grad_clip=dict(max_norm=35, norm_type=2))
+lr_config = dict(
+    policy='step',
+    warmup='linear',
+    warmup_iters=500,
+    warmup_ratio=0.3333333333333333,
+    step=[180])
+total_epochs = 210
+work_dir = 'freeze/cornernet_type2'
+gpu_ids = range(0, 1)
+
+/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/apis/train.py:111: UserWarning: config is now expected to have a `runner` section, please set `runner` in your config.
+  'please set `runner` in your config.', UserWarning)
+2021-07-21 15:45:54,094 - mmdet - INFO - Start running, host: anley1@m3g012, work_dir: /projects/bw83/anley1/Swin-Transformer-Object-Detection/freeze/cornernet_type2
+2021-07-21 15:45:54,094 - mmdet - INFO - workflow: [('train', 1)], max: 210 epochs
+apex is not installed
+apex is not installed
+apex is not installed
+apex is not installed
+loading annotations into memory...
+Done (t=0.04s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.02s)
+creating index...
+index created!
+Traceback (most recent call last):
+  File "tools/train.py", line 188, in <module>
+    main()
+  File "tools/train.py", line 183, in main
+    meta=meta)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/apis/train.py", line 185, in train_detector
+    runner.run(data_loaders, cfg.workflow)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 125, in run
+    epoch_runner(data_loaders[i], **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 50, in train
+    self.run_iter(data_batch, train_mode=True)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 30, in run_iter
+    **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/parallel/data_parallel.py", line 67, in train_step
+    return self.module.train_step(*inputs[0], **kwargs[0])
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/base.py", line 247, in train_step
+    losses = self(**data)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/fp16_utils.py", line 84, in new_func
+    return old_func(*args, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/base.py", line 181, in forward
+    return self.forward_train(img, img_metas, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/single_stage.py", line 93, in forward_train
+    x = self.extract_feat(img)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/detectors/single_stage.py", line 54, in extract_feat
+    x = self.backbone(img)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/backbones/hourglass.py", line 188, in forward
+    hourglass_feat = single_hourglass(inter_feat)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/backbones/hourglass.py", line 74, in forward
+    low2 = self.low2(low1)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/backbones/hourglass.py", line 74, in forward
+    low2 = self.low2(low1)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/backbones/hourglass.py", line 74, in forward
+    low2 = self.low2(low1)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/backbones/hourglass.py", line 74, in forward
+    low2 = self.low2(low1)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/nn/modules/module.py", line 722, in _call_impl
+    result = self.forward(*input, **kwargs)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/models/backbones/hourglass.py", line 77, in forward
+    return up1 + up2
+RuntimeError: The size of tensor a (13) must match the size of tensor b (14) at non-singleton dimension 2

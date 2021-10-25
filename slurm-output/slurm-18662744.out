@@ -1,0 +1,7 @@
+[33mWARNING:[0m seccomp requested but not enabled, seccomp library is missing or too old
+/.singularity.d/actions/exec: line 9: exec: slurm_script: not found
+[33mWARNING:[0m seccomp requested but not enabled, seccomp library is missing or too old
+Traceback (most recent call last):
+  File "tools/train.py", line 8, in <module>
+    import mmcv
+ModuleNotFoundError: No module named 'mmcv'

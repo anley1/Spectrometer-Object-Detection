@@ -1,0 +1,453 @@
+2021-07-27 00:18:03,010 - mmdet - INFO - Environment info:
+------------------------------------------------------------
+sys.platform: linux
+Python: 3.7.10 (default, Feb 26 2021, 18:47:35) [GCC 7.3.0]
+CUDA available: True
+GPU 0: Tesla V100-PCIE-16GB
+CUDA_HOME: /usr/local/cuda/10.1/
+NVCC: Cuda compilation tools, release 10.1, V10.1.105
+GCC: gcc (GCC) 5.4.0
+PyTorch: 1.6.0+cu101
+PyTorch compiling details: PyTorch built with:
+  - GCC 7.3
+  - C++ Version: 201402
+  - Intel(R) Math Kernel Library Version 2019.0.5 Product Build 20190808 for Intel(R) 64 architecture applications
+  - Intel(R) MKL-DNN v1.5.0 (Git Hash e2ac1fac44c5078ca927cb9b90e1b3066a0b2ed0)
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 10.1
+  - NVCC architecture flags: -gencode;arch=compute_37,code=sm_37;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75
+  - CuDNN 7.6.3
+  - Magma 2.5.2
+  - Build settings: BLAS=MKL, BUILD_TYPE=Release, CXX_FLAGS= -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DUSE_VULKAN_WRAPPER -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wno-sign-compare -Wno-unused-parameter -Wno-unused-variable -Wno-unused-function -Wno-unused-result -Wno-unused-local-typedefs -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Wno-stringop-overflow, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, USE_CUDA=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=ON, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_STATIC_DISPATCH=OFF, 
+
+TorchVision: 0.7.0+cu101
+OpenCV: 4.5.2
+MMCV: 1.2.7
+MMCV Compiler: GCC 7.3
+MMCV CUDA Compiler: 10.1
+MMDetection: 2.11.0+c03dc9a
+------------------------------------------------------------
+
+2021-07-27 00:18:04,210 - mmdet - INFO - Distributed training: False
+2021-07-27 00:18:05,401 - mmdet - INFO - Config:
+model = dict(
+    type='CascadeRCNN',
+    pretrained='open-mmlab://resnest101',
+    backbone=dict(
+        type='ResNeSt',
+        depth=101,
+        num_stages=4,
+        out_indices=(0, 1, 2, 3),
+        frozen_stages=1,
+        norm_cfg=dict(type='BN', requires_grad=True),
+        norm_eval=False,
+        style='pytorch',
+        stem_channels=128,
+        radix=2,
+        reduction_factor=4,
+        avg_down_stride=True),
+    neck=dict(
+        type='FPN',
+        in_channels=[256, 512, 1024, 2048],
+        out_channels=256,
+        num_outs=5),
+    rpn_head=dict(
+        type='RPNHead',
+        in_channels=256,
+        feat_channels=256,
+        anchor_generator=dict(
+            type='AnchorGenerator',
+            scales=[8],
+            ratios=[0.5, 1.0, 2.0],
+            strides=[4, 8, 16, 32, 64]),
+        bbox_coder=dict(
+            type='DeltaXYWHBBoxCoder',
+            target_means=[0.0, 0.0, 0.0, 0.0],
+            target_stds=[1.0, 1.0, 1.0, 1.0]),
+        loss_cls=dict(
+            type='CrossEntropyLoss', use_sigmoid=True, loss_weight=1.0),
+        loss_bbox=dict(
+            type='SmoothL1Loss', beta=0.1111111111111111, loss_weight=1.0)),
+    roi_head=dict(
+        type='CascadeRoIHead',
+        num_stages=3,
+        stage_loss_weights=[1, 0.5, 0.25],
+        bbox_roi_extractor=dict(
+            type='SingleRoIExtractor',
+            roi_layer=dict(type='RoIAlign', output_size=7, sampling_ratio=0),
+            out_channels=256,
+            featmap_strides=[4, 8, 16, 32]),
+        bbox_head=[
+            dict(
+                type='Shared4Conv1FCBBoxHead',
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                norm_cfg=dict(type='BN', requires_grad=True),
+                roi_feat_size=7,
+                num_classes=1,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.1, 0.1, 0.2, 0.2]),
+                reg_class_agnostic=True,
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
+                               loss_weight=1.0)),
+            dict(
+                type='Shared4Conv1FCBBoxHead',
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                norm_cfg=dict(type='BN', requires_grad=True),
+                roi_feat_size=7,
+                num_classes=1,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.05, 0.05, 0.1, 0.1]),
+                reg_class_agnostic=True,
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
+                               loss_weight=1.0)),
+            dict(
+                type='Shared4Conv1FCBBoxHead',
+                in_channels=256,
+                conv_out_channels=256,
+                fc_out_channels=1024,
+                norm_cfg=dict(type='BN', requires_grad=True),
+                roi_feat_size=7,
+                num_classes=1,
+                bbox_coder=dict(
+                    type='DeltaXYWHBBoxCoder',
+                    target_means=[0.0, 0.0, 0.0, 0.0],
+                    target_stds=[0.033, 0.033, 0.067, 0.067]),
+                reg_class_agnostic=True,
+                loss_cls=dict(
+                    type='CrossEntropyLoss',
+                    use_sigmoid=False,
+                    loss_weight=1.0),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0))
+        ],
+        mask_roi_extractor=dict(
+            type='SingleRoIExtractor',
+            roi_layer=dict(type='RoIAlign', output_size=14, sampling_ratio=0),
+            out_channels=256,
+            featmap_strides=[4, 8, 16, 32]),
+        mask_head=dict(
+            type='FCNMaskHead',
+            num_convs=4,
+            in_channels=256,
+            conv_out_channels=256,
+            num_classes=1,
+            loss_mask=dict(
+                type='CrossEntropyLoss', use_mask=True, loss_weight=1.0),
+            norm_cfg=dict(type='BN', requires_grad=True))),
+    train_cfg=dict(
+        rpn=dict(
+            assigner=dict(
+                type='MaxIoUAssigner',
+                pos_iou_thr=0.7,
+                neg_iou_thr=0.3,
+                min_pos_iou=0.3,
+                match_low_quality=True,
+                ignore_iof_thr=-1),
+            sampler=dict(
+                type='RandomSampler',
+                num=256,
+                pos_fraction=0.5,
+                neg_pos_ub=-1,
+                add_gt_as_proposals=False),
+            allowed_border=0,
+            pos_weight=-1,
+            debug=False),
+        rpn_proposal=dict(
+            nms_pre=2000,
+            max_per_img=2000,
+            nms=dict(type='nms', iou_threshold=0.7),
+            min_bbox_size=0),
+        rcnn=[
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.5,
+                    neg_iou_thr=0.5,
+                    min_pos_iou=0.5,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.6,
+                    neg_iou_thr=0.6,
+                    min_pos_iou=0.6,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False),
+            dict(
+                assigner=dict(
+                    type='MaxIoUAssigner',
+                    pos_iou_thr=0.7,
+                    neg_iou_thr=0.7,
+                    min_pos_iou=0.7,
+                    match_low_quality=False,
+                    ignore_iof_thr=-1),
+                sampler=dict(
+                    type='RandomSampler',
+                    num=512,
+                    pos_fraction=0.25,
+                    neg_pos_ub=-1,
+                    add_gt_as_proposals=True),
+                mask_size=28,
+                pos_weight=-1,
+                debug=False)
+        ]),
+    test_cfg=dict(
+        rpn=dict(
+            nms_pre=1000,
+            max_per_img=1000,
+            nms=dict(type='nms', iou_threshold=0.7),
+            min_bbox_size=0),
+        rcnn=dict(
+            score_thr=0.05,
+            nms=dict(type='nms', iou_threshold=0.3),
+            max_per_img=100,
+            mask_thr_binary=0.5)))
+dataset_type = 'CocoDataset'
+classes = ('beading', )
+data_root = 'data/'
+img_norm_cfg = dict(
+    mean=[123.68, 116.779, 103.939], std=[58.393, 57.12, 57.375], to_rgb=True)
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='LoadAnnotations',
+        with_bbox=True,
+        with_mask=True,
+        poly2mask=False),
+    dict(
+        type='Resize',
+        img_scale=[(1333, 640), (1333, 672), (1333, 704), (1333, 736),
+                   (1333, 768), (1333, 800)],
+        multiscale_mode='value',
+        keep_ratio=True),
+    dict(type='RandomFlip', flip_ratio=0.5),
+    dict(
+        type='Normalize',
+        mean=[123.68, 116.779, 103.939],
+        std=[58.393, 57.12, 57.375],
+        to_rgb=True),
+    dict(type='Pad', size_divisor=32),
+    dict(type='DefaultFormatBundle'),
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks'])
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=(1333, 800),
+        flip=False,
+        transforms=[
+            dict(type='Resize', keep_ratio=True),
+            dict(type='RandomFlip'),
+            dict(
+                type='Normalize',
+                mean=[123.68, 116.779, 103.939],
+                std=[58.393, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='Pad', size_divisor=32),
+            dict(type='ImageToTensor', keys=['img']),
+            dict(type='Collect', keys=['img'])
+        ])
+]
+data = dict(
+    samples_per_gpu=2,
+    workers_per_gpu=2,
+    train=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/traincombinetype3.json',
+        img_prefix='data/bead_combined_type_3/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='LoadAnnotations',
+                with_bbox=True,
+                with_mask=True,
+                poly2mask=False),
+            dict(
+                type='Resize',
+                img_scale=[(1333, 640), (1333, 672), (1333, 704), (1333, 736),
+                           (1333, 768), (1333, 800)],
+                multiscale_mode='value',
+                keep_ratio=True),
+            dict(type='RandomFlip', flip_ratio=0.5),
+            dict(
+                type='Normalize',
+                mean=[123.68, 116.779, 103.939],
+                std=[58.393, 57.12, 57.375],
+                to_rgb=True),
+            dict(type='Pad', size_divisor=32),
+            dict(type='DefaultFormatBundle'),
+            dict(
+                type='Collect',
+                keys=['img', 'gt_bboxes', 'gt_labels', 'gt_masks'])
+        ]),
+    val=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/testcombinetype3.json',
+        img_prefix='data/bead_combined_type_3/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[123.68, 116.779, 103.939],
+                        std=[58.393, 57.12, 57.375],
+                        to_rgb=True),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]),
+    test=dict(
+        type='CocoDataset',
+        classes=('beading', ),
+        ann_file='data/testcombinetype3.json',
+        img_prefix='data/bead_combined_type_3/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='MultiScaleFlipAug',
+                img_scale=(1333, 800),
+                flip=False,
+                transforms=[
+                    dict(type='Resize', keep_ratio=True),
+                    dict(type='RandomFlip'),
+                    dict(
+                        type='Normalize',
+                        mean=[123.68, 116.779, 103.939],
+                        std=[58.393, 57.12, 57.375],
+                        to_rgb=True),
+                    dict(type='Pad', size_divisor=32),
+                    dict(type='ImageToTensor', keys=['img']),
+                    dict(type='Collect', keys=['img'])
+                ])
+        ]))
+evaluation = dict(interval=1, metric=['bbox', 'segm'])
+optimizer = dict(type='SGD', lr=0.02, momentum=0.9, weight_decay=0.0001)
+optimizer_config = dict(grad_clip=None)
+lr_config = dict(
+    policy='step',
+    warmup='linear',
+    warmup_iters=500,
+    warmup_ratio=0.001,
+    step=[8, 11])
+runner = dict(type='EpochBasedRunner', max_epochs=30)
+checkpoint_config = dict(interval=1, max_keep_ckpts=4)
+log_config = dict(
+    interval=2,
+    hooks=[dict(type='TextLoggerHook'),
+           dict(type='TensorboardLoggerHook')])
+dist_params = dict(backend='nccl')
+log_level = 'INFO'
+load_from = None
+resume_from = None
+workflow = [('train', 1)]
+norm_cfg = dict(type='BN', requires_grad=True)
+work_dir = 'freeze/resnest'
+gpu_ids = range(0, 1)
+
+2021-07-27 00:18:06,554 - mmdet - INFO - load model from: open-mmlab://resnest101
+2021-07-27 00:18:06,554 - mmdet - INFO - Use load_from_openmmlab loader
+Downloading: "https://download.openmmlab.com/pretrain/third_party/resnest101_d2-f3b931b2.pth" to /home/anley1/.cache/torch/hub/checkpoints/resnest101_d2-f3b931b2.pth
+  0%|          | 0.00/177M [00:00<?, ?B/s]  0%|          | 56.0k/177M [00:00<06:08, 504kB/s]  0%|          | 112k/177M [00:00<05:56, 520kB/s]   0%|          | 240k/177M [00:00<03:36, 854kB/s]  0%|          | 400k/177M [00:00<02:44, 1.12MB/s]  0%|          | 744k/177M [00:00<01:34, 1.95MB/s]  1%|          | 1.24M/177M [00:00<00:59, 3.09MB/s]  1%|▏         | 2.25M/177M [00:00<00:33, 5.47MB/s]  2%|▏         | 3.98M/177M [00:00<00:19, 9.40MB/s]  3%|▎         | 5.58M/177M [00:00<00:15, 11.7MB/s]  4%|▍         | 7.11M/177M [00:01<00:13, 13.0MB/s]  5%|▍         | 8.35M/177M [00:01<00:16, 10.4MB/s]  7%|▋         | 11.8M/177M [00:01<00:10, 17.1MB/s]  8%|▊         | 13.6M/177M [00:01<00:10, 16.3MB/s]  9%|▊         | 15.3M/177M [00:01<00:11, 15.1MB/s] 10%|▉         | 16.8M/177M [00:01<00:11, 14.0MB/s] 10%|█         | 18.2M/177M [00:02<00:18, 8.87MB/s] 11%|█         | 19.4M/177M [00:02<00:17, 9.29MB/s] 12%|█▏        | 20.4M/177M [00:02<00:21, 7.78MB/s] 12%|█▏        | 21.4M/177M [00:02<00:26, 6.24MB/s] 12%|█▏        | 22.1M/177M [00:02<00:26, 6.23MB/s] 13%|█▎        | 23.4M/177M [00:02<00:20, 7.68MB/s] 14%|█▍        | 24.6M/177M [00:02<00:18, 8.74MB/s] 14%|█▍        | 25.6M/177M [00:03<00:17, 8.95MB/s] 15%|█▌        | 26.9M/177M [00:03<00:15, 10.0MB/s] 16%|█▌        | 28.0M/177M [00:03<00:15, 10.3MB/s] 16%|█▋        | 29.0M/177M [00:03<00:15, 9.87MB/s] 17%|█▋        | 30.0M/177M [00:03<00:22, 6.99MB/s] 18%|█▊        | 31.0M/177M [00:03<00:21, 7.24MB/s] 18%|█▊        | 31.8M/177M [00:03<00:23, 6.39MB/s] 18%|█▊        | 32.5M/177M [00:04<00:23, 6.54MB/s] 19%|█▉        | 33.2M/177M [00:04<00:22, 6.75MB/s] 19%|█▉        | 34.0M/177M [00:04<00:21, 7.07MB/s] 20%|█▉        | 35.0M/177M [00:04<00:20, 7.38MB/s] 20%|██        | 35.9M/177M [00:04<00:18, 8.02MB/s] 21%|██        | 37.5M/177M [00:04<00:14, 10.2MB/s] 22%|██▏       | 38.5M/177M [00:04<00:15, 9.40MB/s] 22%|██▏       | 39.5M/177M [00:04<00:17, 8.48MB/s] 23%|██▎       | 40.4M/177M [00:05<00:17, 8.04MB/s] 23%|██▎       | 41.2M/177M [00:05<00:17, 8.19MB/s] 24%|██▍       | 42.5M/177M [00:05<00:15, 9.24MB/s] 25%|██▍       | 44.0M/177M [00:05<00:12, 10.9MB/s] 25%|██▌       | 45.1M/177M [00:05<00:12, 10.8MB/s] 26%|██▌       | 46.1M/177M [00:05<00:14, 9.54MB/s] 27%|██▋       | 47.5M/177M [00:05<00:13, 10.4MB/s] 27%|██▋       | 48.6M/177M [00:05<00:12, 10.6MB/s] 28%|██▊       | 50.0M/177M [00:05<00:13, 10.1MB/s] 29%|██▉       | 51.0M/177M [00:06<00:13, 10.2MB/s] 29%|██▉       | 52.0M/177M [00:06<00:13, 9.72MB/s] 30%|██▉       | 52.9M/177M [00:06<00:13, 9.52MB/s] 30%|███       | 53.9M/177M [00:06<00:14, 8.96MB/s] 31%|███       | 54.7M/177M [00:06<00:14, 8.74MB/s] 31%|███▏      | 55.6M/177M [00:06<00:22, 5.59MB/s] 32%|███▏      | 56.5M/177M [00:07<00:20, 6.03MB/s] 32%|███▏      | 57.5M/177M [00:07<00:18, 6.83MB/s] 33%|███▎      | 58.5M/177M [00:07<00:17, 7.18MB/s] 34%|███▎      | 59.5M/177M [00:07<00:16, 7.61MB/s] 34%|███▍      | 60.5M/177M [00:07<00:17, 6.87MB/s] 35%|███▍      | 61.8M/177M [00:07<00:14, 8.25MB/s] 35%|███▌      | 62.6M/177M [00:07<00:14, 8.43MB/s] 36%|███▌      | 64.0M/177M [00:07<00:12, 9.51MB/s] 37%|███▋      | 65.1M/177M [00:07<00:11, 9.93MB/s] 37%|███▋      | 66.1M/177M [00:08<00:16, 6.95MB/s] 38%|███▊      | 66.9M/177M [00:08<00:16, 7.03MB/s] 38%|███▊      | 67.6M/177M [00:08<00:15, 7.17MB/s] 39%|███▉      | 68.9M/177M [00:08<00:12, 8.73MB/s] 39%|███▉      | 69.9M/177M [00:08<00:12, 8.67MB/s] 40%|███▉      | 70.8M/177M [00:08<00:15, 7.36MB/s] 40%|████      | 71.5M/177M [00:08<00:15, 6.94MB/s] 41%|████▏     | 73.0M/177M [00:09<00:13, 8.27MB/s] 42%|████▏     | 74.0M/177M [00:09<00:12, 8.48MB/s] 42%|████▏     | 75.0M/177M [00:09<00:12, 8.78MB/s] 43%|████▎     | 75.9M/177M [00:09<00:17, 6.09MB/s] 44%|████▍     | 77.5M/177M [00:09<00:12, 8.25MB/s] 45%|████▍     | 79.2M/177M [00:09<00:09, 10.4MB/s] 45%|████▌     | 80.4M/177M [00:10<00:11, 8.86MB/s] 46%|████▌     | 81.4M/177M [00:10<00:12, 8.02MB/s] 46%|████▋     | 82.3M/177M [00:10<00:12, 8.23MB/s] 47%|████▋     | 83.2M/177M [00:10<00:12, 7.93MB/s] 48%|████▊     | 84.5M/177M [00:10<00:10, 9.35MB/s] 48%|████▊     | 85.7M/177M [00:10<00:09, 10.1MB/s] 49%|████▉     | 86.7M/177M [00:10<00:09, 10.0MB/s] 50%|████▉     | 87.7M/177M [00:10<00:10, 9.13MB/s] 50%|█████     | 88.7M/177M [00:11<00:20, 4.62MB/s] 51%|█████     | 90.5M/177M [00:11<00:13, 6.71MB/s] 52%|█████▏    | 91.4M/177M [00:11<00:14, 6.21MB/s] 53%|█████▎    | 94.5M/177M [00:11<00:08, 9.97MB/s] 54%|█████▍    | 96.0M/177M [00:11<00:07, 10.8MB/s] 55%|█████▍    | 97.3M/177M [00:12<00:07, 11.3MB/s] 56%|█████▌    | 98.5M/177M [00:12<00:09, 8.65MB/s] 56%|█████▋    | 99.6M/177M [00:12<00:09, 8.52MB/s] 57%|█████▋    | 101M/177M [00:12<00:09, 8.06MB/s]  57%|█████▋    | 102M/177M [00:12<00:09, 8.66MB/s] 58%|█████▊    | 102M/177M [00:12<00:08, 8.77MB/s] 58%|█████▊    | 104M/177M [00:12<00:08, 8.85MB/s] 59%|█████▉    | 105M/177M [00:13<00:07, 10.0MB/s] 60%|█████▉    | 106M/177M [00:13<00:07, 9.89MB/s] 60%|██████    | 107M/177M [00:13<00:08, 8.84MB/s] 61%|██████▏   | 108M/177M [00:13<00:06, 10.9MB/s] 62%|██████▏   | 110M/177M [00:13<00:06, 11.6MB/s] 63%|██████▎   | 111M/177M [00:13<00:07, 8.90MB/s] 63%|██████▎   | 112M/177M [00:13<00:07, 8.57MB/s] 64%|██████▍   | 113M/177M [00:13<00:07, 9.17MB/s] 64%|██████▍   | 114M/177M [00:14<00:07, 8.61MB/s] 65%|██████▍   | 115M/177M [00:14<00:07, 9.07MB/s] 66%|██████▌   | 116M/177M [00:14<00:08, 7.73MB/s] 66%|██████▌   | 117M/177M [00:14<00:07, 7.90MB/s] 67%|██████▋   | 118M/177M [00:14<00:07, 8.20MB/s] 67%|██████▋   | 119M/177M [00:14<00:08, 7.30MB/s] 68%|██████▊   | 120M/177M [00:14<00:08, 6.93MB/s] 68%|██████▊   | 121M/177M [00:15<00:08, 7.10MB/s] 69%|██████▉   | 122M/177M [00:15<00:07, 7.21MB/s] 70%|██████▉   | 123M/177M [00:15<00:07, 7.37MB/s] 70%|███████   | 124M/177M [00:15<00:07, 7.52MB/s] 71%|███████   | 125M/177M [00:15<00:06, 7.89MB/s] 71%|███████   | 126M/177M [00:15<00:06, 8.16MB/s] 72%|███████▏  | 127M/177M [00:15<00:05, 9.10MB/s] 73%|███████▎  | 128M/177M [00:15<00:05, 10.1MB/s] 73%|███████▎  | 130M/177M [00:16<00:04, 11.4MB/s] 74%|███████▍  | 131M/177M [00:16<00:05, 8.15MB/s] 75%|███████▍  | 132M/177M [00:16<00:05, 9.22MB/s] 75%|███████▌  | 134M/177M [00:16<00:04, 10.1MB/s] 76%|███████▌  | 135M/177M [00:16<00:04, 10.3MB/s] 77%|███████▋  | 136M/177M [00:16<00:05, 8.38MB/s] 77%|███████▋  | 137M/177M [00:16<00:04, 9.24MB/s] 78%|███████▊  | 138M/177M [00:16<00:04, 9.84MB/s] 79%|███████▉  | 140M/177M [00:17<00:03, 12.3MB/s] 80%|███████▉  | 141M/177M [00:17<00:04, 7.98MB/s] 80%|████████  | 142M/177M [00:17<00:04, 8.60MB/s] 81%|████████  | 143M/177M [00:17<00:03, 9.06MB/s] 82%|████████▏ | 144M/177M [00:17<00:03, 9.88MB/s] 82%|████████▏ | 146M/177M [00:17<00:03, 10.2MB/s] 83%|████████▎ | 147M/177M [00:17<00:03, 10.5MB/s] 84%|████████▎ | 148M/177M [00:18<00:02, 12.0MB/s] 85%|████████▍ | 150M/177M [00:18<00:02, 13.5MB/s] 85%|████████▌ | 151M/177M [00:18<00:02, 12.4MB/s] 86%|████████▌ | 152M/177M [00:18<00:02, 10.9MB/s] 87%|████████▋ | 154M/177M [00:18<00:02, 9.37MB/s] 87%|████████▋ | 155M/177M [00:18<00:02, 8.96MB/s] 88%|████████▊ | 156M/177M [00:18<00:02, 9.47MB/s] 89%|████████▊ | 157M/177M [00:18<00:02, 10.0MB/s] 89%|████████▉ | 158M/177M [00:19<00:01, 10.4MB/s] 90%|████████▉ | 159M/177M [00:19<00:01, 10.3MB/s] 90%|█████████ | 160M/177M [00:19<00:01, 9.31MB/s] 91%|█████████ | 161M/177M [00:19<00:01, 8.77MB/s] 92%|█████████▏| 162M/177M [00:19<00:01, 8.76MB/s] 92%|█████████▏| 163M/177M [00:19<00:01, 8.41MB/s] 93%|█████████▎| 164M/177M [00:19<00:01, 8.75MB/s] 93%|█████████▎| 165M/177M [00:19<00:01, 8.49MB/s] 94%|█████████▍| 166M/177M [00:20<00:01, 9.17MB/s] 94%|█████████▍| 167M/177M [00:20<00:01, 8.53MB/s] 95%|█████████▍| 168M/177M [00:20<00:01, 8.50MB/s] 95%|█████████▌| 169M/177M [00:20<00:01, 7.54MB/s] 96%|█████████▌| 170M/177M [00:20<00:00, 8.47MB/s] 96%|█████████▋| 170M/177M [00:20<00:01, 5.56MB/s] 97%|█████████▋| 172M/177M [00:20<00:00, 7.40MB/s] 98%|█████████▊| 173M/177M [00:21<00:00, 7.69MB/s] 98%|█████████▊| 174M/177M [00:21<00:00, 7.96MB/s] 99%|█████████▉| 175M/177M [00:21<00:00, 9.40MB/s]100%|█████████▉| 176M/177M [00:21<00:00, 9.96MB/s]100%|██████████| 177M/177M [00:21<00:00, 8.67MB/s]
+2021-07-27 00:18:37,096 - mmdet - INFO - Start running, host: anley1@m3g019, work_dir: /projects/bw83/anley1/Swin-Transformer-Object-Detection/freeze/resnest
+2021-07-27 00:18:37,096 - mmdet - INFO - workflow: [('train', 1)], max: 30 epochs
+apex is not installed
+apex is not installed
+apex is not installed
+apex is not installed
+loading annotations into memory...
+Done (t=0.01s)
+creating index...
+index created!
+loading annotations into memory...
+Done (t=0.00s)
+creating index...
+index created!
+Traceback (most recent call last):
+  File "tools/train.py", line 188, in <module>
+    main()
+  File "tools/train.py", line 183, in main
+    meta=meta)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/apis/train.py", line 185, in train_detector
+    runner.run(data_loaders, cfg.workflow)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 125, in run
+    epoch_runner(data_loaders[i], **kwargs)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/mmcv/runner/epoch_based_runner.py", line 47, in train
+    for i, data_batch in enumerate(self.data_loader):
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 363, in __next__
+    data = self._next_data()
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 989, in _next_data
+    return self._process_data(data)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/utils/data/dataloader.py", line 1014, in _process_data
+    data.reraise()
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/_utils.py", line 395, in reraise
+    raise self.exc_type(msg)
+TypeError: Caught TypeError in DataLoader worker process 0.
+Original Traceback (most recent call last):
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/utils/data/_utils/worker.py", line 185, in _worker_loop
+    data = fetcher.fetch(index)
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/utils/data/_utils/fetch.py", line 44, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/projects/bw83/anley1/conda_envs/swinEnv/lib/python3.7/site-packages/torch/utils/data/_utils/fetch.py", line 44, in <listcomp>
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/custom.py", line 193, in __getitem__
+    data = self.prepare_train_img(idx)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/custom.py", line 216, in prepare_train_img
+    return self.pipeline(results)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/pipelines/compose.py", line 40, in __call__
+    data = t(data)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/pipelines/loading.py", line 371, in __call__
+    results = self._load_masks(results)
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/pipelines/loading.py", line 326, in _load_masks
+    [self.process_polygons(polygons) for polygons in gt_masks], h,
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/pipelines/loading.py", line 326, in <listcomp>
+    [self.process_polygons(polygons) for polygons in gt_masks], h,
+  File "/projects/bw83/anley1/Swin-Transformer-Object-Detection/mmdet/datasets/pipelines/loading.py", line 303, in process_polygons
+    if len(polygon) % 2 == 0 and len(polygon) >= 6:
+TypeError: len() of unsized object
+
